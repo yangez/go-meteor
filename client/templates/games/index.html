@@ -1,0 +1,26 @@
+<template name="gamesList">
+  <table id="games" class="table table-hover">
+    <thead>
+      <tr>
+        <th>Opponent</th>
+        <th>Rating</th>
+        <th>Time</th>
+        <th>Board</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{#each games}}
+      {{> gameItem}}
+    {{/each}}
+    </tbody>
+  </table>
+</template>
+
+<template name="gameItem">
+  <tr class="game">
+    <td>{{title}}</td>
+    <td>Hello again</td>
+    <td>Hello </td>
+    <td>Hello fourth</td>
+  </tr>
+</template>
