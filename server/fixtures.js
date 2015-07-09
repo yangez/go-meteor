@@ -1,6 +1,12 @@
+/*
 if (Games.find().count() === 0) {
   Games.insert({
-    title: 'Introducing Telescope',
-    url: 'http://sachagreif.com/introducing-telescope/'
+    blackPlayerId: function() {
+      return Users.findOne()._id;
+    },
+    whitePlayerId: null,
+    size: "9x9",
+    sgf: ""
   });
 }
+*/

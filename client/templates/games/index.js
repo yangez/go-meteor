@@ -4,10 +4,13 @@ Template.gamesList.helpers({
   }
 });
 Template.gameItem.helpers({
-  domain: function() {
-    var a = document.createElement('a');
-    a.href = this.url;
-    return a.hostname;
+  white: function() {
+    return "white_username";
+    // return this.whitePlayer.username;
+  },
+  black: function() {
+    return "black_username";
+    // return this.whitePlayer.username;
   }
 });
 Template.gameItem.events({
