@@ -3,19 +3,16 @@ Template.gameNew.events({
     e.preventDefault();
 
     var game = {
-      url: $(e.target).find('[name=url]').val(),
-      title: $(e.target).find('[name=title]').val()
+      title: $(e.target).find('[name=title]').val(),
+      size: $(e.target).find('[name=size]').val()
     }
 
-    Meteor.call('postInsert', post, function(error, result) {
+    Meteor.call('gameInsert', game, function(error, result) {
       // display error and abort
       if (error)
         return alert(error.reason);
 
-      if (result.postExists)
-       alert('This link has already been posted');
-
-      Router.go('postPage', { _id: result._id });
+      Router.go('gamePage', { _id: result._id });
 
     });
   }
