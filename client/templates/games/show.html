@@ -4,4 +4,24 @@
   <p>Black player: {{black}}</p>
   <p>White player: {{white}}</p>
 
+  <div class="messages-container">
+    <ul class="messages">
+    {{#each messages}}
+      {{> message}}
+    {{/each}}
+    </ul>
+  </div>
+
+  <form id="comment-form" action="#" class="form">
+    <input type="text" name="content" class="form-control" placeholder="Enter comment" />
+    <input type="submit" class="btn btn-primary" value="Submit" />
+  </form>
+
+</template>
+
+
+<template name="message">
+  <li class="message">
+    <span class="author">{{this.author}}</span> : {{this.content}}
+  </li>
 </template>
