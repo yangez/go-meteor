@@ -5,11 +5,12 @@ Template.gamesList.helpers({
 });
 Template.gameItem.helpers({
   white: function() {
-    return "white_username";
+    return this.whitePlayer.username || null;
     // return this.whitePlayer.username;
   },
   black: function() {
-    return "black_username";
+    blackPlayer = Meteor.users.findOne({_id: this.blackPlayerId});
+    return blackPlayer.username || null;
     // return this.whitePlayer.username;
   }
 });
