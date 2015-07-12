@@ -18,8 +18,14 @@
 
 <template name="gameItem">
   <tr class="game">
-    <td>{{black}}</td>
-    <td>{{white}}</td>
+    <td>{{#if black}}{{black}}{{/if}}</td>
+    <td>
+    {{#if white}}
+      {{white}}
+    {{else}}
+      <a href="#" class="join-link btn btn-default">Join Game</a>
+    {{/if}}
+    </td>
     <td>{{size}}</td>
     <!-- <td>Hello fourth</td>-->
   </tr>
