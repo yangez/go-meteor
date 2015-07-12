@@ -13,8 +13,11 @@ Template.gameItem.events({
   'click .join-game': function(e) {
     e.preventDefault();
 
-    gameId = Games.update({_id: this._id}, {$set: { whitePlayerId: Meteor.userId() } } );
-    Router.go('gamePage', { _id: this._id });
+    var gameId = this._id;
+    Meteor.call("joinGame", gameId, "white", Meteor.userId(), function(error, game) {
+      if (error) return alert(error);
+      Router.go('gamePage', { _id: gameId });
+    });
 
   }
 });
