@@ -15,11 +15,9 @@ Template.gameItem.events({
 
     var color = e.target.getAttribute('data-color');
 
-    var gameId = this._id;
-    Meteor.call("joinGame", gameId, color, Meteor.userId(), function(error, game) {
-
+    Meteor.call("joinGame", this, color, Meteor.userId(), function(error, result) {
       if (error) return alert(error);
-      Router.go('gamePage', { _id: gameId });
+      Router.go('gamePage', { _id: game._id });
     });
 
   }
