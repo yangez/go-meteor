@@ -1,6 +1,6 @@
 Template.gamesList.helpers({
   games: function() {
-    return Games.find();
+    return Games.find({ archived: {$ne: true}} );
   }
 });
 

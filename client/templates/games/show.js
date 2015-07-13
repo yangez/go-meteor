@@ -3,12 +3,9 @@ Template.gamePage.helpers({
   messages: function(){
     return this.messages;
   }
-
-
 });
 
 Template.gamePage.events({
-
   'submit #comment-form': function(e) {
     e.preventDefault();
 
@@ -24,6 +21,11 @@ Template.gamePage.events({
     Games.update({_id: this._id}, {$set: {messages: messages}});
 
     $(e.target).find('[name=content]').val("");
+  },
+  'click #archive': function(e) {
+    e.preventDefault();
+    Games.update({_id: this._id}, {$set: {archived: true}});
+    Router.go('gamesList');
   }
 });
 
@@ -92,6 +94,3 @@ Template.board.onRendered(function(e){
 
 
 // });
-
-
-
