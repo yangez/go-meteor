@@ -17,6 +17,8 @@
     <input type="submit" class="btn btn-primary" value="Submit" />
   </form>
 
+  {{ > board}}
+
 </template>
 
 
@@ -24,4 +26,24 @@
   <li class="message">
     <span class="author">{{this.author}}</span> : {{this.content}}
   </li>
+</template>
+
+
+<template name="board">
+
+
+{{restoreState}}
+
+  <select id="tool" style="display: block; margin-bottom: 10px;">
+    <option value="black" selected>Black stone</option>
+    <option value="white">White stone</option>
+    <option value="SQ">Square</option>
+    <option value="TR">Triangle</option>
+    <option value="CR">Circle</option>
+    <option value="remove">Remove</option>
+  </select>
+  <div id="board">
+    <!-- board will go here -->
+  </div>
+
 </template>
