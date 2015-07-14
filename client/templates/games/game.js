@@ -37,18 +37,23 @@ playMove = function(game, x,y) {
   if (!wgoGame)
     return alert("Game hasn't been created yet.");
 
+  board = rBoard.get();
+  board.addObject({
+    x: x,
+    y: y,
+    c: wgoGame.turn
+  });
+
   var result = wgoGame.play(x,y);
 
   if (typeof result !== "object")
     return alert(result);
 
-  Games.update({_id: game._id}, { $set: { wgoGame: wgoGame.exportPositions() } });
+  var state = board.getState();
+  Games.update({_id: game._id}, { $set: { wgoGame: wgoGame.exportPositions(), state: state } });
 
+  Session.set("boardRefreshed", false);
   return updatedGame;
-}
-
-updateBoard = function() {
-  // update the board here based on the game data
 }
 
 
@@ -60,41 +65,10 @@ Template.board.onRendered(function(e){
   var game = createGame(gameData, gameData.size, gameData.repeat);
   var board = createBoard();
 
-
   if (gameData.state) board.restoreState(gameData.state);
 
-  var tool = document.getElementById("tool"); // get the <select> element
-
   board.addEventListener("click", function(x, y) {
-    if(tool.value == "black") {
-      playMove(gameData, x,y);
-
-      board.addObject({
-        x: x,
-        y: y,
-        c: WGo.B
-      });
-    }
-    else if(tool.value == "white") {
-      board.addObject({
-        x: x,
-        y: y,
-        c: WGo.W
-      });
-    }
-    else if(tool.value == "remove") {
-      board.removeObjectsAt(x, y);
-    }
-    else {
-      board.addObject({
-        x: x,
-        y: y,
-        type: tool.value
-      });
-    }
-    var state = board.getState();
-    Games.update({_id: gameData._id }, { $set: { state: state } });
-
+    playMove(gameData, x, y);
   });
 });
 
@@ -111,17 +85,18 @@ Template.board.helpers({
     var gameObj = Games.findOne(this._id);
 
     if (gameObj.wgoGame) {
-      // console.log("Restoring position... ");
-      // console.log(gameObj.wgoGame);
+      if (!Session.get("boardRefreshed")) {
+        Session.set("boardRefreshed", true);
+        console.log("Restoring position...");
+        if (rBoard) var board = rBoard.get();
+
+        if (board && gameObj && gameObj.state) {
+          console.log("really restoring...")
+          board.restoreState(gameObj.state);
+          rBoard.set(board);
+        }
+      }
     }
 
-    // if (board && gameObj && gameObj.position) {
-    // }
-
-    // board stuff
-    // if (rBoard) var board = rBoard.get();
-    // if (board && gameObj && gameObj.state) {
-      // board.restoreState(gameObj.state);
-    // }
   }
 });
