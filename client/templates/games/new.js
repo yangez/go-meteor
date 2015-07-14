@@ -5,7 +5,7 @@ Template.gameNew.events({
     var game = {
       title: $(e.target).find('[name=title]').val(),
       size: $(e.target).find('[name=size]').val(),
-      color: $(e.target).find('[name=color]').val()
+      color: $(e.target).find('[name=color]:checked').val()
     }
 
     Meteor.call('gameInsert', game, function(error, result) {

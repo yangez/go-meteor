@@ -22,12 +22,12 @@ Template.gamePage.helpers({
     return false;
   },
   toMove: function() {
-    if (!this.wgoGame) return this.title;
+    if (!this.wgoGame || !isReady(this.wgoGame)) return "Waiting for opponent";
     if (hasPlayer(this, Meteor.userId())) {
       if (isPlayerTurn(this, Meteor.userId())) {
         return "Your move";
       } else {
-        return "Waiting for opponent"
+        return "Opponent's move"
       }
     } else {
       if (this.wgoGame.turn === WGo.B) var color = "Black";
