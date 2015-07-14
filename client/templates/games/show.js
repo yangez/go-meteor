@@ -1,4 +1,3 @@
-
 Template.gamePage.helpers({
   messages: function(){
     return this.messages;
@@ -31,27 +30,19 @@ Template.gamePage.events({
 
 
 // board js
-
-Template.board.helpers({
-  'restoreState' : function(){
-    var obj = Session.get('state'+this._id);
-
-    console.log(obj);
-
-    if (obj.state) {
-      console.log(obj.board);
-      obj.board.restoreState(obj.state);
-    }
-  }
-});
+var wgoBoard;
 
 Template.board.onRendered(function(e){
-  var board = new WGo.Board(document.getElementById("board"), {
-    width: 600,
-  });
+  wgoBoard = new ReactiveVar(
+    new WGo.Board(document.getElementById("board"), {
+      width: 600,
+    })
+  );
 
-  var game = this;
+  var board = wgoBoard.get();
 
+  var game = this.data;
+  if (game.state) board.restoreState(game.state);
 
   var tool = document.getElementById("tool"); // get the <select> element
 
@@ -83,14 +74,19 @@ Template.board.onRendered(function(e){
     }
 
     var state = board.getState();
-    Games.update({_id: game.data._id }, { $set: { state: state } });
-    Session.set('state'+game.data._id, {state: state, board: board});
+    Games.update({_id: game._id }, { $set: { state: state } });
 
   });
 });
 
-// Template.board.events({
-//   'click' : function(e)
 
+Template.board.helpers({
+  'restoreState' : function(){
+    if (wgoBoard) var board = wgoBoard.get();
+    var game = this;
 
-// });
+    if (board && game && game.state) {
+      board.restoreState(game.state);
+    }
+  }
+});
