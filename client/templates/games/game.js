@@ -94,9 +94,11 @@ Template.board.onRendered(function(e){
 
   if (gameData.boardState) board.restoreState(gameData.boardState);
 
-  board.addEventListener("click", function(x, y) {
-    playMove(gameData, x, y);
-  });
+  if (Meteor.userId()) {
+    board.addEventListener("click", function(x, y) {
+      playMove(gameData, x, y);
+    });
+  }
 });
 
 Template.board.events({

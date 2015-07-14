@@ -2,11 +2,15 @@
   <h1>{{toMove}}</h1>
   <p>Size: <strong>{{size}}</strong></p>
   <p>
-    Black player: <span style="{{turnIndicator 'black'}}">{{black}}</span>
+    Black player:
+    {{{joinButton 'black'}}}
+    <span style="{{turnIndicator 'black'}}">{{black}}</span>
     <em>{{youIndicator 'black'}}</em>
   </p>
   <p>
-    White player: <span style="{{turnIndicator 'white'}}">{{white}}</span>
+    White player:
+    {{{joinButton 'white'}}}
+    <span style="{{turnIndicator 'white'}}">{{white}}</span>
     <em>{{youIndicator 'white'}}</em>
   </p>
 
