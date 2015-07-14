@@ -66,10 +66,11 @@ Template.gamePage.events({
   'submit #comment-form': function(e) {
     e.preventDefault();
 
+    if (!Meteor.userId()) return false;
+
     messages = this.messages;
-
     if (!messages) messages = [];
-
+    
     messages.push({
       author: Meteor.user().username,
       content: $(e.target).find('[name=content]').val(),
