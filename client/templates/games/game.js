@@ -52,7 +52,6 @@ playMove = function(game, x,y) {
   var state = board.getState();
   Games.update({_id: game._id}, { $set: { wgoGame: wgoGame.exportPositions(), state: state } });
 
-  Session.set("boardRefreshed", false);
   return updatedGame;
 }
 
@@ -81,22 +80,11 @@ Template.board.events({
 Template.board.helpers({
   'restoreState' : function(){
     // game stuff
-
     var gameObj = Games.findOne(this._id);
 
-    if (gameObj.wgoGame) {
-      if (!Session.get("boardRefreshed")) {
-        Session.set("boardRefreshed", true);
-        console.log("Restoring position...");
-        if (rBoard) var board = rBoard.get();
-
-        if (board && gameObj && gameObj.state) {
-          console.log("really restoring...")
-          board.restoreState(gameObj.state);
-          rBoard.set(board);
-        }
-      }
+    if (rBoard) var board = rBoard.get();
+    if (board && gameObj && gameObj.state) {
+      board.restoreState(gameObj.state);
     }
-
   }
 });
