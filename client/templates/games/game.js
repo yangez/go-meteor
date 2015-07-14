@@ -35,21 +35,27 @@ playMove = function(game, x,y) {
   if (!isReady(game)) return alert("You need an opponent first.");
   if (!isPlayerTurn(game)) return console.log("lol it's not your turn");
 
-  var result = wgoGame.play(x,y);
+  var captured = wgoGame.play(x,y);
 
-  if (typeof result !== "object")
-    return alert(result);
+  if (typeof captured !== "object")
+    return console.log(captured);
 
-  // reverse turn (because we already played it)
+  // reverse turn color (because we already played it)
   var turn = (wgoGame.turn === WGo.B) ? WGo.W : WGo.B;
 
-  // add on board
+  // add move on board
   board.addObject({
     x: x,
     y: y,
     c: turn
   });
 
+  // remove captured pieces from board
+  captured.forEach(function(obj) {
+    board.removeObject(obj);
+  });
+
+  // update state and game position in collection
   var state = board.getState();
   Games.update({_id: game._id}, { $set: { wgoGame: wgoGame.exportPositions(), boardState: state } });
 
