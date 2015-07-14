@@ -16,7 +16,7 @@ createGame = function(game, size, repeat){
 
   Games.update({_id: game._id }, { $set: { wgoGame: wgoGame.exportPositions() } });
 
-  return game;
+  return Games.findOne(game._id);
 };
 
 createBoard = function() {
@@ -31,19 +31,20 @@ createBoard = function() {
 
 playMove = function(game, x,y) {
   // play the move
-  var wgoGame = game.wgoGame;
+  var updatedGame = Games.findOne(game._id);
+  var wgoGame = updatedGame.wgoGame;
 
   if (!wgoGame)
     return alert("Game hasn't been created yet.");
 
   var result = wgoGame.play(x,y);
 
-  // if result = successful, set position in the game
+  if (typeof result !== "object")
+    return alert(result);
+
   Games.update({_id: game._id}, { $set: { wgoGame: wgoGame.exportPositions() } });
 
-  // update the ReactiveVar
-  // rGame.set({ idrGame._id, game);
-  return game;
+  return updatedGame;
 }
 
 updateBoard = function() {
@@ -67,7 +68,6 @@ Template.board.onRendered(function(e){
   board.addEventListener("click", function(x, y) {
     if(tool.value == "black") {
       playMove(gameData, x,y);
-      // console.log(game);
 
       board.addObject({
         x: x,
