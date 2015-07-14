@@ -1,7 +1,7 @@
 Template.gamesList.helpers({
   games: function() {
     return Games.find({ archived: {$ne: true}} );
-  }
+  },
 });
 
 Template.gameItem.events({

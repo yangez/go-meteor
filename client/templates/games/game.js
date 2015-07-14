@@ -1,8 +1,3 @@
-// Transform game model
-wgoTransform = function(game) {
-}
-
-
 // board display logic
 var rBoard, rGame;
 
@@ -37,7 +32,7 @@ playMove = function(game, x,y) {
 
   // if game isn't created, return
   if (!wgoGame) return alert("Game hasn't been created yet.");
-
+  if (!isReady(game)) return alert("You need an opponent first.");
   if (!isPlayerTurn(game)) return console.log("lol it's not your turn");
 
   var result = wgoGame.play(x,y);
@@ -45,12 +40,15 @@ playMove = function(game, x,y) {
   if (typeof result !== "object")
     return alert(result);
 
+  // reverse turn (because we already played it)
+  var turn = (wgoGame.turn === WGo.B) ? WGo.W : WGo.B;
+
+  // add on board
   board.addObject({
     x: x,
     y: y,
-    c: wgoGame.turn
+    c: turn
   });
-
 
   var state = board.getState();
   Games.update({_id: game._id}, { $set: { wgoGame: wgoGame.exportPositions(), boardState: state } });
@@ -58,14 +56,23 @@ playMove = function(game, x,y) {
   return game;
 }
 
-isPlayerTurn = function(game) {
+isPlayerTurn = function(game, playerId) {
+  if (!game.wgoGame) return false;
+
+  if (!playerId) var playerId = Meteor.userId();
+
   if (game.wgoGame.turn === WGo.B) {
-    if (game.blackPlayerId == Meteor.userId()) return true;
+    if (game.blackPlayerId === playerId) return true;
   } else if (game.wgoGame.turn == WGo.W) {
-    if (game.whitePlayerId == Meteor.userId()) return true;
+    if (game.whitePlayerId === playerId) return true;
   } else return false;
 }
 
+isReady = function(game) {
+  if (!game.wgoGame) return false;
+  if (game.blackPlayerId && game.whitePlayerId) return true;
+  return false;
+}
 
 // onRendered
 Template.board.onRendered(function(e){
@@ -96,5 +103,5 @@ Template.board.helpers({
     if (board && gameObj && gameObj.boardState) {
       board.restoreState(gameObj.boardState);
     }
-  }
+  },
 });

@@ -1,8 +1,8 @@
 <template name="gamePage">
   <h1>{{title}}</h1>
   <p>Size: <strong>{{size}}</strong></p>
-  <p>Black player: {{black}}</p>
-  <p>White player: {{white}}</p>
+  <p>Black player: <span style="{{turnIndicator 'black'}}">{{black}}</span></p>
+  <p>White player: <span style="{{turnIndicator 'white'}}">{{white}}</span></p>
 
   <div class="messages-container">
     <ul class="messages">

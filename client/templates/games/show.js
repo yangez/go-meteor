@@ -1,6 +1,15 @@
 Template.gamePage.helpers({
   messages: function(){
     return this.messages;
+  },
+  turnIndicator : function(color) {
+    if (color === "white") {
+      if (isPlayerTurn(this, this.whitePlayerId))
+        return "color: red; font-weight: bold;"
+    } else if (color === "black")
+      if (isPlayerTurn(this, this.blackPlayerId))
+        return "color: red; font-weight: bold;"
+    return false;
   }
 });
 
