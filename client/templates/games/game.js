@@ -74,6 +74,11 @@ isPlayerTurn = function(game, playerId) {
   } else return false;
 }
 
+hasPlayer = function(game, playerId) {
+  if (!game) return false;
+  return game.blackPlayerId === Meteor.userId() || game.whitePlayerId === Meteor.userId();
+}
+
 isReady = function(game) {
   if (!game.wgoGame) return false;
   if (game.blackPlayerId && game.whitePlayerId) return true;

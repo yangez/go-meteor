@@ -10,6 +10,30 @@ Template.gamePage.helpers({
       if (isPlayerTurn(this, this.blackPlayerId))
         return "color: red; font-weight: bold;"
     return false;
+  },
+  youIndicator : function(color) {
+    if (color === "white") {
+      if (this.whitePlayerId === Meteor.userId())
+        return "(you)"
+    } else if (color === "black") {
+      if (this.blackPlayerId === Meteor.userId())
+        return "(you)"
+    }
+    return false;
+  },
+  toMove: function() {
+    if (!this.wgoGame) return this.title;
+    if (hasPlayer(this, Meteor.userId())) {
+      if (isPlayerTurn(this, Meteor.userId())) {
+        return "Your move";
+      } else {
+        return "Waiting for opponent"
+      }
+    } else {
+      if (this.wgoGame.turn === WGo.B) var color = "Black";
+      else var color = "White";
+      return color + " to move";
+    }
   }
 });
 
