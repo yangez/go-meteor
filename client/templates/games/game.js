@@ -31,30 +31,40 @@ createBoard = function() {
 
 playMove = function(game, x,y) {
   // play the move
-  var updatedGame = Games.findOne(game._id);
-  var wgoGame = updatedGame.wgoGame;
-
-  if (!wgoGame)
-    return alert("Game hasn't been created yet.");
-
+  var game = Games.findOne(game._id);
+  var wgoGame = game.wgoGame;
   board = rBoard.get();
-  board.addObject({
-    x: x,
-    y: y,
-    c: wgoGame.turn
-  });
+
+  // if game isn't created, return
+  if (!wgoGame) return alert("Game hasn't been created yet.");
+
+  if (!isPlayerTurn(game)) return console.log("lol it's not your turn");
 
   var result = wgoGame.play(x,y);
 
   if (typeof result !== "object")
     return alert(result);
 
-  var state = board.getState();
-  Games.update({_id: game._id}, { $set: { wgoGame: wgoGame.exportPositions(), state: state } });
+  board.addObject({
+    x: x,
+    y: y,
+    c: wgoGame.turn
+  });
 
-  return updatedGame;
+
+  var state = board.getState();
+  Games.update({_id: game._id}, { $set: { wgoGame: wgoGame.exportPositions(), boardState: state } });
+
+  return game;
 }
 
+isPlayerTurn = function(game) {
+  if (game.wgoGame.turn === WGo.B) {
+    if (game.blackPlayerId == Meteor.userId()) return true;
+  } else if (game.wgoGame.turn == WGo.W) {
+    if (game.whitePlayerId == Meteor.userId()) return true;
+  } else return false;
+}
 
 
 // onRendered
@@ -64,7 +74,7 @@ Template.board.onRendered(function(e){
   var game = createGame(gameData, gameData.size, gameData.repeat);
   var board = createBoard();
 
-  if (gameData.state) board.restoreState(gameData.state);
+  if (gameData.boardState) board.restoreState(gameData.boardState);
 
   board.addEventListener("click", function(x, y) {
     playMove(gameData, x, y);
@@ -83,8 +93,8 @@ Template.board.helpers({
     var gameObj = Games.findOne(this._id);
 
     if (rBoard) var board = rBoard.get();
-    if (board && gameObj && gameObj.state) {
-      board.restoreState(gameObj.state);
+    if (board && gameObj && gameObj.boardState) {
+      board.restoreState(gameObj.boardState);
     }
   }
 });
