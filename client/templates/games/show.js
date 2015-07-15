@@ -120,7 +120,7 @@ Template.playerBox.helpers({
             color: "white"
           };
           else return {
-            joinButton: false,
+            joinPrompt: true,
             color: "white"
           };
         }
