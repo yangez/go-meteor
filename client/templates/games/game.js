@@ -43,8 +43,8 @@ playMove = function(game, x,y) {
   var captured = wgoGame.play(x,y);
 
   if (typeof captured !== "object") {
+    if (captured === 1) return false;
     var msg = "An unknown error occurred.";
-    if (captured === 1) msg = "This coordinate doesn't exist.";
     if (captured === 2) msg = "There's already a stone here.";
     if (captured === 3) msg = "That move would be suicide.";
     if (captured === 4) msg = "That move would repeat a previous position.";
