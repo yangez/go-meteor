@@ -29,7 +29,7 @@ Template.gamesList.helpers({
       return Games.find({ $and: [
         // game is not archived
         {archived: {$ne: true}},
-        
+
         // game has an open slot
         {$or: [
           {blackPlayerId: {$exists: false}},
@@ -58,6 +58,17 @@ Template.gamesList.helpers({
   },
 });
 
+
+Template.gameItem.helpers({
+  joinable: function() {
+    return (this.blackPlayerId != Meteor.userId() && this.whitePlayerId != Meteor.userId());
+  },
+  currentUser: function(color) {
+    if (getColorOfPlayerId(this, Meteor.userId()) === color)
+      return "current-user"
+  },
+});
+
 Template.gameItem.events({
   'click tr': function(e) {
     e.preventDefault();
@@ -71,7 +82,7 @@ Template.gameItem.events({
 
     Meteor.call("joinGame", this, color, Meteor.userId(), function(error, result) {
       if (error) return alert(error);
-      Router.go('gamePage', { _id: game._id });
+      Router.go('gamePage', { _id: this._id });
     });
 
   }
