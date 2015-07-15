@@ -54,14 +54,14 @@ Template.gamePage.helpers({
 Template.gamePage.events({
   'click .join-game': function(e) {
     e.preventDefault();
-    console.log('hi');
 
     var color = e.target.getAttribute('data-color');
-    console.log(color);
 
     Meteor.call("joinGame", this, color, Meteor.userId(), function(error, result) {
       if (error) return alert(error);
+
     });
+
   },
   'submit #comment-form': function(e) {
     e.preventDefault();
@@ -70,7 +70,7 @@ Template.gamePage.events({
 
     messages = this.messages;
     if (!messages) messages = [];
-    
+
     messages.push({
       author: Meteor.user().username,
       content: $(e.target).find('[name=content]').val(),

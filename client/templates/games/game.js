@@ -2,11 +2,15 @@
 var rBoard, rGame;
 
 createGame = function(game, size, repeat){
-  if (size === "9x9") { size = 9; }
+  if (["9", "13", "19"].indexOf(size) === -1) {
+    console.log("invalid size, using 9");
+    size = 9;
+  }
 
   if (game.wgoGame) return console.log("game exists");
   else console.log("creating game...")
 
+  console.log("game created with size "+size);
   var wgoGame = new WGo.Game(size, repeat);
 
   Games.update({_id: game._id }, { $set: { wgoGame: wgoGame.exportPositions() } });
@@ -14,11 +18,11 @@ createGame = function(game, size, repeat){
   return Games.findOne(game._id);
 };
 
-createBoard = function() {
+createBoard = function(size) {
   rBoard = new ReactiveVar(
     new WGo.Board(document.getElementById("board"), {
       width: 600,
-      size: 9
+      size: size
     })
   );
   return rBoard.get();
@@ -87,23 +91,21 @@ isReady = function(game) {
 
 // onRendered
 Template.board.onRendered(function(e){
-  var gameData = this.data;
+  gameData = this.data;
 
   var game = createGame(gameData, gameData.size, gameData.repeat);
-  var board = createBoard();
+  var board = createBoard(gameData.size);
 
   if (gameData.boardState) board.restoreState(gameData.boardState);
 
-  if (Meteor.userId()) {
-    board.addEventListener("click", function(x, y) {
-      playMove(gameData, x, y);
-    });
-  }
-});
+  if (Meteor.user()) {
+    if (!Session.get("eventListenerAdded")) {
+      board.addEventListener("click", function(x, y) {
+        playMove(gameData, x, y);
+      });
 
-Template.board.events({
-  'click #start-game' : function() {
-
+      Session.set("eventListenerAdded", true);
+    }
   }
 });
 
@@ -117,4 +119,18 @@ Template.board.helpers({
       board.restoreState(gameObj.boardState);
     }
   },
+  'loginRefresh': function() {
+    if (Meteor.user()) {
+      var game = this;
+      if (rBoard) {
+        if (!Session.get("eventListenerAdded")) {
+          var board = rBoard.get();
+          board.addEventListener("click", function(x, y) {
+            playMove(game, x, y);
+          });
+          Session.set("eventListenerAdded", true);
+        }
+      }
+    }
+  }
 });

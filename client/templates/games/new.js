@@ -4,9 +4,10 @@ Template.gameNew.events({
 
     var game = {
       title: $(e.target).find('[name=title]').val(),
-      size: $(e.target).find('[name=size]').val(),
+      size: $(e.target).find('[name=size] option:selected').val(),
       color: $(e.target).find('[name=color]:checked').val()
     }
+    console.log(size);
 
     Meteor.call('gameInsert', game, function(error, result) {
       // display error and abort
