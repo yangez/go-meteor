@@ -4,7 +4,7 @@
       {{> gameTable games=userGames heading="Your games" style="panel-success"}}
     </div>
     <div class="col-md-6">
-      {{> gameTable games=openGames heading="Open games" style="panel-info"}}
+      {{> gameTable games=openGames heading="Open games" style="panel-info" }}
     </div>
   </div>
 
@@ -36,7 +36,7 @@
     -->
       <tbody>
         {{#each games}}
-        {{> gameItem}}
+        {{> gameItem }}
         {{/each}}
       </tbody>
     </table>
@@ -50,16 +50,28 @@
   <tr class="game">
     <td>
     {{#if getUsername "black" this}}
-      {{getUsername "black" this}}
+      <span class="{{currentUser 'black'}}">
+        <i class="fa fa-user"></i> {{getUsername "black" this}}
+      </span>
     {{else}}
-      <a href="#" class="join-game btn btn-default" data-color="black">Join Game</a>
+      {{#if joinable}}
+        <a href="#" class="join-game btn btn-primary btn-xs" data-color="black">Join Game</a>
+      {{else}}
+        <small>Waiting...</small>
+      {{/if}}
     {{/if}}
     </td>
     <td>
     {{#if getUsername "white" this}}
-      {{getUsername "white" this}}
+      <span class="{{currentUser 'white'}}">
+        <i class="fa fa-user"></i> {{getUsername "white" this}}
+      </span>
     {{else}}
-      <a href="#" class="join-game btn btn-default" data-color="white">Join Game</a>
+      {{#if joinable}}
+        <a href="#" class="join-game btn btn-primary btn-xs" data-color="white">Join Game</a>
+      {{else}}
+        <small>Waiting...</small>
+      {{/if}}
     {{/if}}
     </td>
     <td>{{size}}x{{size}}</td>

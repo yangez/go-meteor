@@ -54,6 +54,15 @@ Template.gamePage.events({
   },
 });
 
+Template.gameItem.helpers({
+  joinable: function() {
+    return (this.blackPlayerId != Meteor.userId() && this.whitePlayerId != Meteor.userId());
+  },
+  currentUser: function(color) {
+    if (getColorOfPlayerId(this, Meteor.userId()) === color)
+      return "current-user"
+  },
+});
 
 Template.playerBox.helpers({
   data: function() {

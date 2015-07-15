@@ -83,3 +83,13 @@
 hr {
   clear: both;
 }
+
+
+.game {
+  span {
+    color: rgba(0, 0, 0, 0.7);
+    &.current-user {
+      color: #69768F;
+    }
+  }
+}

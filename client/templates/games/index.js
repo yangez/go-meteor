@@ -10,20 +10,33 @@ Template.gamesList.helpers({
     ] });
   },
   openGames: function() {
-    return Games.find({ $and: [
-      // game is not archived
-      {archived: {$ne: true}},
+    if (Meteor.userId()) {
+      return Games.find({ $and: [
+        // game is not archived
+        {archived: {$ne: true}},
 
-      // current player not in game
-      {blackPlayerId: {$ne: Meteor.userId()}},
-      {whitePlayerId: {$ne: Meteor.userId()}}, //
+        // current player not in game
+        {blackPlayerId: {$ne: Meteor.userId()}},
+        {whitePlayerId: {$ne: Meteor.userId()}}, //
 
-      // game has an open slot
-      {$or: [
-        {blackPlayerId: {$exists: false}},
-        {whitePlayerId: {$exists: false}}
-      ]}
-    ]});
+        // game has an open slot
+        {$or: [
+          {blackPlayerId: {$exists: false}},
+          {whitePlayerId: {$exists: false}}
+        ]}
+      ]});
+    } else {
+      return Games.find({ $and: [
+        // game is not archived
+        {archived: {$ne: true}},
+        
+        // game has an open slot
+        {$or: [
+          {blackPlayerId: {$exists: false}},
+          {whitePlayerId: {$exists: false}}
+        ]}
+      ]});
+    }
   },
   gamesInProgress: function() {
     return Games.find({ $and: [
@@ -32,12 +45,16 @@ Template.gamesList.helpers({
 
       // both players exist but are not current player
       {blackPlayerId: {$exists: true, $ne: Meteor.userId()}},
-      {whitePlayerId: {$exists: true, $ne: Meteor.userId()}}, //
+      {whitePlayerId: {$exists: true, $ne: Meteor.userId()}},
 
     ] });
   },
   completedGames: function() {
-    return Games.find({ archived: true }, {sort: {gameCreated: 1}}, {limit: 10} );
+    return Games.find({ $and: [
+      { archived: true },
+      {blackPlayerId: {$exists: true}},
+      {whitePlayerId: {$exists: true}},
+    ]}, {sort: {gameCreated: 1}}, {limit: 10} );
   },
 });
 
