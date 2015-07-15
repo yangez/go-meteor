@@ -93,19 +93,20 @@ isReady = function(game) {
 Template.board.onRendered(function(e){
   gameData = this.data;
 
-  var game = createGame(gameData, gameData.size, gameData.repeat);
-  var board = createBoard(gameData.size);
+  createGame(gameData, gameData.size, gameData.repeat);
+  createBoard(gameData.size);
+
+  var game = Games.findOne(gameData._id);
+  var board = rBoard.get();
+  console.log(board);
 
   if (gameData.boardState) board.restoreState(gameData.boardState);
 
   if (Meteor.user()) {
-    if (!Session.get("eventListenerAdded")) {
-      board.addEventListener("click", function(x, y) {
-        playMove(gameData, x, y);
-      });
-
-      Session.set("eventListenerAdded", true);
-    }
+    console.log("event listener added");
+    board.addEventListener("click", function(x, y) {
+      playMove(gameData, x, y);
+    });
   }
 });
 
@@ -125,6 +126,7 @@ Template.board.helpers({
       if (rBoard) {
         if (!Session.get("eventListenerAdded")) {
           var board = rBoard.get();
+          console.log("event listener added");
           board.addEventListener("click", function(x, y) {
             playMove(game, x, y);
           });
