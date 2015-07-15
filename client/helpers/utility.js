@@ -1,19 +1,8 @@
-var white = function() {
-    var id = this._id;
-    Meteor.call('findPlayer', id, "white", function(error, user) {
+var getUsername = function(color, game) {
+    Meteor.call('findPlayer', game._id, color, function(error, user) {
       if(user)
-        Session.set('whiteplayer'+ id, user.username);
+        Session.set('player'+color+game._id, user.username);
     });
-    return Session.get('whiteplayer'+id);
+    return Session.get('player'+color+game._id);
   };
-var black = function() {
-    var id = this._id;
-    Meteor.call('findPlayer', id, "black", function(error, user) {
-      if(user)
-        Session.set('blackplayer'+ id, user.username);
-    });
-    return Session.get('blackplayer'+id);
-  };
-
-Template.registerHelper('white', white);
-Template.registerHelper('black', black);
+Template.registerHelper('getUsername', getUsername);

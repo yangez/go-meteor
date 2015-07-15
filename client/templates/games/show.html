@@ -1,40 +1,36 @@
 <template name="gamePage">
-  <h1>{{toMove}}</h1>
-  <p>Size: <strong>{{size}}</strong></p>
-  <p>
-    Black player:
-    {{{joinButton 'black'}}}
-    <span style="{{turnIndicator 'black'}}">{{black}}</span>
-    <em>{{youIndicator 'black'}}</em>
-  </p>
-  <p>
-    White player:
-    {{{joinButton 'white'}}}
-    <span style="{{turnIndicator 'white'}}">{{white}}</span>
-    <em>{{youIndicator 'white'}}</em>
-  </p>
+  <!-- <h1>{{toMove}}</h1>
+  <p>Size: <strong>{{size}}</strong></p> -->
 
-  <div class="messages-container">
-    <ul class="messages">
-    {{#each messages}}
-      {{> message}}
-    {{/each}}
-    </ul>
+  <div id="game-page">
+
+    {{ > playerBox color="black" game=this }}
+
+    {{ > board}}
+
+    <div class="messages-container">
+      <ul class="messages">
+        {{#each messages}}
+        {{> message}}
+        {{/each}}
+      </ul>
+
+      <form id="comment-form" action="#" class="form">
+        <input type="text" name="content" class="form-control" placeholder="Enter comment" />
+        <input type="submit" class="btn btn-primary" value="Submit" />
+      </form>
+    </div>
+
+    {{ > playerBox color="white" game=this }}
+
+
+    <a href="#" class="btn btn-danger" id="archive">Archive game</a>
+
   </div>
-
-  <form id="comment-form" action="#" class="form">
-    <input type="text" name="content" class="form-control" placeholder="Enter comment" />
-    <input type="submit" class="btn btn-primary" value="Submit" />
-  </form>
-
-  {{ > board}}
-
-  <a href="#" class="btn btn-danger" id="archive">Archive game</a>
 
   <hr>
 
 </template>
-
 
 <template name="message">
   <li class="message">
@@ -42,14 +38,19 @@
   </li>
 </template>
 
-
 <template name="board">
+  {{loginRefresh}}
+  {{restoreState}}
+  <div id="board"></div>
+</template>
 
-{{loginRefresh}}
-{{restoreState}}
-
-  <div id="board">
-    <!-- board will go here -->
-  </div>
-
+<template name="playerBox">
+    <div class="player-box">
+      {{color}} player:
+      {{{joinButton color}}}
+      <span style="{{turnIndicator color}}">
+        {{getUsername color game}}
+      </span>
+      <em>{{youIndicator color}}</em>
+    </div>
 </template>

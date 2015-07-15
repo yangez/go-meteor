@@ -2,39 +2,6 @@ Template.gamePage.helpers({
   messages: function(){
     return this.messages;
   },
-  joinButton: function(color) {
-    if (color === "black") {
-      if (this.blackPlayerId) return false;
-    }
-    else if (color === "white" ) {
-      if (this.whitePlayerId) return false;
-    }
-    // if logged in
-    if (Meteor.userId()) {
-      // if already in game
-      if (hasPlayer(this, Meteor.userId())) return false;
-      return '<a href="#" class="btn btn-info join-game" data-color="'+color+'">Join Game</a>';
-    } else return "<small>Log in or sign up to join this game.</small>"
-  },
-  turnIndicator : function(color) {
-    if (color === "white") {
-      if (isPlayerTurn(this, this.whitePlayerId))
-        return "color: red; font-weight: bold;"
-    } else if (color === "black")
-      if (isPlayerTurn(this, this.blackPlayerId))
-        return "color: red; font-weight: bold;"
-    return false;
-  },
-  youIndicator : function(color) {
-    if (color === "white") {
-      if (this.whitePlayerId === Meteor.userId())
-        return "(you)"
-    } else if (color === "black") {
-      if (this.blackPlayerId === Meteor.userId())
-        return "(you)"
-    }
-    return false;
-  },
   toMove: function() {
     if (!this.wgoGame || !isReady(this)) return "Waiting for opponent";
     if (hasPlayer(this, Meteor.userId())) {
@@ -52,17 +19,6 @@ Template.gamePage.helpers({
 });
 
 Template.gamePage.events({
-  'click .join-game': function(e) {
-    e.preventDefault();
-
-    var color = e.target.getAttribute('data-color');
-
-    Meteor.call("joinGame", this, color, Meteor.userId(), function(error, result) {
-      if (error) return alert(error);
-
-    });
-
-  },
   'submit #comment-form': function(e) {
     e.preventDefault();
 
@@ -87,5 +43,70 @@ Template.gamePage.events({
   }
 });
 
+
+Template.playerBox.helpers({
+  name: function() {
+    var player;
+    if (this.color === "black") {
+      var player = Users.findOne(this.blackPlayerId);
+    } else if (this.color === "white") {
+      var player = Users.findOne(this.whitePlayerId);
+    }
+    return player.username;
+  },
+  joinButton: function(color) {
+    game = this.game;
+    if (color === "black") {
+      if (game.blackPlayerId) return false;
+    }
+    else if (color === "white" ) {
+      if (game.whitePlayerId) return false;
+    }
+    // if logged in
+    if (Meteor.userId()) {
+      // if already in game
+      if (hasPlayer(game, Meteor.userId())) return false;
+      return '<a href="#" class="btn btn-info join-game" data-color="'+color+'">Join Game</a>';
+    } else return "<small>Log in or sign up to join this game.</small>"
+  },
+  turnIndicator : function(color) {
+    game = this.game;
+    if (color === "white") {
+      if (isPlayerTurn(game, game.whitePlayerId))
+        return "color: red; font-weight: bold;"
+    } else if (color === "black")
+      if (isPlayerTurn(game, game.blackPlayerId))
+        return "color: red; font-weight: bold;"
+    return false;
+  },
+  youIndicator : function(color) {
+    game = this.game;
+    if (color === "white") {
+      if (game.whitePlayerId === Meteor.userId())
+        return "(you)"
+    } else if (color === "black") {
+      if (game.blackPlayerId === Meteor.userId())
+        return "(you)"
+    }
+    return false;
+  },
+
+
+});
+
+Template.playerBox.events({
+  'click .join-game': function(e) {
+    e.preventDefault();
+
+    console.log('hi');
+    var color = e.target.getAttribute('data-color');
+
+    Meteor.call("joinGame", this.game, color, Meteor.userId(), function(error, result) {
+      if (error) return alert(error);
+
+    });
+
+  },
+})
 
 // board js

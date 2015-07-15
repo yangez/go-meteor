@@ -107,6 +107,7 @@ Template.board.onRendered(function(e){
     board.addEventListener("click", function(x, y) {
       playMove(gameData, x, y);
     });
+    Session.set("eventListenerAdded", true);
   }
 });
 

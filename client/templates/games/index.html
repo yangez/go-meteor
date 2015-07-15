@@ -20,15 +20,15 @@
 <template name="gameItem">
   <tr class="game">
     <td>
-    {{#if black}}
-      {{black}}
+    {{#if getUsername "black" this}}
+      {{getUsername "black" this}}
     {{else}}
       <a href="#" class="join-game btn btn-default" data-color="black">Join Game</a>
     {{/if}}
     </td>
     <td>
-    {{#if white}}
-      {{white}}
+    {{#if getUsername "white" this}}
+      {{getUsername "white" this}}
     {{else}}
       <a href="#" class="join-game btn btn-default" data-color="white">Join Game</a>
     {{/if}}
