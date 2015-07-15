@@ -1,6 +1,43 @@
 Template.gamesList.helpers({
-  games: function() {
-    return Games.find({ archived: {$ne: true}} );
+  userGames: function() {
+    if (!Meteor.userId()) return false;
+    return Games.find({ $and: [
+      {archived: {$ne: true}}, // not archived
+      {$or: [ // player is in game
+        {blackPlayerId: Meteor.userId()},
+        {whitePlayerId: Meteor.userId()}
+      ]}
+    ] });
+  },
+  openGames: function() {
+    return Games.find({ $and: [
+      // game is not archived
+      {archived: {$ne: true}},
+
+      // current player not in game
+      {blackPlayerId: {$ne: Meteor.userId()}},
+      {whitePlayerId: {$ne: Meteor.userId()}}, //
+
+      // game has an open slot
+      {$or: [
+        {blackPlayerId: {$exists: false}},
+        {whitePlayerId: {$exists: false}}
+      ]}
+    ]});
+  },
+  gamesInProgress: function() {
+    return Games.find({ $and: [
+      // not archived
+      { archived: {$ne: true} },
+
+      // both players exist but are not current player
+      {blackPlayerId: {$exists: true, $ne: Meteor.userId()}},
+      {whitePlayerId: {$exists: true, $ne: Meteor.userId()}}, //
+
+    ] });
+  },
+  completedGames: function() {
+    return Games.find({ archived: true }, {sort: {gameCreated: 1}}, {limit: 10} );
   },
 });
 

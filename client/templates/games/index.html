@@ -1,20 +1,49 @@
 <template name="gamesList">
-  <p>http://arxiv.org/pdf/1412.3409.pdf</p>
-  <table id="games" class="table table-hover">
-    <thead>
-      <tr>
-        <th>Black</th>
-        <th>White</th>
-        <!-- <th>Time</th> -->
-        <th>Board</th>
-      </tr>
-    </thead>
-    <tbody>
-    {{#each games}}
-      {{> gameItem}}
-    {{/each}}
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col-md-6">
+      {{> gameTable games=userGames heading="Your games" style="panel-success"}}
+    </div>
+    <div class="col-md-6">
+      {{> gameTable games=openGames heading="Open games" style="panel-info"}}
+    </div>
+  </div>
+
+  <hr />
+  <div class="row">
+    <div class="col-md-6">
+      {{> gameTable games=gamesInProgress heading="In progress"}}
+    </div>
+    <div class="col-md-6">
+      {{> gameTable games=completedGames heading="Completed"}}
+    </div>
+  </div>
+
+</template>
+
+<template name="gameTable">
+  <div class="games-panel panel panel-default {{style}}">
+    <div class="panel-heading">{{heading}}</div>
+    {{#if games.count}}
+    <table class="table table-hover">
+      <!--
+      <thead>
+        <tr>
+          <th>Black</th>
+          <th>White</th>
+          <th>Board</th>
+        </tr>
+      </thead>
+    -->
+      <tbody>
+        {{#each games}}
+        {{> gameItem}}
+        {{/each}}
+      </tbody>
+    </table>
+    {{else}}
+      <div class="panel-body">No games here. Join or create one.</div>
+    {{/if}}
+  </div>
 </template>
 
 <template name="gameItem">
