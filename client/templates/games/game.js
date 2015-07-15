@@ -61,6 +61,14 @@ playMove = function(game, x,y) {
     c: turn
   });
 
+  // add last move marker to board
+  var turnMarker = { x: x, y: y, type: "CR" }
+  board.addObject(turnMarker);
+
+  // remove previous marker if it exists
+  var previousTurnMarker = game.previousMarker;
+  if (previousTurnMarker) board.removeObject(previousTurnMarker);
+
   // remove captured pieces from board
   captured.forEach(function(obj) {
     board.removeObject(obj);
@@ -68,7 +76,7 @@ playMove = function(game, x,y) {
 
   // update state and game position in collection
   var state = board.getState();
-  Games.update({_id: game._id}, { $set: { wgoGame: wgoGame.exportPositions(), boardState: state } });
+  Games.update({_id: game._id}, { $set: { wgoGame: wgoGame.exportPositions(), boardState: state, previousMarker: turnMarker } });
 
   return game;
 }
