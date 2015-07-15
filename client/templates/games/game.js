@@ -38,12 +38,18 @@ playMove = function(game, x,y) {
   // if game isn't created, return
   if (!wgoGame) return alert("Game hasn't been created yet.");
   if (!isReady(game)) return pushMessage(game, "You need an opponent first.");
-  if (!isPlayerTurn(game)) return console.log("lol it's not your turn");
+  if (!isPlayerTurn(game)) return pushMessage(game, "It's your opponent's turn.");
 
   var captured = wgoGame.play(x,y);
 
-  if (typeof captured !== "object")
-    return console.log(captured);
+  if (typeof captured !== "object") {
+    var msg = "An unknown error occurred.";
+    if (captured === 1) msg = "This coordinate doesn't exist.";
+    if (captured === 2) msg = "There's already a stone here.";
+    if (captured === 3) msg = "That move would be suicide.";
+    if (captured === 4) msg = "That move would repeat a previous position.";
+    return pushMessage(game, msg);
+  }
 
   // reverse turn color (because we already played it)
   var turn = (wgoGame.turn === WGo.B) ? WGo.W : WGo.B;
