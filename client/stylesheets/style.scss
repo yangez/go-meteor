@@ -18,11 +18,29 @@
     .user {
       width: 75%;
       float: left;
+      position:relative;
+      top: 2px;
     }
     .color {
       width: 20%;
+      height: 24px;
       float: right;
       text-align: right;
+      &::after {
+
+        content: ' ';
+        float: right;
+        width: 24px;
+        height: 24px;
+        border-radius: 12px;
+        box-shadow: 1px 1px 1px 1px rgba(127, 127, 127, 0.3);
+      }
+      &.white::after {
+        background: linear-gradient(-45deg, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+      }
+      &.black::after {
+        background: linear-gradient(135deg, rgba(35,36,39,1) 0%,rgba(0,0,0,1) 100%);
+      }
     }
     &.player-turn {
       background: #d1eaff;
