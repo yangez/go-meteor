@@ -22,7 +22,8 @@ createBoard = function(size) {
   rBoard = new ReactiveVar(
     new WGo.Board(document.getElementById("board"), {
       width: 600,
-      size: size
+      size: size,
+      background: ""
     })
   );
   return rBoard.get();
