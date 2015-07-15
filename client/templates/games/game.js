@@ -123,7 +123,7 @@ Template.board.onRendered(function(e){
 
   if (gameData.boardState) board.restoreState(gameData.boardState);
 
-  if (Meteor.user()) {
+  if (Meteor.user() && gameHasPlayer(gameData, Meteor.user())) {
     board.addEventListener("click", function(x, y) {
       playMove(gameData, x, y);
     });

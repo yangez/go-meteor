@@ -1,5 +1,12 @@
 Meteor.subscribe('allUsers');
 
+gameHasPlayer = function(game, user) {
+  if (!user) return false;
+  if (user._id === game.blackPlayerId || user._id === game.whitePlayerId)
+    return true;
+  else return false
+}
+
 getColorOfPosition = function(game, position) {
     var currentUserColor = getColorOfPlayerId(game, Meteor.userId());
     // if current user is part of this game
