@@ -15,8 +15,9 @@
       <div class="messages-container">
         <ul class="messages">
           {{#each messages}}
-          {{> message}}
+            {{> message}}
           {{/each}}
+          {{messageScroller}}
         </ul>
 
         <form id="comment-form" action="#" class="form">
@@ -31,10 +32,6 @@
 
       {{ > playerBox color="white" game=this }}
     </div>
-
-
-
-
   </div>
 
   <hr />
@@ -45,7 +42,7 @@
 
 <template name="message">
   <li class="message">
-    <span class="author">{{this.author}}</span> : {{this.content}}
+    <span class="author">[{{this.author}}]</span> {{this.content}}
   </li>
 </template>
 

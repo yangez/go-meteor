@@ -1,6 +1,19 @@
+var scrollMessages = function(speed) {
+  if ($(".messages").length > 0) {
+    $(".messages").animate({scrollTop:$(".messages")[0].scrollHeight}, speed);
+  }
+}
+
+Template.gamePage.onRendered(function(){
+  scrollMessages(0);
+});
+
 Template.gamePage.helpers({
   messages: function(){
     return this.messages;
+  },
+  messageScroller: function() {
+    if (this.messages) scrollMessages();
   },
   toMove: function() {
     if (!this.wgoGame || !isReady(this)) return "Waiting for opponent";
@@ -107,6 +120,7 @@ Template.playerBox.events({
     });
 
   },
-})
+});
+
 
 // board js
