@@ -68,7 +68,11 @@
         {{#if data.joinButton}}
           <a href="#" class="join-game btn btn-primary" data-color="{{data.color}}">Join as {{data.color}}</a>
         {{else}}
-          <small><em>Waiting for opponent...</em></small>
+          {{#if data.joinPrompt}}
+            <small><em><a href="#" class="login-prompt">Log in or register</a> to play</em></small>
+          {{else}}
+            <small><em>Waiting for opponent...</em></small>
+          {{/if}}
         {{/if}}
       {{/if}}
     </div>

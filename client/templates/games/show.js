@@ -51,7 +51,7 @@ Template.gamePage.events({
     e.preventDefault();
     Games.update({_id: this._id}, {$set: {archived: true}});
     Router.go('gamesList');
-  }
+  },
 });
 
 
@@ -99,7 +99,7 @@ Template.playerBox.helpers({
             color: "black"
           };
           else return {
-            joinButton: false,
+            joinPrompt: true,
             color: "black"
           };
         }
@@ -155,6 +155,12 @@ Template.playerBox.events({
     });
 
   },
+  'click .login-prompt': function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $("html, body").animate({ scrollTop: 0 }, 200);
+    $("#login-dropdown-list .dropdown-toggle").dropdown('toggle');
+  }
 });
 
 
