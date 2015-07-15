@@ -1,8 +1,10 @@
 <template name="gamesList">
   <div class="row">
+    {{#if currentUser}}
     <div class="col-md-6">
       {{> gameTable games=userGames heading="Your games" style="panel-success"}}
     </div>
+    {{/if}}
     <div class="col-md-6">
       {{> gameTable games=openGames heading="Open games" style="panel-info" }}
     </div>
