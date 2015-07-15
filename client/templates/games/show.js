@@ -32,6 +32,9 @@ Template.gamePage.helpers({
 });
 
 Template.gamePage.events({
+  'click .messages-container': function(e) {
+    $("#comment-form input[type=text]").focus();
+  },
   'submit #comment-form': function(e) {
     e.preventDefault();
 
