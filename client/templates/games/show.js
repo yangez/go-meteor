@@ -43,12 +43,16 @@ Template.gamePage.events({
     var content = $(e.target).find('[name=content]').val();
     if (!content) return false;
 
-    messages.push({
+    var message = {
       author: Meteor.user().username,
       content: content
-    });
+    }
 
-    Games.update({_id: this._id}, {$set: {messages: messages}});
+    // push to local collection
+    messages.push(message);
+
+    // push to remote collection
+    Games.update({_id: this._id}, {$push: {messages: message}});
 
     $(e.target).find('[name=content]').val("");
   },
