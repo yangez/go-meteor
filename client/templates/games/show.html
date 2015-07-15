@@ -4,31 +4,42 @@
 
   <div id="game-page">
 
-    {{ > playerBox color="black" game=this }}
 
-    {{ > board}}
-
-    <div class="messages-container">
-      <ul class="messages">
-        {{#each messages}}
-        {{> message}}
-        {{/each}}
-      </ul>
-
-      <form id="comment-form" action="#" class="form">
-        <input type="text" name="content" class="form-control" placeholder="Enter comment" />
-        <input type="submit" class="btn btn-primary" value="Submit" />
-      </form>
+    <div class="left">
+      {{ > board}}
     </div>
 
-    {{ > playerBox color="white" game=this }}
+    <div class="right">
+    {{ > playerBox color="black" game=this }}
+
+      <div class="messages-container">
+        <ul class="messages">
+          {{#each messages}}
+          {{> message}}
+          {{/each}}
+        </ul>
+
+        <form id="comment-form" action="#" class="form">
+          <div class="input-group">
+            <input type="text" name="content" class="form-control" placeholder="Enter comment" />
+            <span class="input-group-btn">
+              <input type="submit" class="btn btn-primary" value="Submit" />
+            </span>
+          </div>
+        </form>
+      </div>
+
+      {{ > playerBox color="white" game=this }}
+    </div>
 
 
-    <a href="#" class="btn btn-danger" id="archive">Archive game</a>
+
 
   </div>
 
-  <hr>
+  <hr />
+  <a href="#" class="btn btn-danger" id="archive">Archive game</a>
+
 
 </template>
 
