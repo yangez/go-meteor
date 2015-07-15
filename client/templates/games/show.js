@@ -40,9 +40,12 @@ Template.gamePage.events({
     messages = this.messages;
     if (!messages) messages = [];
 
+    var content = $(e.target).find('[name=content]').val();
+    if (!content) return false;
+
     messages.push({
       author: Meteor.user().username,
-      content: $(e.target).find('[name=content]').val(),
+      content: content
     });
 
     Games.update({_id: this._id}, {$set: {messages: messages}});
