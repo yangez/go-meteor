@@ -10,7 +10,7 @@
     </div>
 
     <div class="right">
-    {{ > playerBox color="black" game=this }}
+    {{ > playerBox position="top" game=this }}
 
       <div class="messages-container">
         <ul class="messages">
@@ -30,7 +30,7 @@
         </form>
       </div>
 
-      {{ > playerBox color="white" game=this }}
+      {{ > playerBox position="bottom" game=this }}
     </div>
   </div>
 
@@ -53,6 +53,27 @@
 </template>
 
 <template name="playerBox">
+  <div class="player-box">
+    <div class="user">
+      {{#if data.user}}
+        <i class="fa fa-user"></i> {{data.user.username}}
+        {{#if data.isCurrentPlayer}}
+          <em>(you)</em>
+        {{/if}}
+      {{else}}
+        {{#if data.joinButton}}
+          <a href="#" class="join-game btn btn-primary" data-color="{{data.color}}">Join as {{data.color}}</a>
+        {{/if}}
+      {{/if}}
+    </div>
+    <div class="color">
+      {{data.color}}
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</template>
+<!--
+<template name="playerBox">
     <div class="player-box">
       {{color}} player:
       {{{joinButton color}}}
@@ -62,3 +83,4 @@
       <em>{{youIndicator color}}</em>
     </div>
 </template>
+-->

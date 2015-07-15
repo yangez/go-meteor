@@ -61,15 +61,82 @@ Template.gamePage.events({
 
 
 Template.playerBox.helpers({
-  name: function() {
-    var player;
-    if (this.color === "black") {
-      var player = Users.findOne(this.blackPlayerId);
-    } else if (this.color === "white") {
-      var player = Users.findOne(this.whitePlayerId);
+  data: function() {
+    var currentUserColor = getColorOfPlayerId(this.game, Meteor.userId());
+
+    // if current user is part of this game
+    if (currentUserColor) {
+      if (this.position === "bottom") { // bottom: show current user
+        return {
+          user: Meteor.user(),
+          isCurrentPlayer: true,
+          color: currentUserColor
+        }
+      } else if (this.position === "top") { // top: show opponent
+        opponentColor = getOppositeColor(currentUserColor);
+        opponent = getPlayerAtColor(this.game, opponentColor);
+
+        if (opponent) return {
+          user: opponent,
+          isCurrentPlayer: false,
+          color: opponentColor
+        }
+        else return { color: opponentColor };
+      }
     }
-    return player.username;
+
+    // if current user not part of this game (or no current user)
+    else {
+      if (this.position === "bottom") {
+        var blackPlayer = getPlayerAtColor(this.game, "black");
+
+        // if black player exists, show username
+        if (blackPlayer) return {
+          user: blackPlayer,
+          isCurrentPlayer: false,
+          color: "black"
+        };
+        // if black player doesn't exist, prompt current user to join game
+        else {
+          // if logged in, show button
+          if (Meteor.user()) return {
+            joinButton: true,
+            color: "black"
+          };
+          else return {
+            joinButton: false,
+            color: "black"
+          };
+        }
+
+      } else if (this.position === "top") {
+        var whitePlayer = getPlayerAtColor(this.game, "white");
+
+        if (whitePlayer) return {
+          user: whitePlayer,
+          isCurrentPlayer: false,
+          color: "white"
+        };
+        // if white player doesn't exist, prompt current user to join game
+        else {
+          // if logged in, show button
+          if (Meteor.user()) return {
+            joinButton: true,
+            color: "white"
+          };
+          else return {
+            joinButton: false,
+            color: "white"
+          };
+        }
+      }
+
+    }
+
+    return {}; // default return empty object
+
   },
+  /*
   joinButton: function(color) {
     game = this.game;
     if (color === "black") {
@@ -106,6 +173,7 @@ Template.playerBox.helpers({
     }
     return false;
   },
+  */
 
 
 });

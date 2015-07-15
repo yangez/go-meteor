@@ -14,6 +14,16 @@
   .player-box {
     border: 1px solid #ccc;
     padding: 20px;
+    position: relative;
+    .user {
+      width: 75%;
+      float: left;
+    }
+    .color {
+      width: 20%;
+      float: right;
+      text-align: right;
+    }
   }
   .messages-container {
     height: 380px;
