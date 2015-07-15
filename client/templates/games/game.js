@@ -37,7 +37,7 @@ playMove = function(game, x,y) {
 
   // if game isn't created, return
   if (!wgoGame) return alert("Game hasn't been created yet.");
-  if (!isReady(game)) return alert("You need an opponent first.");
+  if (!isReady(game)) return pushMessage(game, "You need an opponent first.");
   if (!isPlayerTurn(game)) return console.log("lol it's not your turn");
 
   var captured = wgoGame.play(x,y);
@@ -90,6 +90,21 @@ isReady = function(game) {
   return false;
 }
 
+pushMessage = function(game, message, user) {
+  if (!game) return false;
+  if (!game.messages) game.messages = [];
+  var username = user ? user.username : false;
+  var messageObj = {
+    author: username,
+    content: message
+  }
+
+  if (user) // push to collection
+    return Games.update({_id: game._id}, {$push: {messages: messageObj}});
+  else // push to local collection (goes away when messages updates)
+    return Games._collection.update({_id: game._id}, {$push: {messages: messageObj}})
+}
+
 // onRendered
 Template.board.onRendered(function(e){
   gameData = this.data;
@@ -99,12 +114,10 @@ Template.board.onRendered(function(e){
 
   var game = Games.findOne(gameData._id);
   var board = rBoard.get();
-  console.log(board);
 
   if (gameData.boardState) board.restoreState(gameData.boardState);
 
   if (Meteor.user()) {
-    console.log("event listener added");
     board.addEventListener("click", function(x, y) {
       playMove(gameData, x, y);
     });
@@ -128,7 +141,6 @@ Template.board.helpers({
       if (rBoard) {
         if (!Session.get("eventListenerAdded")) {
           var board = rBoard.get();
-          console.log("event listener added");
           board.addEventListener("click", function(x, y) {
             playMove(game, x, y);
           });

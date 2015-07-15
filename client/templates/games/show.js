@@ -37,22 +37,10 @@ Template.gamePage.events({
 
     if (!Meteor.userId()) return false;
 
-    messages = this.messages;
-    if (!messages) messages = [];
-
     var content = $(e.target).find('[name=content]').val();
     if (!content) return false;
 
-    var message = {
-      author: Meteor.user().username,
-      content: content
-    }
-
-    // push to local collection
-    messages.push(message);
-
-    // push to remote collection
-    Games.update({_id: this._id}, {$push: {messages: message}});
+    pushMessage(this, content, Meteor.user());
 
     $(e.target).find('[name=content]').val("");
   },
@@ -143,7 +131,6 @@ Template.playerBox.helpers({
   playerTurn: function() {
     if (!isReady(this.game)) return false;
     var color = getColorOfPosition(this.game, this.position);
-    console.log(color);
     if (
       (this.game.wgoGame.turn === -1 && color === "white") ||
       (this.game.wgoGame.turn === 1 && color === "black")
@@ -157,7 +144,6 @@ Template.playerBox.events({
   'click .join-game': function(e) {
     e.preventDefault();
 
-    console.log('hi');
     var color = e.target.getAttribute('data-color');
 
     Meteor.call("joinGame", this.game, color, Meteor.userId(), function(error, result) {
