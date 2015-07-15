@@ -24,6 +24,10 @@
       float: right;
       text-align: right;
     }
+    &.player-turn {
+      background: #d1eaff;
+      border-color: #8997AF;
+    }
   }
   .messages-container {
     height: 380px;

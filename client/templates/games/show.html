@@ -53,7 +53,7 @@
 </template>
 
 <template name="playerBox">
-  <div class="player-box">
+  <div class="player-box {{playerTurn}}">
     <div class="user">
       {{#if data.user}}
         <i class="fa fa-user"></i> {{data.user.username}}
@@ -63,6 +63,8 @@
       {{else}}
         {{#if data.joinButton}}
           <a href="#" class="join-game btn btn-primary" data-color="{{data.color}}">Join as {{data.color}}</a>
+        {{else}}
+          <small><em>Waiting for opponent...</em></small>
         {{/if}}
       {{/if}}
     </div>

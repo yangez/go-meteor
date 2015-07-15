@@ -136,45 +136,16 @@ Template.playerBox.helpers({
     return {}; // default return empty object
 
   },
-  /*
-  joinButton: function(color) {
-    game = this.game;
-    if (color === "black") {
-      if (game.blackPlayerId) return false;
-    }
-    else if (color === "white" ) {
-      if (game.whitePlayerId) return false;
-    }
-    // if logged in
-    if (Meteor.userId()) {
-      // if already in game
-      if (hasPlayer(game, Meteor.userId())) return false;
-      return '<a href="#" class="btn btn-info join-game" data-color="'+color+'">Join Game</a>';
-    } else return "<small>Log in or sign up to join this game.</small>"
-  },
-  turnIndicator : function(color) {
-    game = this.game;
-    if (color === "white") {
-      if (isPlayerTurn(game, game.whitePlayerId))
-        return "color: red; font-weight: bold;"
-    } else if (color === "black")
-      if (isPlayerTurn(game, game.blackPlayerId))
-        return "color: red; font-weight: bold;"
-    return false;
-  },
-  youIndicator : function(color) {
-    game = this.game;
-    if (color === "white") {
-      if (game.whitePlayerId === Meteor.userId())
-        return "(you)"
-    } else if (color === "black") {
-      if (game.blackPlayerId === Meteor.userId())
-        return "(you)"
-    }
-    return false;
-  },
-  */
-
+  playerTurn: function() {
+    if (!isReady(this.game)) return false;
+    var color = getColorOfPosition(this.game, this.position);
+    console.log(color);
+    if (
+      (this.game.wgoGame.turn === -1 && color === "white") ||
+      (this.game.wgoGame.turn === 1 && color === "black")
+    ) return "player-turn";
+    else return false;
+  }
 
 });
 
