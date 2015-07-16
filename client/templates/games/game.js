@@ -30,7 +30,6 @@ createBoard = function(size) {
 }
 
 playMove = function(game, x,y) {
-  // play the move
   var game = Games.findOne(game._id);
   var wgoGame = game.wgoGame;
   board = rBoard.get();
@@ -50,6 +49,11 @@ playMove = function(game, x,y) {
     if (captured === 4) msg = "That move would repeat a previous position.";
     return pushMessage(game, msg);
   }
+
+  // invalidate hover piece on board
+  var oldObj = Session.get("hoverStone"+game._id);
+  Session.set("hoverStone"+game._id, undefined);
+  if (oldObj) board.removeObject(oldObj);
 
   // reverse turn color (because we already played it)
   var turn = (wgoGame.turn === WGo.B) ? WGo.W : WGo.B;
@@ -125,12 +129,13 @@ addEventHandlers = function(game, board) {
     board.addEventListener("mousemove", function(x, y){
       // refresh game data
       game = Games.findOne(game._id);
+      board = rBoard.get();
 
       // only if it's your turn
       if (isPlayerTurn(game, Meteor.userId())) {
-
         // remove old hoverstone
         var oldObj = Session.get("hoverStone"+game._id);
+        Session.set("hoverStone"+game._id, undefined);
         if (oldObj) board.removeObject(oldObj);
 
         // if it's on the board and it's a valid move (no existing piece)
@@ -140,19 +145,27 @@ addEventHandlers = function(game, board) {
           board.addObject(newObj);
           Session.set("hoverStone"+game._id, newObj);
         }
-
       }
+    });
 
+    board.addEventListener("mouseout", function(x, y) {
+      game = Games.findOne(game._id);
+      board = rBoard.get();
+
+      if (isPlayerTurn(game, Meteor.userId())) {
+        var oldObj = Session.get("hoverStone"+game._id);
+        Session.set("hoverStone"+game._id, undefined);
+        if (oldObj) board.removeObject(oldObj);
+      }
     });
 
     board.addEventListener("click", function(x, y) {
-      // invalidate the object removal
-      Session.set("hoverCoords"+game._id, undefined);
-      Session.set("hoverStone"+game._id, undefined);
+      game = Games.findOne(game._id);
       playMove(game, x, y);
     });
 
     Session.set("eventListenerAdded", true);
+
   }
 }
 
