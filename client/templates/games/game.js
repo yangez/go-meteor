@@ -7,9 +7,10 @@ createGame = function(game, size, repeat){
     size = 9;
   }
 
-  var wgoGame = new WGo.Game(size, repeat);
-
-  Games.update({_id: game._id }, { $set: { wgoGame: wgoGame.exportPositions() } });
+  if (!game.wgoGame) {
+    var wgoGame = new WGo.Game(size, repeat);
+    Games.update({_id: game._id }, { $set: { wgoGame: wgoGame.exportPositions() } });
+  }
 
   return Games.findOne(game._id);
 };
@@ -32,6 +33,7 @@ playMove = function(game, x,y) {
 
   // if game isn't created, return
   if (!wgoGame) return alert("Game hasn't been created yet.");
+  if (game.archived) return pushMessage(game, "The game has ended.");
   if (!isReady(game)) return pushMessage(game, "You need an opponent first.");
   if (!isPlayerTurn(game)) return pushMessage(game, "It's your opponent's turn.");
 
@@ -141,6 +143,7 @@ removeEventHandlers = function(game, board) {
 }
 
 addEventHandlers = function(game, board) {
+  //if (Meteor.user() && gameHasPlayer(game, Meteor.user()) && isReady(game)) {
   if (Meteor.user() && gameHasPlayer(game, Meteor.user()) && isReady(game)) {
     // add hover piece event listener
     board.addEventListener("mousemove", boardMouseMoveHandler = function(x, y){
@@ -214,7 +217,7 @@ Template.board.helpers({
   },
   'loginRefresh': function() {
     if (Meteor.user()) {
-      var game = this;
+      var game = Games.findOne(this._id);
       if (rBoard) {
         if (!Session.get("eventListenerAdded")) {
           var board = rBoard.get();
