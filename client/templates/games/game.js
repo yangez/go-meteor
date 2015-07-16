@@ -176,10 +176,11 @@ removeEventHandlers = function(game, board) {
   board.removeEventListener("mousemove", boardMouseMoveHandler);
   board.removeEventListener("mouseout", boardMouseOutHandler);
   board.removeEventListener("click", boardClickHandler);
+
+  Session.set("eventListenerAdded"+game._id, false);
 }
 
 addEventHandlers = function(game, board) {
-  //if (Meteor.user() && gameHasPlayer(game, Meteor.user()) && isReady(game)) {
   if (Meteor.user() && gameHasPlayer(game, Meteor.user()) && isReady(game)) {
     // add hover piece event listener
     board.addEventListener("mousemove", boardMouseMoveHandler = function(x, y){
@@ -220,7 +221,7 @@ addEventHandlers = function(game, board) {
       playMove(game, x, y);
     });
 
-    Session.set("eventListenerAdded", true);
+    Session.set("eventListenerAdded"+game_id, true);
 
   }
 }
@@ -255,7 +256,7 @@ Template.board.helpers({
     if (Meteor.user()) {
       var game = Games.findOne(this._id);
       if (rBoard) {
-        if (!Session.get("eventListenerAdded")) {
+        if (!Session.get("eventListenerAdded"+game._id)) {
           var board = rBoard.get();
           addEventHandlers(game, board);
         }
