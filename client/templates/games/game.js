@@ -128,24 +128,17 @@ addEventHandlers = function(game, board) {
 
       // only if it's your turn
       if (isPlayerTurn(game, Meteor.userId())) {
-        var old = Session.get("hoverCoords"+game._id);
+
+        // remove old hoverstone
+        var oldObj = Session.get("hoverStone"+game._id);
+        if (oldObj) board.removeObject(oldObj);
 
         // if it's on the board and it's a valid move (no existing piece)
         if (game.wgoGame.isOnBoard(x, y) && game.wgoGame.isValid(x,y)) {
-          // if no old piece, or old piece is different
-          if (!old || old.xCoord != x || old.yCoord != y) {
-            var oldObj = Session.get("hoverStone"+game._id);
-            if (oldObj) board.removeObject(oldObj);
-
-            // add new object
-            var newObj = { x: x, y: y, c: game.wgoGame.turn, note: "hover" };
-            board.addObject(newObj);
-            Session.set("hoverStone"+game._id, newObj);
-            Session.set("hoverCoords"+game._id, {xCoord: x, yCoord: y});
-          }
-        } else { // remove piece if we mouseover something outside
-          var oldObj = Session.get("hoverStone"+gameData._id);
-          if (oldObj) board.removeObject(oldObj);
+          // add new object
+          var newObj = { x: x, y: y, c: game.wgoGame.turn, note: "hover" };
+          board.addObject(newObj);
+          Session.set("hoverStone"+game._id, newObj);
         }
 
       }
