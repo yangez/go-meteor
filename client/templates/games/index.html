@@ -61,6 +61,7 @@
     {{#if username color}}
       <span class="{{currentUserColor color}}">
         <i class="fa fa-user"></i> {{username color}}
+        {{#if currentMove color}}<i class="fa fa-dot-circle-o move-indicator"></i>{{/if}}
       </span>
     {{else}}
       {{#if joinable}}

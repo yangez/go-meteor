@@ -52,3 +52,10 @@ getOppositeColor = function(color) {
     return "white";
   return false;
 }
+
+getCurrentMove = function(game) {
+  if (!game || !game.wgoGame) return false;
+  if (game.archived || !isReady(game)) return false;
+  if (game.wgoGame.turn === WGo.B) return "black";
+  else if (game.wgoGame.turn === WGo.W) return "white";
+}
