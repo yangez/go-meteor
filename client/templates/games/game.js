@@ -9,7 +9,7 @@ createGame = function(game, size, repeat){
 
   if (!game.wgoGame) {
     var wgoGame = new WGo.Game(size, repeat);
-    Games.update({_id: game._id }, { $set: { wgoGame: wgoGame.exportPositions() } });
+    Games.update({_id: game._id }, { $set: { wgoGame: wgoGame.exportPositions(), messages:[] } });
   }
 
   return Games.findOne(game._id);
@@ -135,40 +135,25 @@ hasPlayer = function(game, playerId) {
   return game.blackPlayerId === Meteor.userId() || game.whitePlayerId === Meteor.userId();
 }
 
-isReady = function(game) {
-  if (!game.wgoGame) return false;
-  if (game.archived) return false;
-  if (game.blackPlayerId && game.whitePlayerId) return true;
-  return false;
-}
 
-GAME_MESSAGE = {gameMessage: true};
-pushMessage = function(game, message, user) {
+
+// Game does not contain message
+/*
+noGameMessage = function(game, message) {
   if (!game) return false;
-  if (!game.messages) game.messages = [];
+  var game = Games.findOne(game._id);
+  if (!game.messages || game.messages.length < 1) return true;
 
-  var username, styleClass;
+  // one of these needs to return true for a match
+  var gameMessageMatched = game.messages.some(function (msg) {
+    if (msg.author) return false; // if there's an author, it's not a game message
+    return (msg.content.indexOf(message) != -1);
+  });
 
-  if (user) {
-    if (user.gameMessage) {
-      username = false;
-      styleClass = "game-message";
-    }
-    else if (user.username) username = user.username;
-    else username = false;
-  }
+  return !gameMessageMatched;
+},
+*/
 
-  var messageObj = {
-    author: username,
-    content: message,
-    class: styleClass
-  }
-
-  if (user) // push to collection
-    return Games.update({_id: game._id}, {$push: {messages: messageObj}});
-  else // push to local collection (goes away when messages updates)
-    return Games._collection.update({_id: game._id}, {$push: {messages: messageObj}})
-}
 
 removeEventHandlers = function(game, board) {
   if (!board) var board = rBoard.get();
@@ -264,5 +249,5 @@ Template.board.helpers({
 
       }
     }
-  }
+  },
 });
