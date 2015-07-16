@@ -50,33 +50,24 @@
 
 <template name="gameItem">
   <tr class="game">
-    <td>
-    {{#if getUsername "black" this}}
-      <span class="{{currentUser 'black'}}">
-        <i class="fa fa-user"></i> {{getUsername "black" this}}
-      </span>
-    {{else}}
-      {{#if joinable}}
-        <a href="#" class="join-game btn btn-primary btn-xs" data-color="black">Join Game</a>
-      {{else}}
-        <small>Waiting...</small>
-      {{/if}}
-    {{/if}}
-    </td>
-    <td>
-    {{#if getUsername "white" this}}
-      <span class="{{currentUser 'white'}}">
-        <i class="fa fa-user"></i> {{getUsername "white" this}}
-      </span>
-    {{else}}
-      {{#if joinable}}
-        <a href="#" class="join-game btn btn-primary btn-xs" data-color="white">Join Game</a>
-      {{else}}
-        <small>Waiting...</small>
-      {{/if}}
-    {{/if}}
-    </td>
+    {{ > userRow color="black" }}
+    {{ > userRow color="white" }}
     <td>{{size}}x{{size}}</td>
-    <!-- <td>Hello fourth</td>-->
   </tr>
+</template>
+
+<template name="userRow">
+  <td>
+    {{#if username color}}
+      <span class="{{currentUserColor color}}">
+        <i class="fa fa-user"></i> {{username color}}
+      </span>
+    {{else}}
+      {{#if joinable}}
+        <a href="#" class="join-game btn btn-primary btn-xs" data-color="{{color}}">Join Game</a>
+      {{else}}
+        <small>Waiting...</small>
+      {{/if}}
+    {{/if}}
+  </td>
 </template>

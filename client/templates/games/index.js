@@ -59,16 +59,6 @@ Template.gamesList.helpers({
 });
 
 
-Template.gameItem.helpers({
-  joinable: function() {
-    return (this.blackPlayerId != Meteor.userId() && this.whitePlayerId != Meteor.userId());
-  },
-  currentUser: function(color) {
-    if (getColorOfPlayerId(this, Meteor.userId()) === color)
-      return "current-user"
-  },
-});
-
 Template.gameItem.events({
   'click tr': function(e) {
     e.preventDefault();
@@ -86,5 +76,24 @@ Template.gameItem.events({
       Router.go('gamePage', { _id: game._id });
     });
 
+  }
+});
+
+Template.userRow.helpers({
+  joinable: function() {
+    var game = Template.parentData(1);
+    console.log(game);
+    return (game.blackPlayerId != Meteor.userId() && game.whitePlayerId != Meteor.userId());
+  },
+  currentUserColor: function(color) {
+    var game = Template.parentData(1);
+    if (getColorOfPlayerId(game, Meteor.userId()) === color)
+      return "current-user"
+  },
+  username: function(color) {
+    var game = Template.parentData(1);
+    user = getPlayerAtColor(game, color);
+    if (user) return user.username;
+    else return false;
   }
 });
