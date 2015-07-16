@@ -47,11 +47,6 @@ Template.gamePage.events({
 
     $(e.target).find('[name=content]').val("");
   },
-  'click #archive': function(e) {
-    e.preventDefault();
-    Games.update({_id: this._id}, {$set: {archived: true}});
-    Router.go('gamesList');
-  },
 });
 
 
@@ -158,16 +153,23 @@ Template.playerBox.events({
 
     Meteor.call("joinGame", this.game, color, Meteor.userId(), function(error, result) {
       if (error) return alert(error);
-
     });
-
   },
   'click .login-prompt': function(e) {
     e.preventDefault();
     e.stopPropagation();
     $("html, body").animate({ scrollTop: 0 }, 200);
     $("#login-dropdown-list .dropdown-toggle").dropdown('toggle');
-  }
+  },
+  'click #archive-game': function(e) {
+    e.preventDefault();
+    if (!isCurrentPlayerMove(this.game)) return false;
+    Games.update({_id: this.game._id}, {$set: {archived: true}});
+
+    pushMessage(this.game, Meteor.user().username+" has ended the game.", GAME_MESSAGE)
+
+    removeEventHandlers(this.game);
+  },
 });
 
 

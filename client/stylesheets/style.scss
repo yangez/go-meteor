@@ -84,7 +84,7 @@
     ul.messages {
       padding: 8px 20px 10px;
       list-style: none outside none;
-      height: 345px;
+      height: 321px;
       background: #eee;
       overflow: auto;
 
@@ -98,6 +98,7 @@
         font-weight: 600;
         color: rgba(0, 0, 0, 0.3);
       }
+      .game-message{ font-weight: 600; }
       em { color: rgba(0, 0, 0, 0.5); }
     }
   }

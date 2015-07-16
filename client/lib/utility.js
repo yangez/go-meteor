@@ -59,3 +59,11 @@ getCurrentMove = function(game) {
   if (game.wgoGame.turn === WGo.B) return "black";
   else if (game.wgoGame.turn === WGo.W) return "white";
 }
+
+isCurrentPlayerMove = function(game) {
+  var color = getCurrentMove(game);
+  if (color) {
+    var player = getPlayerAtColor(game, color)
+    if (player && Meteor.userId()) return player._id === Meteor.userId();
+  }
+}

@@ -7,10 +7,6 @@ createGame = function(game, size, repeat){
     size = 9;
   }
 
-  if (game.wgoGame) return console.log("game exists");
-  else console.log("creating game...")
-
-  console.log("game created with size "+size);
   var wgoGame = new WGo.Game(size, repeat);
 
   Games.update({_id: game._id }, { $set: { wgoGame: wgoGame.exportPositions() } });
@@ -104,17 +100,31 @@ hasPlayer = function(game, playerId) {
 
 isReady = function(game) {
   if (!game.wgoGame) return false;
+  if (game.archived) return false;
   if (game.blackPlayerId && game.whitePlayerId) return true;
   return false;
 }
 
+GAME_MESSAGE = {gameMessage: true};
 pushMessage = function(game, message, user) {
   if (!game) return false;
   if (!game.messages) game.messages = [];
-  var username = user ? user.username : false;
+
+  var username, styleClass;
+
+  if (user) {
+    if (user.gameMessage) {
+      username = false;
+      styleClass = "game-message";
+    }
+    else if (user.username) username = user.username;
+    else username = false;
+  }
+
   var messageObj = {
     author: username,
-    content: message
+    content: message,
+    class: styleClass
   }
 
   if (user) // push to collection
@@ -123,10 +133,17 @@ pushMessage = function(game, message, user) {
     return Games._collection.update({_id: game._id}, {$push: {messages: messageObj}})
 }
 
+removeEventHandlers = function(game, board) {
+  if (!board) var board = rBoard.get();
+  board.removeEventListener("mousemove", boardMouseMoveHandler);
+  board.removeEventListener("mouseout", boardMouseOutHandler);
+  board.removeEventListener("click", boardClickHandler);
+}
+
 addEventHandlers = function(game, board) {
-  if (Meteor.user() && gameHasPlayer(game, Meteor.user())) {
+  if (Meteor.user() && gameHasPlayer(game, Meteor.user()) && isReady(game)) {
     // add hover piece event listener
-    board.addEventListener("mousemove", function(x, y){
+    board.addEventListener("mousemove", boardMouseMoveHandler = function(x, y){
       // refresh game data
       game = Games.findOne(game._id);
       board = rBoard.get();
@@ -148,7 +165,7 @@ addEventHandlers = function(game, board) {
       }
     });
 
-    board.addEventListener("mouseout", function(x, y) {
+    board.addEventListener("mouseout", boardMouseOutHandler = function(x, y) {
       game = Games.findOne(game._id);
       board = rBoard.get();
 
@@ -159,7 +176,7 @@ addEventHandlers = function(game, board) {
       }
     });
 
-    board.addEventListener("click", function(x, y) {
+    board.addEventListener("click", boardClickHandler = function(x, y) {
       game = Games.findOne(game._id);
       playMove(game, x, y);
     });

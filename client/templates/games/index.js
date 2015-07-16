@@ -66,7 +66,7 @@ Template.gameItem.events({
     Router.go('gamePage', { _id: this._id });
   },
   'click .join-game': function(e) {
-    e.preventDefault();
+    e.preventDefault(); // e.preventPropagate() see if it gets rid of error message?
 
     var color = e.target.getAttribute('data-color');
     // var game = this;
