@@ -26,6 +26,36 @@ createBoard = function(size) {
   return rBoard.get();
 }
 
+endGame = function(game, method) {
+  // check that it's ending because of double pass, or that it's the current user's move
+  if (!isCurrentPlayerMove(game) && method != "pass") return false;
+  Games.update({_id: game._id}, {$set: {archived: true}});
+
+  var message = (method === "pass") ?
+    "Game ended: two consecutive passes." :
+    Meteor.user().username+" has ended the game.";
+
+  pushMessage(game, message, GAME_MESSAGE);
+
+  removeEventHandlers(game);
+  return true;
+}
+
+playPass = function(game) {
+  if (!isCurrentPlayerMove(game)) return false;
+  playMove(game, "pass");
+
+  // end game if three positions at end of stack are the same
+  // (meaning two passes were played consecutively)
+  var game = Games.findOne(game._id);
+  var lastThreePositions = _.last(game.wgoGame.stack, 3);
+  if (lastThreePositions.length != 3) return;
+  if (
+    _.isEqual(lastThreePositions[0].schema, lastThreePositions[1].schema) &&
+    _.isEqual(lastThreePositions[0].schema, lastThreePositions[2].schema)
+  ) endGame(game, "pass");
+}
+
 playMove = function(game, x,y) {
   var game = Games.findOne(game._id);
   var wgoGame = game.wgoGame;
@@ -37,44 +67,50 @@ playMove = function(game, x,y) {
   if (!isReady(game)) return pushMessage(game, "You need an opponent first.");
   if (!isPlayerTurn(game)) return pushMessage(game, "It's your opponent's turn.");
 
-  var captured = wgoGame.play(x,y);
+  if (x==="pass") { // if we're playing a pass
+    wgoGame.pass();
+    pushMessage(game, Meteor.user().username+" has passed.", GAME_MESSAGE)
+  } else { // if we're playing a real move
 
-  if (typeof captured !== "object") {
-    if (captured === 1) return false;
-    var msg = "An unknown error occurred.";
-    if (captured === 2) msg = "There's already a stone here.";
-    if (captured === 3) msg = "That move would be suicide.";
-    if (captured === 4) msg = "That move would repeat a previous position.";
-    return pushMessage(game, msg);
+    var captured = wgoGame.play(x,y);
+
+    if (typeof captured !== "object") {
+      if (captured === 1) return false;
+      var msg = "An unknown error occurred.";
+      if (captured === 2) msg = "There's already a stone here.";
+      if (captured === 3) msg = "That move would be suicide.";
+      if (captured === 4) msg = "That move would repeat a previous position.";
+      return pushMessage(game, msg);
+    }
+
+    // invalidate hover piece on board
+    var oldObj = Session.get("hoverStone"+game._id);
+    Session.set("hoverStone"+game._id, undefined);
+    if (oldObj) board.removeObject(oldObj);
+
+    // reverse turn color (because we already played it)
+    var turn = (wgoGame.turn === WGo.B) ? WGo.W : WGo.B;
+
+    // add move on board
+    board.addObject({
+      x: x,
+      y: y,
+      c: turn
+    });
+
+    // remove captured pieces from board
+    captured.forEach(function(obj) {
+      board.removeObject(obj);
+    });
+
+    // add last move marker to board
+    var turnMarker = { x: x, y: y, type: "CR" }
+    board.addObject(turnMarker);
   }
-
-  // invalidate hover piece on board
-  var oldObj = Session.get("hoverStone"+game._id);
-  Session.set("hoverStone"+game._id, undefined);
-  if (oldObj) board.removeObject(oldObj);
-
-  // reverse turn color (because we already played it)
-  var turn = (wgoGame.turn === WGo.B) ? WGo.W : WGo.B;
-
-  // add move on board
-  board.addObject({
-    x: x,
-    y: y,
-    c: turn
-  });
-
-  // add last move marker to board
-  var turnMarker = { x: x, y: y, type: "CR" }
-  board.addObject(turnMarker);
 
   // remove previous marker if it exists
   var previousTurnMarker = game.previousMarker;
   if (previousTurnMarker) board.removeObject(previousTurnMarker);
-
-  // remove captured pieces from board
-  captured.forEach(function(obj) {
-    board.removeObject(obj);
-  });
 
   // update state and game position in collection
   var state = board.getState();

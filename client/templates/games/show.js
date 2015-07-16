@@ -163,13 +163,12 @@ Template.playerBox.events({
   },
   'click #archive-game': function(e) {
     e.preventDefault();
-    if (!isCurrentPlayerMove(this.game)) return false;
-    Games.update({_id: this.game._id}, {$set: {archived: true}});
-
-    pushMessage(this.game, Meteor.user().username+" has ended the game.", GAME_MESSAGE)
-
-    removeEventHandlers(this.game);
+    endGame(this.game);
   },
+  'click #pass-game': function(e) {
+    e.preventDefault();
+    playPass(this.game);
+  }
 });
 
 
