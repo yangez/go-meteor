@@ -909,6 +909,17 @@ Board.prototype = {
 		}
 	},
 
+	/* // method doesn't work - Eric
+	objectExists: function(obj) {
+		for(var key in this.obj_arr[obj.x][obj.y]) {
+			if(this.obj_arr[obj.x][obj.y][key].type == obj.type) {
+				return true;
+			}
+		}
+		return false;
+	},
+	*/
+
 	addObject: function(obj) {
 		// handling multiple objects
 		if(obj.constructor == Array) {

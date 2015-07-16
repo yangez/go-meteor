@@ -82,7 +82,7 @@ playMove = function(game, x,y) {
 }
 
 isPlayerTurn = function(game, playerId) {
-  if (!game.wgoGame) return false;
+  if (!game || !game.wgoGame) return false;
 
   if (!playerId) var playerId = Meteor.userId();
 
@@ -119,9 +119,53 @@ pushMessage = function(game, message, user) {
     return Games._collection.update({_id: game._id}, {$push: {messages: messageObj}})
 }
 
+addEventHandlers = function(game, board) {
+  if (Meteor.user() && gameHasPlayer(game, Meteor.user())) {
+    // add hover piece event listener
+    board.addEventListener("mousemove", function(x, y){
+      // refresh game data
+      game = Games.findOne(game._id);
+
+      // only if it's your turn
+      if (isPlayerTurn(game, Meteor.userId())) {
+        var old = Session.get("hoverCoords"+game._id);
+
+        // if it's on the board and it's a valid move (no existing piece)
+        if (game.wgoGame.isOnBoard(x, y) && game.wgoGame.isValid(x,y)) {
+          // if no old piece, or old piece is different
+          if (!old || old.xCoord != x || old.yCoord != y) {
+            var oldObj = Session.get("hoverStone"+game._id);
+            if (oldObj) board.removeObject(oldObj);
+
+            // add new object
+            var newObj = { x: x, y: y, c: game.wgoGame.turn, note: "hover" };
+            board.addObject(newObj);
+            Session.set("hoverStone"+game._id, newObj);
+            Session.set("hoverCoords"+game._id, {xCoord: x, yCoord: y});
+          }
+        } else { // remove piece if we mouseover something outside
+          var oldObj = Session.get("hoverStone"+gameData._id);
+          if (oldObj) board.removeObject(oldObj);
+        }
+
+      }
+
+    });
+
+    board.addEventListener("click", function(x, y) {
+      // invalidate the object removal
+      Session.set("hoverCoords"+game._id, undefined);
+      Session.set("hoverStone"+game._id, undefined);
+      playMove(game, x, y);
+    });
+
+    Session.set("eventListenerAdded", true);
+  }
+}
+
 // onRendered
 Template.board.onRendered(function(e){
-  gameData = this.data;
+  gameData = this.data; // make this responsive
 
   createGame(gameData, gameData.size, gameData.repeat);
   createBoard(gameData.size);
@@ -129,14 +173,10 @@ Template.board.onRendered(function(e){
   var game = Games.findOne(gameData._id);
   var board = rBoard.get();
 
-  if (gameData.boardState) board.restoreState(gameData.boardState);
+  if (game.boardState) board.restoreState(game.boardState);
 
-  if (Meteor.user() && gameHasPlayer(gameData, Meteor.user())) {
-    board.addEventListener("click", function(x, y) {
-      playMove(gameData, x, y);
-    });
-    Session.set("eventListenerAdded", true);
-  }
+  addEventHandlers(game, board);
+
 });
 
 Template.board.helpers({
@@ -155,10 +195,7 @@ Template.board.helpers({
       if (rBoard) {
         if (!Session.get("eventListenerAdded")) {
           var board = rBoard.get();
-          board.addEventListener("click", function(x, y) {
-            playMove(game, x, y);
-          });
-          Session.set("eventListenerAdded", true);
+          addEventHandlers(game, board);
         }
       }
     }

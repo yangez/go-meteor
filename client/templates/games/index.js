@@ -79,10 +79,11 @@ Template.gameItem.events({
     e.preventDefault();
 
     var color = e.target.getAttribute('data-color');
+    game = this;
 
     Meteor.call("joinGame", this, color, Meteor.userId(), function(error, result) {
       if (error) return alert(error);
-      Router.go('gamePage', { _id: this._id });
+      Router.go('gamePage', { _id: game._id });
     });
 
   }
