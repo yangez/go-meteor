@@ -156,12 +156,14 @@ noGameMessage = function(game, message) {
 
 
 removeEventHandlers = function(game, board) {
-  if (!board) var board = rBoard.get();
-  board.removeEventListener("mousemove", boardMouseMoveHandler);
-  board.removeEventListener("mouseout", boardMouseOutHandler);
-  board.removeEventListener("click", boardClickHandler);
+  if (!board && rBoard) var board = rBoard.get();
+  if (board) {
+    board.removeEventListener("mousemove", boardMouseMoveHandler);
+    board.removeEventListener("mouseout", boardMouseOutHandler);
+    board.removeEventListener("click", boardClickHandler);
 
-  Session.set("eventListenerAdded"+game._id, false);
+    Session.set("eventListenerAdded"+game._id, false);
+  }
 }
 
 addEventHandlers = function(game, board) {
