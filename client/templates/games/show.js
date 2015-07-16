@@ -139,6 +139,13 @@ Template.playerBox.helpers({
       (this.game.wgoGame.turn === 1 && color === "black")
     ) return "player-turn";
     else return false;
+  },
+  captureCount: function() {
+    if (!isReady(this.game)) return false;
+    var color = getColorOfPosition(this.game, this.position);
+    if (color === "white") var wgoColor = WGo.W;
+    else if (color === "black") var wgoColor = WGo.B;
+    if (wgoColor) return this.game.wgoGame.getCaptureCount(wgoColor);
   }
 
 });

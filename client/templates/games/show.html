@@ -64,6 +64,9 @@
         {{#if data.isCurrentPlayer}}
           <em>(you)</em>
         {{/if}}
+        {{#if captureCount}}
+          <br/><small>Captured: <strong>{{captureCount}}</strong></small>
+        {{/if}}
       {{else}}
         {{#if data.joinButton}}
           <a href="#" class="join-game btn btn-primary" data-color="{{data.color}}">Join as {{data.color}}</a>
