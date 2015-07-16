@@ -69,9 +69,11 @@ Template.gameItem.events({
     e.preventDefault();
 
     var color = e.target.getAttribute('data-color');
-    game = this;
+    // var game = this;
 
-    Meteor.call("joinGame", this, color, Meteor.userId(), function(error, result) {
+    var game = Template.currentData();
+
+    Meteor.call("joinGame", game, color, Meteor.userId(), function(error, result) {
       if (error) return alert(error);
       Router.go('gamePage', { _id: game._id });
     });
@@ -82,7 +84,6 @@ Template.gameItem.events({
 Template.userRow.helpers({
   joinable: function() {
     var game = Template.parentData(1);
-    console.log(game);
     return (game.blackPlayerId != Meteor.userId() && game.whitePlayerId != Meteor.userId());
   },
   currentUserColor: function(color) {
@@ -95,5 +96,11 @@ Template.userRow.helpers({
     user = getPlayerAtColor(game, color);
     if (user) return user.username;
     else return false;
+  },
+  currentMove: function(color) {
+    var game = Template.parentData(1);
+    moveColor = getCurrentMove(game);
+    return moveColor === color;
   }
+
 });
