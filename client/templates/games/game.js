@@ -37,7 +37,6 @@ endGame = function(game, method) {
 
   pushMessage(game, message, GAME_MESSAGE);
 
-  removeEventHandlers(game);
   return true;
 }
 
@@ -221,7 +220,7 @@ addEventHandlers = function(game, board) {
       playMove(game, x, y);
     });
 
-    Session.set("eventListenerAdded"+game_id, true);
+    Session.set("eventListenerAdded"+game._id, true);
 
   }
 }
@@ -252,14 +251,17 @@ Template.board.helpers({
       board.restoreState(gameObj.boardState);
     }
   },
-  'loginRefresh': function() {
+  'eventRefresh': function() {
     if (Meteor.user()) {
       var game = Games.findOne(this._id);
-      if (rBoard) {
-        if (!Session.get("eventListenerAdded"+game._id)) {
+
+      if (game.archived) removeEventHandlers(game);
+      else if (!Session.get("eventListenerAdded"+game._id)) {
+        if (rBoard) {
           var board = rBoard.get();
           addEventHandlers(game, board);
         }
+
       }
     }
   }

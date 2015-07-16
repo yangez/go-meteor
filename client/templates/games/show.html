@@ -55,7 +55,7 @@
 </template>
 
 <template name="board">
-  {{loginRefresh}}
+  {{eventRefresh}}
   {{restoreState}}
   <div id="board"></div>
 </template>
@@ -87,9 +87,11 @@
     <div class="clearfix"></div>
   </div>
   {{#if data.isCurrentPlayer}}
-  <div class="action-buttons btn-group btn-group-justified btn-group-sm" role="group">
-    <a href="#" class="btn btn-default" id="pass-game">Pass <i class="fa fa-arrow-circle-o-right"></i></a>
-    <a href="#" class="btn btn-default" id="archive-game">End Game</a>
-  </div>
+    {{#if playerTurn}}
+      <div class="action-buttons btn-group btn-group-justified btn-group-sm" role="group">
+        <a href="#" class="btn btn-default" id="pass-game">Pass <i class="fa fa-arrow-circle-o-right"></i></a>
+        <a href="#" class="btn btn-default" id="archive-game">End Game</a>
+      </div>
+    {{/if}}
   {{/if}}
 </template>
