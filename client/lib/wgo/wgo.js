@@ -1689,6 +1689,21 @@ Game.prototype = {
    },
 
 
+	/**
+	 * scores position
+	 *
+	 * @return array positions
+	 */
+	 scorePosition: function(positionIndex) {
+		 if (!positionIndex) {
+			 positionIndex = this.stack.length-1;
+		 }
+		 var position = this.stack[positionIndex];
+
+		 if(position) return position.formattedScore();
+
+	 }
+
 
 };
 

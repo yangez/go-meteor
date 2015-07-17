@@ -37,6 +37,10 @@ endGame = function(game, method) {
 
   pushMessage(game, message, GAME_MESSAGE);
 
+  var score = game.wgoGame.scorePosition();
+  var scoreMessage = "Estimated score: "+score+".";
+  pushMessage(game, scoreMessage, GAME_MESSAGE);
+
   return true;
 }
 
@@ -226,9 +230,11 @@ Template.board.onRendered(function(e){
 
   addEventHandlers(game, board);
 
+  /*
   var lastIndex = game.wgoGame.stack.length-1;
   var position = game.wgoGame.stack[lastIndex];
   console.log(position.formattedScore());
+  */
 
 });
 
