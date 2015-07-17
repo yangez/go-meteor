@@ -214,7 +214,7 @@ addEventHandlers = function(game, board) {
 
 // onRendered
 Template.board.onRendered(function(e){
-  gameData = this.data; // make this responsive
+  gameData = this.data;
 
   createGame(gameData, gameData.size, gameData.repeat);
   createBoard(gameData.size);
@@ -225,6 +225,10 @@ Template.board.onRendered(function(e){
   if (game.boardState) board.restoreState(game.boardState);
 
   addEventHandlers(game, board);
+
+  var lastIndex = game.wgoGame.stack.length-1;
+  var position = game.wgoGame.stack[lastIndex];
+  console.log(position.score());
 
 });
 
