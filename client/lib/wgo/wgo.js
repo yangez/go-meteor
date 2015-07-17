@@ -1243,20 +1243,26 @@ Position.prototype = {
 		 if (["up", "down", "left", "right"].indexOf(direction) === -1)
 			 var direction = "up";
 
+		 var sideLength = Math.sqrt(this.schema.length);
+
 		 var increment;
 		 if (direction === "up") increment = -1;
 		 else if (direction === "down") increment = 1;
-		 else if (direction === "right") increment = Math.sqrt(this.schema.length);
-		 else if (direction === "left") increment = -Math.sqrt(this.schema.length);
+		 else if (direction === "right") increment = sideLength;
+		 else if (direction === "left") increment = -sideLength;
 
 		 pointIndex += increment;
 
 		 // return 0 if this pointIndex is now off the board
 		 if (
-			 (direction === "up" && pointIndex != 0 && pointIndex % 9 === 8) ||
-			 (direction === "down" && pointIndex != 0 && pointIndex % 9 === 0 ) ||
-			 (direction === "right" && pointIndex > 80) ||
-			 (direction === "left" && pointIndex < 0)
+			 (direction === "up"
+				 && pointIndex != 0 && (pointIndex % sideLength === (sideLength-1)) )
+			 || (direction === "down"
+			   && pointIndex != 0 && pointIndex % sideLength === 0 )
+			 || (direction === "right"
+				 && pointIndex > this.schema.length-1)
+			 || (direction === "left"
+				 && pointIndex < 0)
 		 ) return 0;
 
 		 // for base case when pointIndex = -1
