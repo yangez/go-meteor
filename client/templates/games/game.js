@@ -228,7 +228,7 @@ Template.board.onRendered(function(e){
 
   var lastIndex = game.wgoGame.stack.length-1;
   var position = game.wgoGame.stack[lastIndex];
-  console.log(position.score());
+  console.log(position.formattedScore());
 
 });
 

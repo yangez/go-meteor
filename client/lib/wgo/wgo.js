@@ -1153,11 +1153,34 @@ Position.prototype = {
 
 
 	/**
-	 * Scores position based on Tromp-Taylor
+	 * Get score values of schema based on Tromp-Taylor
+	 *
+	 * @return "W+3", "B+2"
+	 */
+  formattedScore: function() {
+		var score = this.score();
+		var modifier = (score < 0) ? "W+" : "B+";
+
+		return modifier+Math.abs(score);
+  },
+
+	/**
+	 * Get score values of schema based on Tromp-Taylor
 	 *
 	 * @return integer score (positive value black, negative value white)
 	 */
-	 score: function() {
+	score: function() {
+		var boardScore = this.getScoreSchema().reduce(function(a, b){ return a += b; }, 0);
+		var komi = -6.5;
+		return boardScore + komi;
+	},
+
+	/**
+	 * Get score values of schema based on Tromp-Taylor
+	 *
+	 * @return schema with all points correctly scored
+	 */
+	 getScoreSchema: function() {
 		 var position = this;
 		 var data = {
 			 whiteScore: 0,
@@ -1169,9 +1192,6 @@ Position.prototype = {
 		 var scoreSchema = [];
 
 		 schema.forEach(function(point, index){
-
-			 if (index === 41) debugger;
-
 			 if (point === WGo.B) scoreSchema.push(1);
 			 else if (point === WGo.W) scoreSchema.push(-1);
 			 else scoreSchema.push(position.determineColor(index));
