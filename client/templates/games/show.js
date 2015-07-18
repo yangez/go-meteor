@@ -17,7 +17,7 @@ Template.gamePage.helpers({
   },
   toMove: function() {
     if (!this.wgoGame || !isReady(this)) return "Waiting for opponent";
-    if (hasPlayer(this, Meteor.userId())) {
+    if (gameHasPlayer(this, Meteor.userId())) {
       if (isPlayerTurn(this, Meteor.userId())) {
         return "Your move";
       } else {

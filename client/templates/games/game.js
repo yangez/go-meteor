@@ -1,5 +1,24 @@
 // board display logic
-var rBoard, rGame;
+var rBoard;
+
+// on rendered
+Template.board.onRendered(function(e){
+  gameData = this.data;
+
+  createGame(gameData, gameData.size, gameData.repeat);
+  createBoard(gameData.size);
+
+  var game = Games.findOne(gameData._id);
+  var board = rBoard.get();
+
+  if (game.boardState) board.restoreState(game.boardState);
+
+  // add appropriate event handlers to game
+  if (markingDead(game)) addMDEventHandlers(game, board);
+  else if (isReady(game)) addEventHandlers(game, board);
+
+});
+
 
 createGame = function(game, size, repeat){
   if (["9", "13", "19"].indexOf(size) === -1) {
@@ -23,7 +42,7 @@ createBoard = function(size) {
       background: ""
     })
   );
-  return rBoard.get();
+  return rBoard;
 }
 
 markDead = function(game) {
@@ -36,7 +55,7 @@ markDead = function(game) {
   markedSchema = _.clone(game.wgoGame.getPosition().schema);
 
   // set game to markDead mode, set markedSchema to markedSchema
-  Games.update({_id: game._id}, {markedDead: true, markedSchema: markedSchema});
+  Games.update({_id: game._id}, {$set: {markedDead: true, markedSchema: markedSchema} });
 
   return true;
 
@@ -45,7 +64,6 @@ markDead = function(game) {
 endGame = function(game, method) {
   // check that it's ending because of double pass, or that it's the current user's move
   if (!isCurrentPlayerMove(game) && method != "pass") return false;
-  Games.update({_id: game._id}, {$set: {archived: true}});
 
   var message = (method === "pass") ?
     "Game ended: two consecutive passes." :
@@ -54,14 +72,14 @@ endGame = function(game, method) {
   pushMessage(game, message, GAME_MESSAGE);
 
   // if game hasn't had a markdead stage yet, do the markdead stage
-  if (!game.markedDead)  {
-    markDead(game);
-  }
+  if (!game.markedDead) markDead(game);
 
   // if we've already marked dead once, end game immediately
   else {
+    Games.update({_id: game._id}, {$set: {archived: true}});
+
     var score = game.wgoGame.scorePosition();
-    var scoreMessage = "Estimated score: "+score+".";
+    var scoreMessage = "Final score: "+score+".";
     pushMessage(game, scoreMessage, GAME_MESSAGE);
   }
 
@@ -158,13 +176,6 @@ isPlayerTurn = function(game, playerId) {
   } else return false;
 }
 
-hasPlayer = function(game, playerId) {
-  if (!game) return false;
-  return game.blackPlayerId === Meteor.userId() || game.whitePlayerId === Meteor.userId();
-}
-
-
-
 // Game does not contain message
 /*
 noGameMessage = function(game, message) {
@@ -182,20 +193,50 @@ noGameMessage = function(game, message) {
 },
 */
 
+togglePointAsDead = function(game, x, y) {
+  console.log(x+","+y);
+}
+
+
+var MDClickHandler, boardMouseMoveHandler, boardMouseOutHandler, boardClickHandler;
+
+removeMDEventHandlers = function(game, board) {
+  if (MDClickHandler) board.removeEventListener("click", MDClickHandler);
+  Session.set("MDEventListenerAdded"+game._id, false);
+}
+
+addMDEventHandlers = function(game, board) {
+  if ( // if we're currently marking dead in this game, and this is a player
+    gameHasPlayer(game, Meteor.user()) &&
+    markingDead(game) &&
+    !Session.get("MDEventListenerAdded"+game._id)
+  ) {
+    board.addEventListener("click", MDClickHandler = function(x, y) {
+      game = Games.findOne(game._id);
+      togglePointAsDead(game, x, y);
+    });
+
+    Session.set("MDEventListenerAdded"+game._id, true);
+  }
+
+}
 
 removeEventHandlers = function(game, board) {
-  if (!board && rBoard) var board = rBoard.get();
   if (board) {
-    board.removeEventListener("mousemove", boardMouseMoveHandler);
-    board.removeEventListener("mouseout", boardMouseOutHandler);
-    board.removeEventListener("click", boardClickHandler);
+    if (boardMouseMoveHandler) board.removeEventListener("mousemove", boardMouseMoveHandler);
+    if (boardMouseOutHandler) board.removeEventListener("mouseout", boardMouseOutHandler);
+    if (boardClickHandler) board.removeEventListener("click", boardClickHandler);
 
     Session.set("eventListenerAdded"+game._id, false);
   }
 }
 
 addEventHandlers = function(game, board) {
-  if (Meteor.user() && gameHasPlayer(game, Meteor.user()) && isReady(game)) {
+  if ( // if this is a playable game with current user as one of the players
+    gameHasPlayer(game, Meteor.user()) &&
+    isReady(game) &&
+    !Session.get("eventListenerAdded"+game._id)
+  ) {
     // add hover piece event listener
     board.addEventListener("mousemove", boardMouseMoveHandler = function(x, y){
       // refresh game data
@@ -240,28 +281,6 @@ addEventHandlers = function(game, board) {
   }
 }
 
-// onRendered
-Template.board.onRendered(function(e){
-  gameData = this.data;
-
-  createGame(gameData, gameData.size, gameData.repeat);
-  createBoard(gameData.size);
-
-  var game = Games.findOne(gameData._id);
-  var board = rBoard.get();
-
-  if (game.boardState) board.restoreState(game.boardState);
-
-  addEventHandlers(game, board);
-
-  /*
-  var lastIndex = game.wgoGame.stack.length-1;
-  var position = game.wgoGame.stack[lastIndex];
-  console.log(position.formattedScore());
-  */
-
-});
-
 Template.board.helpers({
   'restoreState' : function(){
     // game stuff
@@ -275,14 +294,27 @@ Template.board.helpers({
   'eventRefresh': function() {
     if (Meteor.user()) {
       var game = Games.findOne(this._id);
+      if (rBoard) { // if board exists
 
-      if (game.archived) removeEventHandlers(game);
-      else if (!Session.get("eventListenerAdded"+game._id)) {
-        if (rBoard) {
-          var board = rBoard.get();
-          addEventHandlers(game, board);
+        var board = rBoard.get();
+
+        // if we finished the game, remove all event handlers
+        if (game.archived) {
+          removeEventHandlers(game, board);
+          removeMDEventHandlers(game, board);
         }
 
+        // add marking dead event handlers if we're marking dead
+        else if (markingDead(game)) {
+          removeEventHandlers(game, board);
+          addMDEventHandlers(game, board);
+        }
+
+        // add game event handlers if we're playing the game
+        else {
+          removeMDEventHandlers(game, board);
+          addEventHandlers(game, board);
+        }
       }
     }
   },
