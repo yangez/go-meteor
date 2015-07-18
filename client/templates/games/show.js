@@ -147,6 +147,10 @@ Template.playerBox.helpers({
     if (!this.game) return false;
     return markingDead(this.game);
   },
+  mdDisabled: function() {
+    if (!this.game) return false;
+    return (this.game.userAcceptedMD === Meteor.userId()) ? "disabled" : "";
+  }
 
 });
 
@@ -175,7 +179,7 @@ Template.playerBox.events({
     declineMD(this.game);
   },
   'click #md-accept': function(e) {
-
+    acceptMD(this.game);
   }
 });
 

@@ -66,28 +66,44 @@ markDead = function(game) {
 
 }
 
-declineMD = function(game) {
-
-
-  // remove all marked stones, and unset markedSchema so game will not be in markDead mode anymore
+removeMDMarks = function(game) {
+  var game = Games.findOne(game._id);
+  if (!game) return false;
   Games.update({_id: game._id}, {
-    $set: {
-      boardState: game.originalBoardState
-    },
-    $unset: {
-      originalBoardState: "",
-      markedSchema: ""
-    }
+    $set: { boardState: game.originalBoardState },
+    $unset: { originalBoardState: "", }
+  });
+}
+
+declineMD = function(game) {
+  if(!game || !markingDead(game)) return false;
+
+  // remove all marked stones
+  removeMDMarks(game);
+
+  // unset markedSchema so game will not be in markDead mode anymore
+  Games.update({_id: game._id}, {
+    $unset: { markedSchema: "" }
   });
 
-  var message = Meteor.user().username+" declined to mark dead, so play continues. Game will now end immediately after two passes, so capture all dead stones first.";
+  var message = Meteor.user().username+" declined, so play continues. Game will now end immediately after two passes, so capture all dead stones first.";
   pushMessage(game, message, GAME_MESSAGE);
 
 }
 
-endGame = function(game, method) {
-  // check that it's ending because of double pass, or that it's the current user's move
-  if (!isCurrentPlayerMove(game) && method != "pass") return false;
+acceptMD = function(game) {
+  if(!game || !markingDead(game)) return false;
+
+  // if the other guy has already accepted markDead, end game
+  if (game.userAcceptedMD && game.userAcceptedMD != Meteor.userId()) {
+    endGame(game);
+  } else { // first person to accept markDead gets it set
+    Games.update({_id: game._id}, { $set: { userAcceptedMD: Meteor.userId() } });
+  }
+}
+
+endGame = function(game) {
+  var game = Games.findOne(game._id);
 
   // if game hasn't had a markdead stage yet, do the markdead stage
   if (!game.markedDead)  {
@@ -97,6 +113,7 @@ endGame = function(game, method) {
 
   // if we've already marked dead once, end game immediately
   else {
+    removeMDMarks(game);
 
     var score = getFinalScore(game);
     Games.update({_id: game._id}, {$set: {archived: true}});
