@@ -48,9 +48,6 @@ createBoard = function(size) {
 markDead = function(game) {
   var game = Games.findOne(game._id);
 
-  // push markDead message
-  pushMessage(game, "You and your opponent should now mark dead stones by clicking. When you're satisfied, press Accept. To play it out, press Decline.");
-
   // duplicate our schema so we can mark stones as dead
   markedSchema = _.clone(game.wgoGame.getPosition().schema);
 
@@ -64,38 +61,59 @@ markDead = function(game) {
 
 }
 
+declineMD = function(game) {
+
+  var message = Meteor.user().username+" declined, so play continues. Game will now end immediately after two passes, so capture all dead stones first.";
+  pushMessage(game, message, GAME_MESSAGE);
+
+  // remove all marked stones, and unset markedSchema so game will not be in markDead mode anymore
+  Games.update({_id: game._id}, {
+    $set: {
+      boardState: game.originalBoardState
+    },
+    $unset: {
+      originalBoardState: "",
+      markedSchema: ""
+    }
+  });
+
+}
+
 endGame = function(game, method) {
   // check that it's ending because of double pass, or that it's the current user's move
   if (!isCurrentPlayerMove(game) && method != "pass") return false;
 
-  var message = (method === "pass") ?
-    "Game ended: two consecutive passes." :
-    Meteor.user().username+" has ended the game.";
-
-  pushMessage(game, message, GAME_MESSAGE);
-
   // if game hasn't had a markdead stage yet, do the markdead stage
-  if (!game.markedDead) markDead(game);
+  if (!game.markedDead)  {
+    markDead(game);
+
+    // push markDead message
+    pushMessage(game, "You and your opponent should now mark dead stones by clicking. When you're satisfied, press Accept. To play it out, press Decline.");
+  }
 
   // if we've already marked dead once, end game immediately
   else {
-    Games.update({_id: game._id}, {$set: {archived: true}});
+
 
     var score = getFinalScore(game);
-    var scoreMessage = "Final score: "+score+".";
-    pushMessage(game, scoreMessage, GAME_MESSAGE);
+    Games.update({_id: game._id}, {$set: {archived: true}});
+
+    var message = "Game ended. Final score: "+score+".";
+    pushMessage(game, message, GAME_MESSAGE);
   }
 
   return true;
 }
 
 getFinalScore = function(game) {
-  // build a new Position from our markedSchema
-
-  var markedPosition = _.clone(game.wgoGame.getPosition());
-  markedPosition.schema = game.markedSchema;
-
-  return markedPosition.formattedScore();
+  // if game has a marked schema (it's been marked before), return the marked schema's score
+  if (game.markedSchema) {
+    var markedPosition = _.clone(game.wgoGame.getPosition());
+    markedPosition.schema = game.markedSchema;
+    return markedPosition.formattedScore();
+  } else { // if game doesn't have marked schema (it was rejected), return top position's score
+    return game.wgoGame.getPosition().formattedScore();
+  }
 
 }
 
@@ -217,6 +235,7 @@ togglePointAsDead = function(game, x, y) {
   var board = rBoard.get(),
       marked = game.markedSchema;
       original = game.wgoGame.getPosition().schema,
+      originalBoardState = board.getState(),
       changed = false;
 
   var index = convertCoordinatesToSchemaIndex(original, x, y);
@@ -244,7 +263,7 @@ togglePointAsDead = function(game, x, y) {
     // write to DB if something changed
     if (changed) {
       var state = board.getState();
-      Games.update({_id: game._id}, {$set: {markedSchema: marked, boardState: state}});
+      Games.update({_id: game._id}, {$set: {markedSchema: marked, boardState: state, originalBoardState: originalBoardState}});
     }
 
   }

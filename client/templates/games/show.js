@@ -136,12 +136,17 @@ Template.playerBox.helpers({
     else return false;
   },
   captureCount: function() {
+    if (!this.game.wgoGame) return false;
     var color = getColorOfPosition(this.game, this.position);
     if (color === "white") var wgoColor = WGo.W;
     else if (color === "black") var wgoColor = WGo.B;
     if (wgoColor) var theCount = this.game.wgoGame.getCaptureCount(wgoColor);
     if (theCount > 0) return theCount;
-  }
+  },
+  markingDead: function() {
+    if (!this.game) return false;
+    return markingDead(this.game);
+  },
 
 });
 
@@ -161,13 +166,16 @@ Template.playerBox.events({
     $("html, body").animate({ scrollTop: 0 }, 200);
     $("#login-dropdown-list .dropdown-toggle").dropdown('toggle');
   },
-  'click #archive-game': function(e) {
-    e.preventDefault();
-    endGame(this.game);
-  },
   'click #pass-game': function(e) {
     e.preventDefault();
     playPass(this.game);
+  },
+  'click #md-decline': function(e) {
+    e.preventDefault();
+    declineMD(this.game);
+  },
+  'click #md-accept': function(e) {
+
   }
 });
 
