@@ -55,7 +55,10 @@ markDead = function(game) {
   markedSchema = _.clone(game.wgoGame.getPosition().schema);
 
   // set game to markDead mode, set markedSchema to markedSchema
-  Games.update({_id: game._id}, {$set: {markedDead: true, markedSchema: markedSchema} });
+  Games.update({_id: game._id}, {$set: {
+    markedDead: true,
+    markedSchema: markedSchema
+  } });
 
   return true;
 
@@ -90,8 +93,7 @@ playPass = function(game) {
   if (!isCurrentPlayerMove(game)) return false;
   playMove(game, "pass");
 
-  // end game if three positions at end of stack are the same
-  // (meaning two passes were played consecutively)
+  // end game if two passes were played consecutively
   var game = Games.findOne(game._id);
   var lastThreePositions = _.last(game.wgoGame.stack, 3);
   if (lastThreePositions.length != 3) return;
@@ -193,8 +195,38 @@ noGameMessage = function(game, message) {
 },
 */
 
+convertCoordinatesToSchemaIndex = function(schema, x, y) {
+  var size = Math.sqrt(schema.length);
+  if (x >= 0 && y >= 0 && x < size && y < size) // if it's on board
+    return size * x + y;
+}
+
 togglePointAsDead = function(game, x, y) {
-  console.log(x+","+y);
+  if (!game.markedSchema) return false;
+  console.log(x, y);
+
+  var board = rBoard.get(),
+      marked = game.markedSchema;
+      original = game.wgoGame.getPosition().schema;
+
+  var index = convertCoordinatesToSchemaIndex(original, x, y);
+  if (index) {
+
+  }
+  console.log(index);
+
+
+  // console.log(marked)
+  // console.log(original)
+  /*
+  if point is the same as the original
+    && point is set to either white or black
+      set point to neutral in marked
+  else if point is different than the original
+      set point to the original in marked
+
+  */
+
 }
 
 
@@ -298,19 +330,19 @@ Template.board.helpers({
 
         var board = rBoard.get();
 
-        // if we finished the game, remove all event handlers
+        // if game state is finished, remove all event handlers
         if (game.archived) {
           removeEventHandlers(game, board);
           removeMDEventHandlers(game, board);
         }
 
-        // add marking dead event handlers if we're marking dead
+        // if game state is marking dead, add marking dead event handlers
         else if (markingDead(game)) {
           removeEventHandlers(game, board);
           addMDEventHandlers(game, board);
         }
 
-        // add game event handlers if we're playing the game
+        // if game state is playing, add game event handlers
         else {
           removeMDEventHandlers(game, board);
           addEventHandlers(game, board);
