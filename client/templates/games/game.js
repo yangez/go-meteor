@@ -81,12 +81,22 @@ endGame = function(game, method) {
   else {
     Games.update({_id: game._id}, {$set: {archived: true}});
 
-    var score = game.wgoGame.scorePosition();
+    var score = getFinalScore(game);
     var scoreMessage = "Final score: "+score+".";
     pushMessage(game, scoreMessage, GAME_MESSAGE);
   }
 
   return true;
+}
+
+getFinalScore = function(game) {
+  // build a new Position from our markedSchema
+
+  var markedPosition = _.clone(game.wgoGame.getPosition());
+  markedPosition.schema = game.markedSchema;
+
+  return markedPosition.formattedScore();
+
 }
 
 playPass = function(game) {
