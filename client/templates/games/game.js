@@ -26,6 +26,22 @@ createBoard = function(size) {
   return rBoard.get();
 }
 
+markDead = function(game) {
+  var game = Games.findOne(game._id);
+
+  // push markDead message
+  pushMessage(game, "You and your opponent should now mark dead stones by clicking. When you're satisfied, press Accept. To play it out, press Decline.");
+
+  // duplicate our schema so we can mark stones as dead
+  markedSchema = _.clone(game.wgoGame.getPosition().schema);
+
+  // set game to markDead mode, set markedSchema to markedSchema
+  Games.update({_id: game._id}, {markedDead: true, markedSchema: markedSchema});
+
+  return true;
+
+}
+
 endGame = function(game, method) {
   // check that it's ending because of double pass, or that it's the current user's move
   if (!isCurrentPlayerMove(game) && method != "pass") return false;
@@ -37,9 +53,17 @@ endGame = function(game, method) {
 
   pushMessage(game, message, GAME_MESSAGE);
 
-  var score = game.wgoGame.scorePosition();
-  var scoreMessage = "Estimated score: "+score+".";
-  pushMessage(game, scoreMessage, GAME_MESSAGE);
+  // if game hasn't had a markdead stage yet, do the markdead stage
+  if (!game.markedDead)  {
+    markDead(game);
+  }
+
+  // if we've already marked dead once, end game immediately
+  else {
+    var score = game.wgoGame.scorePosition();
+    var scoreMessage = "Estimated score: "+score+".";
+    pushMessage(game, scoreMessage, GAME_MESSAGE);
+  }
 
   return true;
 }
