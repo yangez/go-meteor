@@ -203,29 +203,41 @@ convertCoordinatesToSchemaIndex = function(schema, x, y) {
 
 togglePointAsDead = function(game, x, y) {
   if (!game.markedSchema) return false;
-  console.log(x, y);
 
   var board = rBoard.get(),
       marked = game.markedSchema;
-      original = game.wgoGame.getPosition().schema;
+      original = game.wgoGame.getPosition().schema,
+      changed = false;
 
   var index = convertCoordinatesToSchemaIndex(original, x, y);
-  if (index) {
+  if (index) { // if point exists
+
+    var marker = { x: x, y: y, type: "TR" }
+
+    /* if point is the same as the original && point is set to either white or black
+        set point to neutral in marked */
+    if (
+      marked[index] === original[index] &&
+      [-1, 1].indexOf(marked[index]) > -1
+    ) {
+      marked[index] = 0; changed = true;
+      board.addObject(marker);
+    }
+
+    /* else if point is different than the original
+    set point to the original in marked */
+    else if (marked[index] != original[index]) {
+      marked[index] = original[index]; changed = true;
+      board.removeObject(marker);
+    }
+
+    // write to DB if something changed
+    if (changed) {
+      var state = board.getState();
+      Games.update({_id: game._id}, {$set: {markedSchema: marked, boardState: state}});
+    }
 
   }
-  console.log(index);
-
-
-  // console.log(marked)
-  // console.log(original)
-  /*
-  if point is the same as the original
-    && point is set to either white or black
-      set point to neutral in marked
-  else if point is different than the original
-      set point to the original in marked
-
-  */
 
 }
 
