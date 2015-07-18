@@ -51,10 +51,15 @@ markDead = function(game) {
   // duplicate our schema so we can mark stones as dead
   markedSchema = _.clone(game.wgoGame.getPosition().schema);
 
+  // get original board state so we can revert to it if someone declines
+  var board = rBoard.get();
+  originalBoardState = board.getState();
+
   // set game to markDead mode, set markedSchema to markedSchema
   Games.update({_id: game._id}, {$set: {
     markedDead: true,
-    markedSchema: markedSchema
+    markedSchema: markedSchema,
+    originalBoardState: originalBoardState
   } });
 
   return true;
@@ -63,8 +68,6 @@ markDead = function(game) {
 
 declineMD = function(game) {
 
-  var message = Meteor.user().username+" declined, so play continues. Game will now end immediately after two passes, so capture all dead stones first.";
-  pushMessage(game, message, GAME_MESSAGE);
 
   // remove all marked stones, and unset markedSchema so game will not be in markDead mode anymore
   Games.update({_id: game._id}, {
@@ -77,6 +80,9 @@ declineMD = function(game) {
     }
   });
 
+  var message = Meteor.user().username+" declined to mark dead, so play continues. Game will now end immediately after two passes, so capture all dead stones first.";
+  pushMessage(game, message, GAME_MESSAGE);
+
 }
 
 endGame = function(game, method) {
@@ -86,14 +92,11 @@ endGame = function(game, method) {
   // if game hasn't had a markdead stage yet, do the markdead stage
   if (!game.markedDead)  {
     markDead(game);
-
-    // push markDead message
-    pushMessage(game, "You and your opponent should now mark dead stones by clicking. When you're satisfied, press Accept. To play it out, press Decline.");
+    pushMessage(game, "Mark dead stones and 'Accept' to finish the game. 'Decline' to play it out.", GAME_MESSAGE );
   }
 
   // if we've already marked dead once, end game immediately
   else {
-
 
     var score = getFinalScore(game);
     Games.update({_id: game._id}, {$set: {archived: true}});
@@ -263,7 +266,7 @@ togglePointAsDead = function(game, x, y) {
     // write to DB if something changed
     if (changed) {
       var state = board.getState();
-      Games.update({_id: game._id}, {$set: {markedSchema: marked, boardState: state, originalBoardState: originalBoardState}});
+      Games.update({_id: game._id}, {$set: {markedSchema: marked, boardState: state}});
     }
 
   }
