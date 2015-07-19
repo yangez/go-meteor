@@ -33,7 +33,7 @@ Template.gamesList.helpers({
       {blackPlayerId: {$exists: true, $ne: Meteor.userId()}},
       {whitePlayerId: {$exists: true, $ne: Meteor.userId()}},
 
-    ] }), { sort: { createdAt: -1 } };
+    ]}, { sort: { createdAt: -1 } });
   },
   completedGames: function() {
     return Games.find({ $and: [
