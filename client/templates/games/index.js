@@ -10,7 +10,7 @@ Template.gamesList.helpers({
       // game has no open slot
       {blackPlayerId: {$exists: true}},
       {whitePlayerId: {$exists: true}}
-    ] }, { sort: { createdAt: -1 } });
+    ] }, { sort: { lastActivityAt: -1 } });
   },
   openGames: function() {
     return Games.find({ $and: [
@@ -33,14 +33,14 @@ Template.gamesList.helpers({
       {blackPlayerId: {$exists: true, $ne: Meteor.userId()}},
       {whitePlayerId: {$exists: true, $ne: Meteor.userId()}},
 
-    ]}, { sort: { createdAt: -1 } });
+    ]}, { sort: { lastActivityAt: -1 } });
   },
   completedGames: function() {
     return Games.find({ $and: [
       { archived: true },
       {blackPlayerId: {$exists: true}},
       {whitePlayerId: {$exists: true}},
-    ]}, {sort: { createdAt : -1 } } );
+    ]}, {sort: { endedAt : -1 } } );
   },
 });
 

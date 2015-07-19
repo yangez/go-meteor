@@ -126,7 +126,7 @@ endGame = function(game) {
     removeMDMarks(game);
 
     var score = getFinalScore(game);
-    Games.update({_id: game._id}, {$set: {archived: true}});
+    Games.update({_id: game._id}, {$set: {archived: true, endedAt: new Date()} });
 
     var message = "Game ended. Final score: "+score+".";
     pushMessage(game, message, GAME_MESSAGE);
@@ -219,7 +219,7 @@ playMove = function(game, x,y) {
 
   // update state and game position in collection
   var state = board.getState();
-  Games.update({_id: game._id}, { $set: { wgoGame: wgoGame.exportPositions(), boardState: state, previousMarker: turnMarker } });
+  Games.update({_id: game._id}, { $set: { wgoGame: wgoGame.exportPositions(), boardState: state, previousMarker: turnMarker, lastActivityAt: new Date() } });
 
   return game;
 }
