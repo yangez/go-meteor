@@ -13,6 +13,10 @@ Template.board.onRendered(function(e){
 
   if (game.boardState) board.restoreState(game.boardState);
 
+  // remove any event handlers, set correct session variables
+  removeEventHandlers(game, board);
+  removeMDEventHandlers(game, board);
+
   // add appropriate event handlers to game
   if (markingDead(game)) addMDEventHandlers(game, board);
   else if (isReady(game)) addEventHandlers(game, board);
@@ -394,8 +398,8 @@ Template.board.helpers({
     }
   },
   'eventRefresh': function() {
+    var game = Games.findOne(this._id);
     if (Meteor.user()) {
-      var game = Games.findOne(this._id);
       if (rBoard) { // if board exists
 
         var board = rBoard.get();
