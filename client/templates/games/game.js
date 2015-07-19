@@ -91,6 +91,12 @@ declineMD = function(game) {
 
 }
 
+clearAcceptMD = function(game) {
+  if (game.userAcceptedMD)  {
+    Games.update({_id: game._id}, { $unset: { userAcceptedMD: "" } });
+  }
+}
+
 acceptMD = function(game) {
   if(!game || !markingDead(game)) return false;
 
@@ -260,6 +266,9 @@ togglePointAsDead = function(game, x, y) {
 
   var index = convertCoordinatesToSchemaIndex(original, x, y);
   if (index) { // if point exists
+
+    // unaccept markDead on behalf of all players 
+    clearAcceptMD(game);
 
     var marker = { x: x, y: y, type: "TR" }
 

@@ -149,7 +149,8 @@ Template.playerBox.helpers({
   },
   mdDisabled: function() {
     if (!this.game) return false;
-    return (this.game.userAcceptedMD === Meteor.userId()) ? "disabled" : "";
+    var game = Games.findOne(this.game._id); // refresh
+    return (game.userAcceptedMD === Meteor.userId()) ? "disabled" : "";
   }
 
 });
