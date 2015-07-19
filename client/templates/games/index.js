@@ -6,7 +6,10 @@ Template.gamesList.helpers({
       {$or: [ // player is in game
         {blackPlayerId: Meteor.userId()},
         {whitePlayerId: Meteor.userId()}
-      ]}
+      ]},
+      // game has no open slot
+      {blackPlayerId: {$exists: true}},
+      {whitePlayerId: {$exists: true}}
     ] });
   },
   openGames: function() {
@@ -14,10 +17,6 @@ Template.gamesList.helpers({
       return Games.find({ $and: [
         // game is not archived
         {archived: {$ne: true}},
-
-        // current player not in game
-        {blackPlayerId: {$ne: Meteor.userId()}},
-        {whitePlayerId: {$ne: Meteor.userId()}}, //
 
         // game has an open slot
         {$or: [
