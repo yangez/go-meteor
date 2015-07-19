@@ -267,10 +267,10 @@ togglePointAsDead = function(game, x, y) {
   var index = convertCoordinatesToSchemaIndex(original, x, y);
   if (index) { // if point exists
 
-    // unaccept markDead on behalf of all players 
+    // unaccept markDead on behalf of all players
     clearAcceptMD(game);
 
-    var marker = { x: x, y: y, type: "TR" }
+    var marker = { x: x, y: y, type: "DEAD" }
 
     /* if point is the same as the original && point is set to either white or black
         set point to neutral in marked */

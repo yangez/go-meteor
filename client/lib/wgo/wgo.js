@@ -487,6 +487,26 @@ Board.drawHandlers = {
 		}
 	},
 
+	DEAD: {
+		stone: {
+			draw: function(args, board) {
+
+				var centerX = board.getX(args.x),
+					centerY = board.getY(args.y),
+					radius = board.stoneRadius/3;
+
+				this.strokeStyle = args.c || get_markup_color(board, args.x, args.y);
+				this.beginPath();
+				this.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+				this.fillStyle = 'red';
+				this.fill();
+				this.lineWidth = args.lineWidth || board.lineWidth || 1;
+				this.closePath();
+				this.stroke();
+			}
+		}
+	},
+
 	outline: {
 		stone: {
 			draw: function(args, board) {
