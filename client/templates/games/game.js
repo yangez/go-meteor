@@ -98,51 +98,6 @@ createBoard = function(size) {
 }
 
 
-
-togglePointAsDead = function(game, x, y) {
-  if (!game.markedSchema) return false;
-
-  var board = rBoard.get(),
-      marked = game.markedSchema;
-      original = game.wgoGame.getPosition().schema,
-      changed = false;
-
-  var index = convertCoordinatesToSchemaIndex(original, x, y);
-  if (index) { // if point exists
-
-    // unaccept markDead on behalf of all players
-    game.clearAcceptMD();
-
-    var marker = { x: x, y: y, type: "DEAD" }
-
-    /* if point is the same as the original && point is set to either white or black
-        set point to neutral in marked */
-    if (
-      marked[index] === original[index] &&
-      [-1, 1].indexOf(marked[index]) > -1
-    ) {
-      marked[index] = 0; changed = true;
-      Games.update({_id: game._id}, {$push: {deadMarkers: marker}});
-    }
-
-    /* else if point is different than the original
-    set point to the original in marked */
-    else if (marked[index] != original[index]) {
-      marked[index] = original[index]; changed = true;
-      Games.update({_id: game._id}, {$pull: {deadMarkers: marker}});
-    }
-
-    // write to DB if something changed
-    if (changed) {
-      var state = board.getState();
-      Games.update({_id: game._id}, {$set: {markedSchema: marked }});
-    }
-
-  }
-
-}
-
-
 var MDClickHandler, boardMouseMoveHandler, boardMouseOutHandler, boardClickHandler;
 
 removeMDEventHandlers = function(board) {
