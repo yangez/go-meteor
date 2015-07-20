@@ -17,7 +17,7 @@
         <ul class="nav navbar-nav navbar-right">
           {{#if currentUser}}
             {{#if routeIs 'lobby' }}
-              <li> <a href="{{pathFor 'gameNew'}}"><i class="fa fa-plus"></i> Create Game</a> </li>
+              <li> <a href="{{pathFor 'createGame'}}"><i class="fa fa-plus"></i> Create Game</a> </li>
             {{else}}
               <li> <a href="{{pathFor 'lobby'}}"><i class="fa fa-list-ul"></i> Game List</a> </li>
             {{/if}}
