@@ -5,7 +5,7 @@ var rBoard;
 Template.board.onRendered(function(e){
   gameData = this.data;
 
-  createGame(gameData, gameData.size, gameData.repeat);
+  gameData.createGame(gameData.size, gameData.repeat);
   createBoard(gameData.size);
 
   var game = Games.findOne(gameData._id);
@@ -24,6 +24,7 @@ Template.board.onRendered(function(e){
 });
 
 
+/*
 createGame = function(game, size, repeat){
   if (["9", "13", "19"].indexOf(size) === -1) {
     console.log("invalid size, using 9");
@@ -37,6 +38,7 @@ createGame = function(game, size, repeat){
 
   return Games.findOne(game._id);
 };
+*/
 
 createBoard = function(size) {
   rBoard = new ReactiveVar(
