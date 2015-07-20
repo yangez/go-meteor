@@ -11,28 +11,42 @@ Template.board.onRendered(function(e){
   var game = Games.findOne(gameData._id);
   var board = rBoard.get();
 
-  // restore previous game state
-  if (game.boardState) board.restoreState(game.boardState);
-
   // remove any event handlers, set correct session variables
-  removeEventHandlers(game, board);
-  removeMDEventHandlers(game, board);
+  removeEventHandlers(board);
+  removeMDEventHandlers(board);
+
+  // restore previous game state
+  updateBoard(game.wgoGame.stack[0], game.wgoGame.getPosition());
+
+  // update MD markers
+  game.updateMDMarkers(board);
+  game.updateTurnMarker(board);
 
   // add appropriate event handlers to game
-  if (game.markingDead()) addMDEventHandlers(game, board);
-  else if (game.isReady()) addEventHandlers(game, board);
+  if (game.markingDead()) addMDEventHandlers(board);
+  else if (game.isReady()) addEventHandlers(board);
 
 });
 
 Template.board.helpers({
   'restoreState' : function(){
     // game stuff
-    var gameObj = Games.findOne(this._id);
+    var oldGame = this;
+    var newGame = Games.findOne(this._id);
 
-    if (rBoard) var board = rBoard.get();
-    if (board && gameObj && gameObj.boardState) {
-      board.restoreState(gameObj.boardState);
+    // update board to new position after move in Playing mode
+    if (newGame.isReady()){
+      updateBoard(oldGame.wgoGame.getPosition(), newGame.wgoGame.getPosition());
     }
+
+
+    if (rBoard) {
+      var board = rBoard.get();
+      newGame.updateMDMarkers(board);
+
+      newGame.updateTurnMarker(board);
+    }
+
   },
   'eventRefresh': function() {
     var game = Games.findOne(this._id);
@@ -43,26 +57,34 @@ Template.board.helpers({
 
         // if game state is finished, remove all event handlers
         if (game.archived) {
-          removeEventHandlers(game, board);
-          removeMDEventHandlers(game, board);
+          removeEventHandlers(board);
+          removeMDEventHandlers(board);
         }
 
         // if game state is marking dead, add marking dead event handlers
         else if (game.markingDead()) {
-          removeEventHandlers(game, board);
-          addMDEventHandlers(game, board);
+          removeEventHandlers(board);
+          addMDEventHandlers(board);
         }
 
-        // if game state is playing, add game event handlers
+        // if game state is playing and has current player, add game event handlers
         else {
-          removeMDEventHandlers(game, board);
-          addEventHandlers(game, board);
+          removeMDEventHandlers(board);
+          addEventHandlers(board);
         }
       }
     }
   },
 });
 
+
+updateBoard = function(oldPosition, newPosition) {
+  if (rBoard) {
+    var board = rBoard.get();
+    var boardDifference = getPositionDifference( oldPosition, newPosition );
+    board.update(boardDifference);
+  }
+}
 
 createBoard = function(size) {
   rBoard = new ReactiveVar(
@@ -75,144 +97,20 @@ createBoard = function(size) {
   return rBoard;
 }
 
-markDead = function(game) {
-  var game = Games.findOne(game._id);
-
-  // duplicate our schema so we can mark stones as dead
-  markedSchema = _.clone(game.wgoGame.getPosition().schema);
-
-  // get original board state so we can revert to it if someone declines
-  var board = rBoard.get();
-  originalBoardState = board.getState();
-
-  // set game to markDead mode, set markedSchema to markedSchema
-  Games.update({_id: game._id}, {$set: {
-    markedDead: true,
-    markedSchema: markedSchema,
-    originalBoardState: originalBoardState
-  } });
-
-  return true;
-
-}
-
-playMove = function(game, x,y) {
-  var game = Games.findOne(game._id);
-  var wgoGame = game.wgoGame;
-  board = rBoard.get();
-
-  // if game isn't created, return
-  if (!wgoGame) return alert("Game hasn't been created yet.");
-  if (game.archived) return game.pushMessage("The game has ended.");
-  if (!game.isReady()) return game.pushMessage("You need an opponent first.");
-  if (!game.isCurrentPlayerMove()) return game.pushMessage("It's your opponent's turn.");
-
-  if (x==="pass") { // if we're playing a pass
-    wgoGame.pass();
-    game.pushMessage(Meteor.user().username+" has passed.", GAME_MESSAGE)
-  } else { // if we're playing a real move
-
-    var captured = wgoGame.play(x,y);
-
-    if (typeof captured !== "object") {
-      if (captured === 1) return false;
-      var msg = "An unknown error occurred.";
-      if (captured === 2) msg = "There's already a stone here.";
-      if (captured === 3) msg = "That move would be suicide.";
-      if (captured === 4) msg = "That move would repeat a previous position.";
-      return game.pushMessage(msg);
-    }
-
-    // invalidate hover piece on board
-    var oldObj = Session.get("hoverStone"+game._id);
-    Session.set("hoverStone"+game._id, undefined);
-    if (oldObj) board.removeObject(oldObj);
-
-    // reverse turn color (because we already played it)
-    var turn = (wgoGame.turn === WGo.B) ? WGo.W : WGo.B;
-
-    // add move on board
-    board.addObject({
-      x: x,
-      y: y,
-      c: turn
-    });
-
-    // remove captured pieces from board
-    captured.forEach(function(obj) {
-      board.removeObject(obj);
-    });
-
-    // add last move marker to board
-    var turnMarker = { x: x, y: y, type: "CR" }
-    board.addObject(turnMarker);
-  }
-
-  // remove previous marker if it exists
-  var previousTurnMarker = game.previousMarker;
-  if (previousTurnMarker) board.removeObject(previousTurnMarker);
-
-  // update state and game position in collection
-  var state = board.getState();
-  Games.update({_id: game._id}, { $set: { wgoGame: wgoGame.exportPositions(), boardState: state, previousMarker: turnMarker, lastActivityAt: new Date() } });
-
-  return game;
-}
-
-togglePointAsDead = function(game, x, y) {
-  if (!game.markedSchema) return false;
-
-  var board = rBoard.get(),
-      marked = game.markedSchema;
-      original = game.wgoGame.getPosition().schema,
-      originalBoardState = board.getState(),
-      changed = false;
-
-  var index = convertCoordinatesToSchemaIndex(original, x, y);
-  if (index) { // if point exists
-
-    // unaccept markDead on behalf of all players
-    game.clearAcceptMD();
-
-    var marker = { x: x, y: y, type: "DEAD" }
-
-    /* if point is the same as the original && point is set to either white or black
-        set point to neutral in marked */
-    if (
-      marked[index] === original[index] &&
-      [-1, 1].indexOf(marked[index]) > -1
-    ) {
-      marked[index] = 0; changed = true;
-      board.addObject(marker);
-    }
-
-    /* else if point is different than the original
-    set point to the original in marked */
-    else if (marked[index] != original[index]) {
-      marked[index] = original[index]; changed = true;
-      board.removeObject(marker);
-    }
-
-    // write to DB if something changed
-    if (changed) {
-      var state = board.getState();
-      Games.update({_id: game._id}, {$set: {markedSchema: marked, boardState: state}});
-    }
-
-  }
-
-}
-
 
 var MDClickHandler, boardMouseMoveHandler, boardMouseOutHandler, boardClickHandler;
 
-removeMDEventHandlers = function(game, board) {
+removeMDEventHandlers = function(board) {
   if (MDClickHandler) board.removeEventListener("click", MDClickHandler);
-  Session.set("MDEventListenerAdded"+game._id, false);
+  var gameId = $(".game-id").attr("id");
+  Session.set("MDEventListenerAdded"+gameId, false);
 }
 
-addMDEventHandlers = function(game, board) {
+addMDEventHandlers = function(board) {
+  var gameId = $(".game-id").attr("id");
+  var game = Games.findOne(gameId);
   if ( // if we're currently marking dead in this game, and this is a player
+    game &&
     game.hasPlayer(Meteor.user()) &&
     game.markingDead() &&
     !Session.get("MDEventListenerAdded"+game._id)
@@ -227,27 +125,31 @@ addMDEventHandlers = function(game, board) {
 
 }
 
-removeEventHandlers = function(game, board) {
+removeEventHandlers = function(board) {
   if (board) {
     if (boardMouseMoveHandler) board.removeEventListener("mousemove", boardMouseMoveHandler);
     if (boardMouseOutHandler) board.removeEventListener("mouseout", boardMouseOutHandler);
     if (boardClickHandler) board.removeEventListener("click", boardClickHandler);
 
-    Session.set("eventListenerAdded"+game._id, false);
+    var gameId = $(".game-id").attr("id");
+    Session.set("eventListenerAdded"+gameId, false);
   }
 }
 
-addEventHandlers = function(game, board) {
-  if ( // if this is a playable game with current user as one of the players
+addEventHandlers = function(board) {
+  var gameId = $(".game-id").attr("id");
+  var game = Games.findOne(gameId);
+  if (
+    game &&
     game.hasPlayer(Meteor.user()) &&
     game.isReady() &&
     !Session.get("eventListenerAdded"+game._id)
   ) {
+
     // add hover piece event listener
     board.addEventListener("mousemove", boardMouseMoveHandler = function(x, y){
       // refresh game data
-      game = Games.findOne(game._id);
-      board = rBoard.get();
+      var game = Games.findOne(gameId);
 
       // only if it's your turn
       if (game.isCurrentPlayerMove()) {
@@ -259,7 +161,7 @@ addEventHandlers = function(game, board) {
         // if it's on the board and it's a valid move (no existing piece)
         if (game.wgoGame.isOnBoard(x, y) && game.wgoGame.isValid(x,y)) {
           // add new object
-          var newObj = { x: x, y: y, c: game.wgoGame.turn, note: "hover" };
+          var newObj = { x: x, y: y, c: game.wgoGame.turn };
           board.addObject(newObj);
           Session.set("hoverStone"+game._id, newObj);
         }
@@ -267,8 +169,8 @@ addEventHandlers = function(game, board) {
     });
 
     board.addEventListener("mouseout", boardMouseOutHandler = function(x, y) {
-      game = Games.findOne(game._id);
       board = rBoard.get();
+      var game = Games.findOne(gameId);
 
       if (game.isCurrentPlayerMove()) {
         var oldObj = Session.get("hoverStone"+game._id);
@@ -279,7 +181,12 @@ addEventHandlers = function(game, board) {
 
     board.addEventListener("click", boardClickHandler = function(x, y) {
       game = Games.findOne(game._id);
-      playMove(game, x, y);
+
+      // invalidate hover piece
+      Session.set("hoverStone"+game._id, undefined);
+
+      // play move
+      game.playMove(x, y);
     });
 
     Session.set("eventListenerAdded"+game._id, true);
