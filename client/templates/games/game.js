@@ -96,68 +96,6 @@ markDead = function(game) {
 
 }
 
-playMove = function(game, x,y) {
-  var game = Games.findOne(game._id);
-  var wgoGame = game.wgoGame;
-  board = rBoard.get();
-
-  // if game isn't created, return
-  if (!wgoGame) return alert("Game hasn't been created yet.");
-  if (game.archived) return game.pushMessage("The game has ended.");
-  if (!game.isReady()) return game.pushMessage("You need an opponent first.");
-  if (!game.isCurrentPlayerMove()) return game.pushMessage("It's your opponent's turn.");
-
-  if (x==="pass") { // if we're playing a pass
-    wgoGame.pass();
-    game.pushMessage(Meteor.user().username+" has passed.", GAME_MESSAGE)
-  } else { // if we're playing a real move
-
-    var captured = wgoGame.play(x,y);
-
-    if (typeof captured !== "object") {
-      if (captured === 1) return false;
-      var msg = "An unknown error occurred.";
-      if (captured === 2) msg = "There's already a stone here.";
-      if (captured === 3) msg = "That move would be suicide.";
-      if (captured === 4) msg = "That move would repeat a previous position.";
-      return game.pushMessage(msg);
-    }
-
-    // invalidate hover piece on board
-    var oldObj = Session.get("hoverStone"+game._id);
-    Session.set("hoverStone"+game._id, undefined);
-    if (oldObj) board.removeObject(oldObj);
-
-    // reverse turn color (because we already played it)
-    var turn = (wgoGame.turn === WGo.B) ? WGo.W : WGo.B;
-
-    // add move on board
-    board.addObject({
-      x: x,
-      y: y,
-      c: turn
-    });
-
-    // remove captured pieces from board
-    captured.forEach(function(obj) {
-      board.removeObject(obj);
-    });
-
-    // add last move marker to board
-    var turnMarker = { x: x, y: y, type: "CR" }
-    board.addObject(turnMarker);
-  }
-
-  // remove previous marker if it exists
-  var previousTurnMarker = game.previousMarker;
-  if (previousTurnMarker) board.removeObject(previousTurnMarker);
-
-  // update state and game position in collection
-  var state = board.getState();
-  Games.update({_id: game._id}, { $set: { wgoGame: wgoGame.exportPositions(), boardState: state, previousMarker: turnMarker, lastActivityAt: new Date() } });
-
-  return game;
-}
 
 togglePointAsDead = function(game, x, y) {
   if (!game.markedSchema) return false;
@@ -279,7 +217,7 @@ addEventHandlers = function(game, board) {
 
     board.addEventListener("click", boardClickHandler = function(x, y) {
       game = Games.findOne(game._id);
-      playMove(game, x, y);
+      game.playMove(x, y);
     });
 
     Session.set("eventListenerAdded"+game._id, true);
