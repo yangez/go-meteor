@@ -200,6 +200,7 @@ addEventHandlers = function(board) {
     // add hover piece event listener
     board.addEventListener("mousemove", boardMouseMoveHandler = function(x, y){
       // refresh game data
+      var game = Games.findOne(gameId);
 
       // only if it's your turn
       if (game.isCurrentPlayerMove()) {
@@ -211,7 +212,7 @@ addEventHandlers = function(board) {
         // if it's on the board and it's a valid move (no existing piece)
         if (game.wgoGame.isOnBoard(x, y) && game.wgoGame.isValid(x,y)) {
           // add new object
-          var newObj = { x: x, y: y, c: game.wgoGame.turn, note: "hover" };
+          var newObj = { x: x, y: y, c: game.wgoGame.turn };
           board.addObject(newObj);
           Session.set("hoverStone"+game._id, newObj);
         }
@@ -220,6 +221,7 @@ addEventHandlers = function(board) {
 
     board.addEventListener("mouseout", boardMouseOutHandler = function(x, y) {
       board = rBoard.get();
+      var game = Games.findOne(gameId);
 
       if (game.isCurrentPlayerMove()) {
         var oldObj = Session.get("hoverStone"+game._id);
@@ -230,6 +232,11 @@ addEventHandlers = function(board) {
 
     board.addEventListener("click", boardClickHandler = function(x, y) {
       game = Games.findOne(game._id);
+
+      // invalidate hover piece
+      Session.set("hoverStone"+game._id, undefined);
+
+      // play move
       game.playMove(x, y);
     });
 
