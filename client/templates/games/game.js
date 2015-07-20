@@ -5,12 +5,13 @@ var rBoard;
 Template.board.onRendered(function(e){
   gameData = this.data;
 
-  createGame(gameData, gameData.size, gameData.repeat);
+  gameData.createGame(gameData.size, gameData.repeat);
   createBoard(gameData.size);
 
   var game = Games.findOne(gameData._id);
   var board = rBoard.get();
 
+  // restore previous game state
   if (game.boardState) board.restoreState(game.boardState);
 
   // remove any event handlers, set correct session variables
@@ -18,25 +19,50 @@ Template.board.onRendered(function(e){
   removeMDEventHandlers(game, board);
 
   // add appropriate event handlers to game
-  if (markingDead(game)) addMDEventHandlers(game, board);
-  else if (isReady(game)) addEventHandlers(game, board);
+  if (game.markingDead()) addMDEventHandlers(game, board);
+  else if (game.isReady()) addEventHandlers(game, board);
 
 });
 
+Template.board.helpers({
+  'restoreState' : function(){
+    // game stuff
+    var gameObj = Games.findOne(this._id);
 
-createGame = function(game, size, repeat){
-  if (["9", "13", "19"].indexOf(size) === -1) {
-    console.log("invalid size, using 9");
-    size = 9;
-  }
+    if (rBoard) var board = rBoard.get();
+    if (board && gameObj && gameObj.boardState) {
+      board.restoreState(gameObj.boardState);
+    }
+  },
+  'eventRefresh': function() {
+    var game = Games.findOne(this._id);
+    if (Meteor.user()) {
+      if (rBoard) { // if board exists
 
-  if (!game.wgoGame) {
-    var wgoGame = new WGo.Game(size, repeat);
-    Games.update({_id: game._id }, { $set: { wgoGame: wgoGame.exportPositions(), messages:[] } });
-  }
+        var board = rBoard.get();
 
-  return Games.findOne(game._id);
-};
+        // if game state is finished, remove all event handlers
+        if (game.archived) {
+          removeEventHandlers(game, board);
+          removeMDEventHandlers(game, board);
+        }
+
+        // if game state is marking dead, add marking dead event handlers
+        else if (game.markingDead()) {
+          removeEventHandlers(game, board);
+          addMDEventHandlers(game, board);
+        }
+
+        // if game state is playing, add game event handlers
+        else {
+          removeMDEventHandlers(game, board);
+          addEventHandlers(game, board);
+        }
+      }
+    }
+  },
+});
+
 
 createBoard = function(size) {
   rBoard = new ReactiveVar(
@@ -70,97 +96,6 @@ markDead = function(game) {
 
 }
 
-removeMDMarks = function(game) {
-  var game = Games.findOne(game._id);
-  if (!game) return false;
-  Games.update({_id: game._id}, {
-    $set: { boardState: game.originalBoardState },
-    $unset: { originalBoardState: "", }
-  });
-}
-
-declineMD = function(game) {
-  if(!game || !markingDead(game)) return false;
-
-  // remove all marked stones
-  removeMDMarks(game);
-
-  // unset markedSchema so game will not be in markDead mode anymore
-  Games.update({_id: game._id}, {
-    $unset: { markedSchema: "" }
-  });
-
-  var message = Meteor.user().username+" declined, so play continues. Game will now end immediately after two passes, so capture all dead stones first.";
-  pushMessage(game, message, GAME_MESSAGE);
-
-}
-
-clearAcceptMD = function(game) {
-  if (game.userAcceptedMD)  {
-    Games.update({_id: game._id}, { $unset: { userAcceptedMD: "" } });
-  }
-}
-
-acceptMD = function(game) {
-  if(!game || !markingDead(game)) return false;
-
-  // if the other guy has already accepted markDead, end game
-  if (game.userAcceptedMD && game.userAcceptedMD != Meteor.userId()) {
-    endGame(game);
-  } else { // first person to accept markDead gets it set
-    Games.update({_id: game._id}, { $set: { userAcceptedMD: Meteor.userId() } });
-  }
-}
-
-endGame = function(game) {
-  var game = Games.findOne(game._id);
-
-  // if game hasn't had a markdead stage yet, do the markdead stage
-  if (!game.markedDead)  {
-    markDead(game);
-    pushMessage(game, "Mark dead stones and 'Accept' to finish the game. 'Decline' to play it out.", GAME_MESSAGE );
-  }
-
-  // if we've already marked dead once, end game immediately
-  else {
-    removeMDMarks(game);
-
-    var score = getFinalScore(game);
-    Games.update({_id: game._id}, {$set: {archived: true, endedAt: new Date()} });
-
-    var message = "Game ended. Final score: "+score+".";
-    pushMessage(game, message, GAME_MESSAGE);
-  }
-
-  return true;
-}
-
-getFinalScore = function(game) {
-  // if game has a marked schema (it's been marked before), return the marked schema's score
-  if (game.markedSchema) {
-    var markedPosition = _.clone(game.wgoGame.getPosition());
-    markedPosition.schema = game.markedSchema;
-    return markedPosition.formattedScore();
-  } else { // if game doesn't have marked schema (it was rejected), return top position's score
-    return game.wgoGame.getPosition().formattedScore();
-  }
-
-}
-
-playPass = function(game) {
-  if (!isCurrentPlayerMove(game)) return false;
-  playMove(game, "pass");
-
-  // end game if two passes were played consecutively
-  var game = Games.findOne(game._id);
-  var lastThreePositions = _.last(game.wgoGame.stack, 3);
-  if (lastThreePositions.length != 3) return;
-  if (
-    _.isEqual(lastThreePositions[0].schema, lastThreePositions[1].schema) &&
-    _.isEqual(lastThreePositions[0].schema, lastThreePositions[2].schema)
-  ) endGame(game, "pass");
-}
-
 playMove = function(game, x,y) {
   var game = Games.findOne(game._id);
   var wgoGame = game.wgoGame;
@@ -168,13 +103,13 @@ playMove = function(game, x,y) {
 
   // if game isn't created, return
   if (!wgoGame) return alert("Game hasn't been created yet.");
-  if (game.archived) return pushMessage(game, "The game has ended.");
-  if (!isReady(game)) return pushMessage(game, "You need an opponent first.");
-  if (!isPlayerTurn(game)) return pushMessage(game, "It's your opponent's turn.");
+  if (game.archived) return game.pushMessage("The game has ended.");
+  if (!game.isReady()) return game.pushMessage("You need an opponent first.");
+  if (!game.isCurrentPlayerMove()) return game.pushMessage("It's your opponent's turn.");
 
   if (x==="pass") { // if we're playing a pass
     wgoGame.pass();
-    pushMessage(game, Meteor.user().username+" has passed.", GAME_MESSAGE)
+    game.pushMessage(Meteor.user().username+" has passed.", GAME_MESSAGE)
   } else { // if we're playing a real move
 
     var captured = wgoGame.play(x,y);
@@ -185,7 +120,7 @@ playMove = function(game, x,y) {
       if (captured === 2) msg = "There's already a stone here.";
       if (captured === 3) msg = "That move would be suicide.";
       if (captured === 4) msg = "That move would repeat a previous position.";
-      return pushMessage(game, msg);
+      return game.pushMessage(msg);
     }
 
     // invalidate hover piece on board
@@ -224,41 +159,6 @@ playMove = function(game, x,y) {
   return game;
 }
 
-isPlayerTurn = function(game, playerId) {
-  if (!game || !game.wgoGame) return false;
-
-  if (!playerId) var playerId = Meteor.userId();
-
-  if (game.wgoGame.turn === WGo.B) {
-    if (game.blackPlayerId === playerId) return true;
-  } else if (game.wgoGame.turn == WGo.W) {
-    if (game.whitePlayerId === playerId) return true;
-  } else return false;
-}
-
-// Game does not contain message
-/*
-noGameMessage = function(game, message) {
-  if (!game) return false;
-  var game = Games.findOne(game._id);
-  if (!game.messages || game.messages.length < 1) return true;
-
-  // one of these needs to return true for a match
-  var gameMessageMatched = game.messages.some(function (msg) {
-    if (msg.author) return false; // if there's an author, it's not a game message
-    return (msg.content.indexOf(message) != -1);
-  });
-
-  return !gameMessageMatched;
-},
-*/
-
-convertCoordinatesToSchemaIndex = function(schema, x, y) {
-  var size = Math.sqrt(schema.length);
-  if (x >= 0 && y >= 0 && x < size && y < size) // if it's on board
-    return size * x + y;
-}
-
 togglePointAsDead = function(game, x, y) {
   if (!game.markedSchema) return false;
 
@@ -272,7 +172,7 @@ togglePointAsDead = function(game, x, y) {
   if (index) { // if point exists
 
     // unaccept markDead on behalf of all players
-    clearAcceptMD(game);
+    game.clearAcceptMD();
 
     var marker = { x: x, y: y, type: "DEAD" }
 
@@ -313,8 +213,8 @@ removeMDEventHandlers = function(game, board) {
 
 addMDEventHandlers = function(game, board) {
   if ( // if we're currently marking dead in this game, and this is a player
-    gameHasPlayer(game, Meteor.user()) &&
-    markingDead(game) &&
+    game.hasPlayer(Meteor.user()) &&
+    game.markingDead() &&
     !Session.get("MDEventListenerAdded"+game._id)
   ) {
     board.addEventListener("click", MDClickHandler = function(x, y) {
@@ -339,8 +239,8 @@ removeEventHandlers = function(game, board) {
 
 addEventHandlers = function(game, board) {
   if ( // if this is a playable game with current user as one of the players
-    gameHasPlayer(game, Meteor.user()) &&
-    isReady(game) &&
+    game.hasPlayer(Meteor.user()) &&
+    game.isReady() &&
     !Session.get("eventListenerAdded"+game._id)
   ) {
     // add hover piece event listener
@@ -350,7 +250,7 @@ addEventHandlers = function(game, board) {
       board = rBoard.get();
 
       // only if it's your turn
-      if (isPlayerTurn(game, Meteor.userId())) {
+      if (game.isCurrentPlayerMove()) {
         // remove old hoverstone
         var oldObj = Session.get("hoverStone"+game._id);
         Session.set("hoverStone"+game._id, undefined);
@@ -370,7 +270,7 @@ addEventHandlers = function(game, board) {
       game = Games.findOne(game._id);
       board = rBoard.get();
 
-      if (isPlayerTurn(game, Meteor.userId())) {
+      if (game.isCurrentPlayerMove()) {
         var oldObj = Session.get("hoverStone"+game._id);
         Session.set("hoverStone"+game._id, undefined);
         if (oldObj) board.removeObject(oldObj);
@@ -386,42 +286,3 @@ addEventHandlers = function(game, board) {
 
   }
 }
-
-Template.board.helpers({
-  'restoreState' : function(){
-    // game stuff
-    var gameObj = Games.findOne(this._id);
-
-    if (rBoard) var board = rBoard.get();
-    if (board && gameObj && gameObj.boardState) {
-      board.restoreState(gameObj.boardState);
-    }
-  },
-  'eventRefresh': function() {
-    var game = Games.findOne(this._id);
-    if (Meteor.user()) {
-      if (rBoard) { // if board exists
-
-        var board = rBoard.get();
-
-        // if game state is finished, remove all event handlers
-        if (game.archived) {
-          removeEventHandlers(game, board);
-          removeMDEventHandlers(game, board);
-        }
-
-        // if game state is marking dead, add marking dead event handlers
-        else if (markingDead(game)) {
-          removeEventHandlers(game, board);
-          addMDEventHandlers(game, board);
-        }
-
-        // if game state is playing, add game event handlers
-        else {
-          removeMDEventHandlers(game, board);
-          addEventHandlers(game, board);
-        }
-      }
-    }
-  },
-});

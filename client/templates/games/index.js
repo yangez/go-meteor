@@ -74,18 +74,18 @@ Template.userRow.helpers({
   },
   currentUserColor: function(color) {
     var game = Template.parentData(1);
-    if (getColorOfPlayerId(game, Meteor.userId()) === color)
+    if (game.getColorOfPlayerId(Meteor.userId()) === color)
       return "current-user"
   },
   username: function(color) {
     var game = Template.parentData(1);
-    user = getPlayerAtColor(game, color);
+    user = game.getPlayerAtColor(color);
     if (user) return user.username;
     else return false;
   },
   currentMove: function(color) {
     var game = Template.parentData(1);
-    moveColor = getCurrentMove(game);
+    moveColor = game.getColorOfCurrentMove();
     return moveColor === color;
   }
 
