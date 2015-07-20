@@ -20,6 +20,7 @@ Template.board.onRendered(function(e){
 
   // update MD markers
   game.updateMDMarkers(board);
+  game.updateTurnMarker(board);
 
   // add appropriate event handlers to game
   if (game.markingDead()) addMDEventHandlers(board);
@@ -38,9 +39,12 @@ Template.board.helpers({
       updateBoard(oldGame.wgoGame.getPosition(), newGame.wgoGame.getPosition());
     }
 
+
     if (rBoard) {
       var board = rBoard.get();
       newGame.updateMDMarkers(board);
+
+      newGame.updateTurnMarker(board);
     }
 
   },
