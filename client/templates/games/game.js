@@ -11,14 +11,15 @@ Template.board.onRendered(function(e){
   var game = Games.findOne(gameData._id);
   var board = rBoard.get();
 
-  // restore previous game state
-  if (game.wgoGame) {
-    updateBoard(game.wgoGame.stack[0], game.wgoGame.getPosition());
-  }
-
   // remove any event handlers, set correct session variables
   removeEventHandlers(board);
   removeMDEventHandlers(board);
+
+  // restore previous game state
+  updateBoard(game.wgoGame.stack[0], game.wgoGame.getPosition());
+
+  // update MD markers
+  game.updateMDMarkers(board);
 
   // add appropriate event handlers to game
   if (game.markingDead()) addMDEventHandlers(board);
@@ -31,7 +32,17 @@ Template.board.helpers({
     // game stuff
     var oldGame = this;
     var newGame = Games.findOne(this._id);
-    updateBoard(oldGame.wgoGame.getPosition(), newGame.wgoGame.getPosition());
+
+    // update board to new position after move in Playing mode
+    if (newGame.isReady()){
+      updateBoard(oldGame.wgoGame.getPosition(), newGame.wgoGame.getPosition());
+    }
+
+    if (rBoard) {
+      var board = rBoard.get();
+      newGame.updateMDMarkers(board);
+    }
+
   },
   'eventRefresh': function() {
     var game = Games.findOne(this._id);
@@ -62,6 +73,7 @@ Template.board.helpers({
   },
 });
 
+
 updateBoard = function(oldPosition, newPosition) {
   if (rBoard) {
     var board = rBoard.get();
@@ -90,13 +102,11 @@ markDead = function(game) {
 
   // get original board state so we can revert to it if someone declines
   var board = rBoard.get();
-  originalBoardState = board.getState();
 
   // set game to markDead mode, set markedSchema to markedSchema
   Games.update({_id: game._id}, {$set: {
     markedDead: true,
     markedSchema: markedSchema,
-    originalBoardState: originalBoardState
   } });
 
   return true;
@@ -110,7 +120,6 @@ togglePointAsDead = function(game, x, y) {
   var board = rBoard.get(),
       marked = game.markedSchema;
       original = game.wgoGame.getPosition().schema,
-      originalBoardState = board.getState(),
       changed = false;
 
   var index = convertCoordinatesToSchemaIndex(original, x, y);
@@ -128,20 +137,20 @@ togglePointAsDead = function(game, x, y) {
       [-1, 1].indexOf(marked[index]) > -1
     ) {
       marked[index] = 0; changed = true;
-      board.addObject(marker);
+      Games.update({_id: game._id}, {$push: {deadMarkers: marker}});
     }
 
     /* else if point is different than the original
     set point to the original in marked */
     else if (marked[index] != original[index]) {
       marked[index] = original[index]; changed = true;
-      board.removeObject(marker);
+      Games.update({_id: game._id}, {$pull: {deadMarkers: marker}});
     }
 
     // write to DB if something changed
     if (changed) {
       var state = board.getState();
-      Games.update({_id: game._id}, {$set: {markedSchema: marked, boardState: state}});
+      Games.update({_id: game._id}, {$set: {markedSchema: marked }});
     }
 
   }

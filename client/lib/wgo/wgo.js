@@ -1007,6 +1007,19 @@ Board.prototype = {
 		this.redraw();
 	},
 
+	removeObjectsOfType: function(type) {
+		for(var i=0; i<this.size; i++) {
+			for(var j = 0; j<this.size; j++) {
+				var objects = this.obj_arr[i][j];
+				for(var k=0; k<objects.length; k++) {
+					if (objects[k].type == type) {
+						this.removeObject(objects[k]);
+					}
+				}
+			}
+		}
+	},
+
 	addCustomObject: function(handler, args) {
 		this.obj_list.push({handler: handler, args: args});
 		this.redraw();
