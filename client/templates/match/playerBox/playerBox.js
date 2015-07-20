@@ -1,41 +1,3 @@
-var scrollMessages = function(speed) {
-  if ($(".messages").length > 0) {
-    $(".messages").animate({scrollTop:$(".messages")[0].scrollHeight}, speed);
-  }
-}
-
-Template.gamePage.onRendered(function(){
-  scrollMessages(0);
-});
-
-Template.gamePage.helpers({
-  messages: function(){
-    return this.messages;
-  },
-  messageScroller: function() {
-    if (this.messages) scrollMessages();
-  }
-});
-
-Template.gamePage.events({
-  'click .messages-container': function(e) {
-    $("#comment-form input[type=text]").focus();
-  },
-  'submit #comment-form': function(e) {
-    e.preventDefault();
-
-    if (!Meteor.userId()) return false;
-
-    var content = $(e.target).find('[name=content]').val();
-    if (!content) return false;
-
-    this.pushMessage(content, Meteor.user());
-
-    $(e.target).find('[name=content]').val("");
-  },
-});
-
-
 Template.playerBox.helpers({
   data: function() {
     var currentUserColor = this.game.getColorOfPlayerId(Meteor.userId());
@@ -170,6 +132,3 @@ Template.playerBox.events({
     this.game.acceptMD();
   }
 });
-
-
-// board js

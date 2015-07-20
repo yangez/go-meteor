@@ -1,0 +1,16 @@
+<template name="gamePage">
+  <div id="game-page">
+    <div class="game-id" id="{{this._id}}" style="display: none;"></div>
+
+    <div class="left">
+      {{ > board}}
+    </div>
+
+    <div class="right">
+      {{ > playerBox position="top" game=this }}
+      {{ > messageContainer}}
+      {{ > playerBox position="bottom" game=this }}
+    </div>
+  </div>
+  <hr />
+</template>
