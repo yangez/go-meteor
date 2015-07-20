@@ -11,6 +11,7 @@ Template.board.onRendered(function(e){
   var game = Games.findOne(gameData._id);
   var board = rBoard.get();
 
+  // restore previous game state
   if (game.boardState) board.restoreState(game.boardState);
 
   // remove any event handlers, set correct session variables
@@ -93,32 +94,6 @@ markDead = function(game) {
 
   return true;
 
-}
-
-getFinalScore = function(game) {
-  // if game has a marked schema (MD was accepted), return the marked score
-  if (game.markedSchema) {
-    var markedPosition = _.clone(game.wgoGame.getPosition());
-    markedPosition.schema = game.markedSchema;
-    return markedPosition.formattedScore();
-  } else { // if game doesn't have marked schema (MD was declined), return top position's score
-    return game.wgoGame.getPosition().formattedScore();
-  }
-
-}
-
-playPass = function(game) {
-  if (!game.isCurrentPlayerMove()) return false;
-  playMove(game, "pass");
-
-  // end game if two passes were played consecutively
-  var game = Games.findOne(game._id);
-  var lastThreePositions = _.last(game.wgoGame.stack, 3);
-  if (lastThreePositions.length != 3) return;
-  if (
-    _.isEqual(lastThreePositions[0].schema, lastThreePositions[1].schema) &&
-    _.isEqual(lastThreePositions[0].schema, lastThreePositions[2].schema)
-  ) game.endGame();
 }
 
 playMove = function(game, x,y) {

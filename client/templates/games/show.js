@@ -159,7 +159,7 @@ Template.playerBox.events({
   },
   'click #pass-game': function(e) {
     e.preventDefault();
-    playPass(this.game);
+    this.game.playPass();
   },
   'click #md-decline': function(e) {
     e.preventDefault();
