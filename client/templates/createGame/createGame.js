@@ -1,4 +1,4 @@
-Template.gameNew.events({
+Template.createGame.events({
   'submit form': function(e) {
     e.preventDefault();
 

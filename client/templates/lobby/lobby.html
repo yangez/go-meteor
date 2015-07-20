@@ -1,4 +1,4 @@
-<template name="gamesList">
+<template name="lobby">
   <div class="row">
     {{#if currentUser}}
     <div class="col-md-6">
@@ -20,55 +20,4 @@
     </div>
   </div>
 
-</template>
-
-<template name="gameTable">
-  <div class="games-panel panel panel-default {{style}}">
-    <div class="panel-heading">{{heading}}</div>
-    {{#if games.count}}
-    <table class="table table-hover">
-      <!--
-      <thead>
-        <tr>
-          <th>Black</th>
-          <th>White</th>
-          <th>Board</th>
-        </tr>
-      </thead>
-    -->
-      <tbody>
-        {{#each games}}
-        {{> gameItem }}
-        {{/each}}
-      </tbody>
-    </table>
-    {{else}}
-      <div class="panel-body">No games here. Join or create one.</div>
-    {{/if}}
-  </div>
-</template>
-
-<template name="gameItem">
-  <tr class="game">
-    {{ > userRow color="black" }}
-    {{ > userRow color="white" }}
-    <td>{{size}}x{{size}}</td>
-  </tr>
-</template>
-
-<template name="userRow">
-  <td>
-    {{#if username color}}
-      <span class="{{currentUserColor color}}">
-        <i class="fa fa-user"></i> {{username color}}
-        {{#if currentMove color}}<i class="fa fa-dot-circle-o move-indicator"></i>{{/if}}
-      </span>
-    {{else}}
-      {{#if joinable}}
-        <a href="#" class="join-game btn btn-primary btn-xs" data-color="{{color}}">Join Game</a>
-      {{else}}
-        <small>Waiting...</small>
-      {{/if}}
-    {{/if}}
-  </td>
 </template>
