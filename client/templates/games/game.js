@@ -15,12 +15,12 @@ Template.board.onRendered(function(e){
   if (game.boardState) board.restoreState(game.boardState);
 
   // remove any event handlers, set correct session variables
-  removeEventHandlers(game, board);
-  removeMDEventHandlers(game, board);
+  removeEventHandlers(board);
+  removeMDEventHandlers(board);
 
   // add appropriate event handlers to game
-  if (game.markingDead()) addMDEventHandlers(game, board);
-  else if (game.isReady()) addEventHandlers(game, board);
+  if (game.markingDead()) addMDEventHandlers(board);
+  else if (game.isReady()) addEventHandlers(board);
 
 });
 
@@ -43,20 +43,20 @@ Template.board.helpers({
 
         // if game state is finished, remove all event handlers
         if (game.archived) {
-          removeEventHandlers(game, board);
-          removeMDEventHandlers(game, board);
+          removeEventHandlers(board);
+          removeMDEventHandlers(board);
         }
 
         // if game state is marking dead, add marking dead event handlers
         else if (game.markingDead()) {
-          removeEventHandlers(game, board);
-          addMDEventHandlers(game, board);
+          removeEventHandlers(board);
+          addMDEventHandlers(board);
         }
 
-        // if game state is playing, add game event handlers
+        // if game state is playing and has current player, add game event handlers
         else {
-          removeMDEventHandlers(game, board);
-          addEventHandlers(game, board);
+          removeMDEventHandlers(board);
+          addEventHandlers(board);
         }
       }
     }
@@ -144,13 +144,17 @@ togglePointAsDead = function(game, x, y) {
 
 var MDClickHandler, boardMouseMoveHandler, boardMouseOutHandler, boardClickHandler;
 
-removeMDEventHandlers = function(game, board) {
+removeMDEventHandlers = function(board) {
   if (MDClickHandler) board.removeEventListener("click", MDClickHandler);
-  Session.set("MDEventListenerAdded"+game._id, false);
+  var gameId = $(".game-id").attr("id");
+  Session.set("MDEventListenerAdded"+gameId, false);
 }
 
-addMDEventHandlers = function(game, board) {
+addMDEventHandlers = function(board) {
+  var gameId = $(".game-id").attr("id");
+  var game = Games.findOne(gameId);
   if ( // if we're currently marking dead in this game, and this is a player
+    game &&
     game.hasPlayer(Meteor.user()) &&
     game.markingDead() &&
     !Session.get("MDEventListenerAdded"+game._id)
@@ -165,27 +169,30 @@ addMDEventHandlers = function(game, board) {
 
 }
 
-removeEventHandlers = function(game, board) {
+removeEventHandlers = function(board) {
   if (board) {
     if (boardMouseMoveHandler) board.removeEventListener("mousemove", boardMouseMoveHandler);
     if (boardMouseOutHandler) board.removeEventListener("mouseout", boardMouseOutHandler);
     if (boardClickHandler) board.removeEventListener("click", boardClickHandler);
 
-    Session.set("eventListenerAdded"+game._id, false);
+    var gameId = $(".game-id").attr("id");
+    Session.set("eventListenerAdded"+gameId, false);
   }
 }
 
-addEventHandlers = function(game, board) {
-  if ( // if this is a playable game with current user as one of the players
+addEventHandlers = function(board) {
+  var gameId = $(".game-id").attr("id");
+  var game = Games.findOne(gameId);
+  if (
+    game &&
     game.hasPlayer(Meteor.user()) &&
     game.isReady() &&
     !Session.get("eventListenerAdded"+game._id)
   ) {
+
     // add hover piece event listener
     board.addEventListener("mousemove", boardMouseMoveHandler = function(x, y){
       // refresh game data
-      game = Games.findOne(game._id);
-      board = rBoard.get();
 
       // only if it's your turn
       if (game.isCurrentPlayerMove()) {
@@ -205,7 +212,6 @@ addEventHandlers = function(game, board) {
     });
 
     board.addEventListener("mouseout", boardMouseOutHandler = function(x, y) {
-      game = Games.findOne(game._id);
       board = rBoard.get();
 
       if (game.isCurrentPlayerMove()) {
