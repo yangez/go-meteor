@@ -29,7 +29,7 @@ Template.gamePage.events({
     var content = $(e.target).find('[name=content]').val();
     if (!content) return false;
 
-    pushMessage(this, content, Meteor.user());
+    this.pushMessage(content, Meteor.user());
 
     $(e.target).find('[name=content]').val("");
   },
@@ -166,6 +166,7 @@ Template.playerBox.events({
     this.game.declineMD();
   },
   'click #md-accept': function(e) {
+    e.preventDefault();
     this.game.acceptMD();
   }
 });

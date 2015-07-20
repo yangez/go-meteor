@@ -128,13 +128,13 @@ playMove = function(game, x,y) {
 
   // if game isn't created, return
   if (!wgoGame) return alert("Game hasn't been created yet.");
-  if (game.archived) return pushMessage(game, "The game has ended.");
-  if (!game.isReady()) return pushMessage(game, "You need an opponent first.");
-  if (!game.isCurrentPlayerMove()) return pushMessage(game, "It's your opponent's turn.");
+  if (game.archived) return game.pushMessage("The game has ended.");
+  if (!game.isReady()) return game.pushMessage("You need an opponent first.");
+  if (!game.isCurrentPlayerMove()) return game.pushMessage("It's your opponent's turn.");
 
   if (x==="pass") { // if we're playing a pass
     wgoGame.pass();
-    pushMessage(game, Meteor.user().username+" has passed.", GAME_MESSAGE)
+    game.pushMessage(Meteor.user().username+" has passed.", GAME_MESSAGE)
   } else { // if we're playing a real move
 
     var captured = wgoGame.play(x,y);
@@ -145,7 +145,7 @@ playMove = function(game, x,y) {
       if (captured === 2) msg = "There's already a stone here.";
       if (captured === 3) msg = "That move would be suicide.";
       if (captured === 4) msg = "That move would repeat a previous position.";
-      return pushMessage(game, msg);
+      return game.pushMessage(msg);
     }
 
     // invalidate hover piece on board
