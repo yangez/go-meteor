@@ -12,7 +12,9 @@ Template.board.onRendered(function(e){
   var board = rBoard.get();
 
   // restore previous game state
-  if (game.boardState) board.restoreState(game.boardState);
+  if (game.wgoGame) {
+    updateBoard(game.wgoGame.stack[0], game.wgoGame.getPosition());
+  }
 
   // remove any event handlers, set correct session variables
   removeEventHandlers(board);
@@ -27,12 +29,9 @@ Template.board.onRendered(function(e){
 Template.board.helpers({
   'restoreState' : function(){
     // game stuff
-    var gameObj = Games.findOne(this._id);
-
-    if (rBoard) var board = rBoard.get();
-    if (board && gameObj && gameObj.boardState) {
-      board.restoreState(gameObj.boardState);
-    }
+    var oldGame = this;
+    var newGame = Games.findOne(this._id);
+    updateBoard(oldGame.wgoGame.getPosition(), newGame.wgoGame.getPosition());
   },
   'eventRefresh': function() {
     var game = Games.findOne(this._id);
@@ -63,6 +62,13 @@ Template.board.helpers({
   },
 });
 
+updateBoard = function(oldPosition, newPosition) {
+  if (rBoard) {
+    var board = rBoard.get();
+    var boardDifference = getPositionDifference( oldPosition, newPosition );
+    board.update(boardDifference);
+  }
+}
 
 createBoard = function(size) {
   rBoard = new ReactiveVar(
@@ -74,6 +80,7 @@ createBoard = function(size) {
   );
   return rBoard;
 }
+
 
 markDead = function(game) {
   var game = Games.findOne(game._id);
