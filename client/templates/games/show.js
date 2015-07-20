@@ -14,20 +14,6 @@ Template.gamePage.helpers({
   },
   messageScroller: function() {
     if (this.messages) scrollMessages();
-  },
-  toMove: function() {
-    if (!this.wgoGame || !isReady(this)) return "Waiting for opponent";
-    if (gameHasPlayer(this, Meteor.userId())) {
-      if (isPlayerTurn(this, Meteor.userId())) {
-        return "Your move";
-      } else {
-        return "Opponent's move"
-      }
-    } else {
-      if (this.wgoGame.turn === WGo.B) var color = "Black";
-      else var color = "White";
-      return color + " to move";
-    }
   }
 });
 
@@ -52,7 +38,7 @@ Template.gamePage.events({
 
 Template.playerBox.helpers({
   data: function() {
-    var currentUserColor = getColorOfPlayerId(this.game, Meteor.userId());
+    var currentUserColor = this.game.getColorOfPlayerId(Meteor.userId());
 
     // if current user is part of this game
     if (currentUserColor) {
@@ -64,7 +50,7 @@ Template.playerBox.helpers({
         }
       } else if (this.position === "top") { // top: show opponent
         opponentColor = getOppositeColor(currentUserColor);
-        opponent = getPlayerAtColor(this.game, opponentColor);
+        opponent = this.game.getPlayerAtColor(opponentColor);
 
         if (opponent) return {
           user: opponent,
@@ -78,7 +64,7 @@ Template.playerBox.helpers({
     // if current user not part of this game (or no current user)
     else {
       if (this.position === "bottom") {
-        var blackPlayer = getPlayerAtColor(this.game, "black");
+        var blackPlayer = this.game.getPlayerAtColor("black");
 
         // if black player exists, show username
         if (blackPlayer) return {
@@ -100,7 +86,7 @@ Template.playerBox.helpers({
         }
 
       } else if (this.position === "top") {
-        var whitePlayer = getPlayerAtColor(this.game, "white");
+        var whitePlayer = this.game.getPlayerAtColor("white");
 
         if (whitePlayer) return {
           user: whitePlayer,
@@ -127,8 +113,8 @@ Template.playerBox.helpers({
 
   },
   playerTurn: function() {
-    if (!isReady(this.game)) return false;
-    var color = getColorOfPosition(this.game, this.position);
+    if (!this.game.isReady()) return false;
+    var color = this.game.getColorOfPosition(this.position);
     if (
       (this.game.wgoGame.turn === -1 && color === "white") ||
       (this.game.wgoGame.turn === 1 && color === "black")
@@ -137,7 +123,7 @@ Template.playerBox.helpers({
   },
   captureCount: function() {
     if (!this.game.wgoGame) return false;
-    var color = getColorOfPosition(this.game, this.position);
+    var color = this.game.getColorOfPosition(this.position);
     if (color === "white") var wgoColor = WGo.W;
     else if (color === "black") var wgoColor = WGo.B;
     if (wgoColor) var theCount = this.game.wgoGame.getCaptureCount(wgoColor);

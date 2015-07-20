@@ -19,7 +19,7 @@ Template.board.onRendered(function(e){
 
   // add appropriate event handlers to game
   if (game.markingDead()) addMDEventHandlers(game, board);
-  else if (isReady(game)) addEventHandlers(game, board);
+  else if (game.isReady()) addEventHandlers(game, board);
 
 });
 
@@ -96,19 +96,19 @@ markDead = function(game) {
 }
 
 getFinalScore = function(game) {
-  // if game has a marked schema (it's been marked before), return the marked schema's score
+  // if game has a marked schema (MD was accepted), return the marked score
   if (game.markedSchema) {
     var markedPosition = _.clone(game.wgoGame.getPosition());
     markedPosition.schema = game.markedSchema;
     return markedPosition.formattedScore();
-  } else { // if game doesn't have marked schema (it was rejected), return top position's score
+  } else { // if game doesn't have marked schema (MD was declined), return top position's score
     return game.wgoGame.getPosition().formattedScore();
   }
 
 }
 
 playPass = function(game) {
-  if (!isCurrentPlayerMove(game)) return false;
+  if (!game.isCurrentPlayerMove()) return false;
   playMove(game, "pass");
 
   // end game if two passes were played consecutively
@@ -129,8 +129,8 @@ playMove = function(game, x,y) {
   // if game isn't created, return
   if (!wgoGame) return alert("Game hasn't been created yet.");
   if (game.archived) return pushMessage(game, "The game has ended.");
-  if (!isReady(game)) return pushMessage(game, "You need an opponent first.");
-  if (!isPlayerTurn(game)) return pushMessage(game, "It's your opponent's turn.");
+  if (!game.isReady()) return pushMessage(game, "You need an opponent first.");
+  if (!game.isCurrentPlayerMove()) return pushMessage(game, "It's your opponent's turn.");
 
   if (x==="pass") { // if we're playing a pass
     wgoGame.pass();
@@ -183,36 +183,6 @@ playMove = function(game, x,y) {
 
   return game;
 }
-
-isPlayerTurn = function(game, playerId) {
-  if (!game || !game.wgoGame) return false;
-
-  if (!playerId) var playerId = Meteor.userId();
-
-  if (game.wgoGame.turn === WGo.B) {
-    if (game.blackPlayerId === playerId) return true;
-  } else if (game.wgoGame.turn == WGo.W) {
-    if (game.whitePlayerId === playerId) return true;
-  } else return false;
-}
-
-// Game does not contain message
-/*
-noGameMessage = function(game, message) {
-  if (!game) return false;
-  var game = Games.findOne(game._id);
-  if (!game.messages || game.messages.length < 1) return true;
-
-  // one of these needs to return true for a match
-  var gameMessageMatched = game.messages.some(function (msg) {
-    if (msg.author) return false; // if there's an author, it's not a game message
-    return (msg.content.indexOf(message) != -1);
-  });
-
-  return !gameMessageMatched;
-},
-*/
-
 
 togglePointAsDead = function(game, x, y) {
   if (!game.markedSchema) return false;
@@ -268,7 +238,7 @@ removeMDEventHandlers = function(game, board) {
 
 addMDEventHandlers = function(game, board) {
   if ( // if we're currently marking dead in this game, and this is a player
-    gameHasPlayer(game, Meteor.user()) &&
+    game.hasPlayer(Meteor.user()) &&
     game.markingDead() &&
     !Session.get("MDEventListenerAdded"+game._id)
   ) {
@@ -294,8 +264,8 @@ removeEventHandlers = function(game, board) {
 
 addEventHandlers = function(game, board) {
   if ( // if this is a playable game with current user as one of the players
-    gameHasPlayer(game, Meteor.user()) &&
-    isReady(game) &&
+    game.hasPlayer(Meteor.user()) &&
+    game.isReady() &&
     !Session.get("eventListenerAdded"+game._id)
   ) {
     // add hover piece event listener
@@ -305,7 +275,7 @@ addEventHandlers = function(game, board) {
       board = rBoard.get();
 
       // only if it's your turn
-      if (isPlayerTurn(game, Meteor.userId())) {
+      if (game.isCurrentPlayerMove()) {
         // remove old hoverstone
         var oldObj = Session.get("hoverStone"+game._id);
         Session.set("hoverStone"+game._id, undefined);
@@ -325,7 +295,7 @@ addEventHandlers = function(game, board) {
       game = Games.findOne(game._id);
       board = rBoard.get();
 
-      if (isPlayerTurn(game, Meteor.userId())) {
+      if (game.isCurrentPlayerMove()) {
         var oldObj = Session.get("hoverStone"+game._id);
         Session.set("hoverStone"+game._id, undefined);
         if (oldObj) board.removeObject(oldObj);
