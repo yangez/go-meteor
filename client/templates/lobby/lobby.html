@@ -1,0 +1,23 @@
+<template name="lobby">
+  <div class="row">
+    {{#if currentUser}}
+    <div class="col-md-6">
+      {{> gameTable games=userGames heading="Your games" style="panel-success"}}
+    </div>
+    {{/if}}
+    <div class="col-md-6">
+      {{> gameTable games=openGames heading="Open games" style="panel-info" }}
+    </div>
+  </div>
+
+  <hr />
+  <div class="row">
+    <div class="col-md-6">
+      {{> gameTable games=gamesInProgress heading="In progress"}}
+    </div>
+    <div class="col-md-6">
+      {{> gameTable games=completedGames heading="Completed"}}
+    </div>
+  </div>
+
+</template>

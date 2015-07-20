@@ -1,0 +1,16 @@
+<template name="userItem">
+  <td>
+    {{#if username color}}
+      <span class="{{currentUserColor color}}">
+        <i class="fa fa-user"></i> {{username color}}
+        {{#if currentMove color}}<i class="fa fa-dot-circle-o move-indicator"></i>{{/if}}
+      </span>
+    {{else}}
+      {{#if joinable}}
+        <a href="#" class="join-game btn btn-primary btn-xs" data-color="{{color}}">Join Game</a>
+      {{else}}
+        <small>Waiting...</small>
+      {{/if}}
+    {{/if}}
+  </td>
+</template>
