@@ -98,25 +98,6 @@ createBoard = function(size) {
 }
 
 
-markDead = function(game) {
-  var game = Games.findOne(game._id);
-
-  // duplicate our schema so we can mark stones as dead
-  markedSchema = _.clone(game.wgoGame.getPosition().schema);
-
-  // get original board state so we can revert to it if someone declines
-  var board = rBoard.get();
-
-  // set game to markDead mode, set markedSchema to markedSchema
-  Games.update({_id: game._id}, {$set: {
-    markedDead: true,
-    markedSchema: markedSchema,
-  } });
-
-  return true;
-
-}
-
 
 togglePointAsDead = function(game, x, y) {
   if (!game.markedSchema) return false;
