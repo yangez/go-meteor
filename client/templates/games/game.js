@@ -18,27 +18,50 @@ Template.board.onRendered(function(e){
   removeMDEventHandlers(game, board);
 
   // add appropriate event handlers to game
-  if (markingDead(game)) addMDEventHandlers(game, board);
+  if (game.markingDead()) addMDEventHandlers(game, board);
   else if (isReady(game)) addEventHandlers(game, board);
 
 });
 
+Template.board.helpers({
+  'restoreState' : function(){
+    // game stuff
+    var gameObj = Games.findOne(this._id);
 
-/*
-createGame = function(game, size, repeat){
-  if (["9", "13", "19"].indexOf(size) === -1) {
-    console.log("invalid size, using 9");
-    size = 9;
-  }
+    if (rBoard) var board = rBoard.get();
+    if (board && gameObj && gameObj.boardState) {
+      board.restoreState(gameObj.boardState);
+    }
+  },
+  'eventRefresh': function() {
+    var game = Games.findOne(this._id);
+    if (Meteor.user()) {
+      if (rBoard) { // if board exists
 
-  if (!game.wgoGame) {
-    var wgoGame = new WGo.Game(size, repeat);
-    Games.update({_id: game._id }, { $set: { wgoGame: wgoGame.exportPositions(), messages:[] } });
-  }
+        var board = rBoard.get();
 
-  return Games.findOne(game._id);
-};
-*/
+        // if game state is finished, remove all event handlers
+        if (game.archived) {
+          removeEventHandlers(game, board);
+          removeMDEventHandlers(game, board);
+        }
+
+        // if game state is marking dead, add marking dead event handlers
+        else if (game.markingDead()) {
+          removeEventHandlers(game, board);
+          addMDEventHandlers(game, board);
+        }
+
+        // if game state is playing, add game event handlers
+        else {
+          removeMDEventHandlers(game, board);
+          addEventHandlers(game, board);
+        }
+      }
+    }
+  },
+});
+
 
 createBoard = function(size) {
   rBoard = new ReactiveVar(
@@ -72,71 +95,6 @@ markDead = function(game) {
 
 }
 
-removeMDMarks = function(game) {
-  var game = Games.findOne(game._id);
-  if (!game) return false;
-  Games.update({_id: game._id}, {
-    $set: { boardState: game.originalBoardState },
-    $unset: { originalBoardState: "", }
-  });
-}
-
-declineMD = function(game) {
-  if(!game || !markingDead(game)) return false;
-
-  // remove all marked stones
-  removeMDMarks(game);
-
-  // unset markedSchema so game will not be in markDead mode anymore
-  Games.update({_id: game._id}, {
-    $unset: { markedSchema: "" }
-  });
-
-  var message = Meteor.user().username+" declined, so play continues. Game will now end immediately after two passes, so capture all dead stones first.";
-  pushMessage(game, message, GAME_MESSAGE);
-
-}
-
-clearAcceptMD = function(game) {
-  if (game.userAcceptedMD)  {
-    Games.update({_id: game._id}, { $unset: { userAcceptedMD: "" } });
-  }
-}
-
-acceptMD = function(game) {
-  if(!game || !markingDead(game)) return false;
-
-  // if the other guy has already accepted markDead, end game
-  if (game.userAcceptedMD && game.userAcceptedMD != Meteor.userId()) {
-    endGame(game);
-  } else { // first person to accept markDead gets it set
-    Games.update({_id: game._id}, { $set: { userAcceptedMD: Meteor.userId() } });
-  }
-}
-
-endGame = function(game) {
-  var game = Games.findOne(game._id);
-
-  // if game hasn't had a markdead stage yet, do the markdead stage
-  if (!game.markedDead)  {
-    markDead(game);
-    pushMessage(game, "Mark dead stones and 'Accept' to finish the game. 'Decline' to play it out.", GAME_MESSAGE );
-  }
-
-  // if we've already marked dead once, end game immediately
-  else {
-    removeMDMarks(game);
-
-    var score = getFinalScore(game);
-    Games.update({_id: game._id}, {$set: {archived: true, endedAt: new Date()} });
-
-    var message = "Game ended. Final score: "+score+".";
-    pushMessage(game, message, GAME_MESSAGE);
-  }
-
-  return true;
-}
-
 getFinalScore = function(game) {
   // if game has a marked schema (it's been marked before), return the marked schema's score
   if (game.markedSchema) {
@@ -160,7 +118,7 @@ playPass = function(game) {
   if (
     _.isEqual(lastThreePositions[0].schema, lastThreePositions[1].schema) &&
     _.isEqual(lastThreePositions[0].schema, lastThreePositions[2].schema)
-  ) endGame(game, "pass");
+  ) game.endGame();
 }
 
 playMove = function(game, x,y) {
@@ -255,11 +213,6 @@ noGameMessage = function(game, message) {
 },
 */
 
-convertCoordinatesToSchemaIndex = function(schema, x, y) {
-  var size = Math.sqrt(schema.length);
-  if (x >= 0 && y >= 0 && x < size && y < size) // if it's on board
-    return size * x + y;
-}
 
 togglePointAsDead = function(game, x, y) {
   if (!game.markedSchema) return false;
@@ -274,7 +227,7 @@ togglePointAsDead = function(game, x, y) {
   if (index) { // if point exists
 
     // unaccept markDead on behalf of all players
-    clearAcceptMD(game);
+    game.clearAcceptMD();
 
     var marker = { x: x, y: y, type: "DEAD" }
 
@@ -316,7 +269,7 @@ removeMDEventHandlers = function(game, board) {
 addMDEventHandlers = function(game, board) {
   if ( // if we're currently marking dead in this game, and this is a player
     gameHasPlayer(game, Meteor.user()) &&
-    markingDead(game) &&
+    game.markingDead() &&
     !Session.get("MDEventListenerAdded"+game._id)
   ) {
     board.addEventListener("click", MDClickHandler = function(x, y) {
@@ -388,42 +341,3 @@ addEventHandlers = function(game, board) {
 
   }
 }
-
-Template.board.helpers({
-  'restoreState' : function(){
-    // game stuff
-    var gameObj = Games.findOne(this._id);
-
-    if (rBoard) var board = rBoard.get();
-    if (board && gameObj && gameObj.boardState) {
-      board.restoreState(gameObj.boardState);
-    }
-  },
-  'eventRefresh': function() {
-    var game = Games.findOne(this._id);
-    if (Meteor.user()) {
-      if (rBoard) { // if board exists
-
-        var board = rBoard.get();
-
-        // if game state is finished, remove all event handlers
-        if (game.archived) {
-          removeEventHandlers(game, board);
-          removeMDEventHandlers(game, board);
-        }
-
-        // if game state is marking dead, add marking dead event handlers
-        else if (markingDead(game)) {
-          removeEventHandlers(game, board);
-          addMDEventHandlers(game, board);
-        }
-
-        // if game state is playing, add game event handlers
-        else {
-          removeMDEventHandlers(game, board);
-          addEventHandlers(game, board);
-        }
-      }
-    }
-  },
-});

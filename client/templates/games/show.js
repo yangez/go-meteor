@@ -145,7 +145,7 @@ Template.playerBox.helpers({
   },
   markingDead: function() {
     if (!this.game) return false;
-    return markingDead(this.game);
+    return this.game.markingDead();
   },
   mdDisabled: function() {
     if (!this.game) return false;
@@ -177,10 +177,10 @@ Template.playerBox.events({
   },
   'click #md-decline': function(e) {
     e.preventDefault();
-    declineMD(this.game);
+    this.game.declineMD();
   },
   'click #md-accept': function(e) {
-    acceptMD(this.game);
+    this.game.acceptMD();
   }
 });
 
