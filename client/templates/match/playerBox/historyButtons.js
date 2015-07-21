@@ -33,11 +33,37 @@ Template.historyButtons.helpers({
     var currentIndex = Session.get("historyMoveIndex"+game._id).current
     var previousIndex = Session.get("historyMoveIndex"+game._id).previous
     if (rBoard) {
-      var board = rBoard.get();
+      var board = rBoard.get().board;
       var oldPosition = game.wgoGame.stack[previousIndex];
       var newPosition = game.wgoGame.stack[currentIndex];
 
-      if (oldPosition && newPosition) updateBoard(oldPosition, newPosition);
+
+      if (oldPosition && newPosition)  {
+        // update to new position
+        updateBoard(oldPosition, newPosition);
+
+        // remove all other turn markers
+        board.removeObjectsOfType("CR");
+
+        // get the previous move
+        var previousMove = game.wgoGame.stack[currentIndex-1];
+        if (previousMove) {
+
+          // calculate turn marker
+          var boardDifference = getPositionDifference( previousMove, newPosition );
+          boardDifference.add.forEach(function(object) {
+            var turnMarker = { x: object.x, y: object.y, type: "CR" }
+            board.addObject(turnMarker);
+          });
+        }
+
+      }
+
+      // add 'last turn' marker
+      // var turnMarker = { x: x, y: y, type: "CR" }
+      // board.addObject(turnMarker) ;
+
+
     }
   },
 });
