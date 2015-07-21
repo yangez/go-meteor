@@ -3,24 +3,18 @@ var MDClickHandler, boardMouseMoveHandler, boardMouseOutHandler, boardClickHandl
 removeMDEventHandlers = function(board) {
   if (MDClickHandler) board.removeEventListener("click", MDClickHandler);
   var gameId = $(".game-id").attr("id");
-  Session.set("MDEventListenerAdded"+gameId, false);
 }
 
-addMDEventHandlers = function(board) {
-  var gameId = $(".game-id").attr("id");
-  var game = Games.findOne(gameId);
+addMDEventHandlers = function(board, game) {
   if ( // if we're currently marking dead in this game, and this is a player
     game &&
     game.hasPlayer(Meteor.user()) &&
-    game.markingDead() &&
-    !Session.get("MDEventListenerAdded"+game._id)
+    game.markingDead()
   ) {
     board.addEventListener("click", MDClickHandler = function(x, y) {
-      game = Games.findOne(game._id);
+      // game = Games.findOne(game._id);
       game.togglePointAsDead(x, y);
     });
-
-    Session.set("MDEventListenerAdded"+game._id, true);
   }
 
 }
@@ -30,26 +24,20 @@ removeEventHandlers = function(board) {
     if (boardMouseMoveHandler) board.removeEventListener("mousemove", boardMouseMoveHandler);
     if (boardMouseOutHandler) board.removeEventListener("mouseout", boardMouseOutHandler);
     if (boardClickHandler) board.removeEventListener("click", boardClickHandler);
-
-    var gameId = $(".game-id").attr("id");
-    Session.set("eventListenerAdded"+gameId, false);
   }
 }
 
-addEventHandlers = function(board) {
-  var gameId = $(".game-id").attr("id");
-  var game = Games.findOne(gameId);
+addEventHandlers = function(board, game) {
   if (
     game &&
     game.hasPlayer(Meteor.user()) &&
-    game.isReady() &&
-    !Session.get("eventListenerAdded"+game._id)
+    game.isReady()
   ) {
-
     // add hover piece event listener
     board.addEventListener("mousemove", boardMouseMoveHandler = function(x, y){
       // refresh game data
-      var game = Games.findOne(gameId);
+      // var gameId = $(".game-id").attr("id");
+      game = Games.findOne(game._id);
 
       // only if it's your turn
       if (game.isCurrentPlayerMove()) {
@@ -69,7 +57,7 @@ addEventHandlers = function(board) {
     });
 
     board.addEventListener("mouseout", boardMouseOutHandler = function(x, y) {
-      var game = Games.findOne(gameId);
+      game = Games.findOne(game._id);
 
       if (game.isCurrentPlayerMove()) {
         var oldObj = Session.get("hoverStone"+game._id);
@@ -77,6 +65,7 @@ addEventHandlers = function(board) {
         if (oldObj) board.removeObject(oldObj);
       }
     });
+
 
     board.addEventListener("click", boardClickHandler = function(x, y) {
       game = Games.findOne(game._id);
@@ -87,8 +76,6 @@ addEventHandlers = function(board) {
       // play move
       game.playMove(x, y);
     });
-
-    Session.set("eventListenerAdded"+game._id, true);
 
   }
 }
