@@ -21,10 +21,10 @@ Template.historyButtons.events({
 Template.historyButtons.helpers({
   currentMoveNumber: function() {
     var historySession = Session.get("historyMoveIndex"+this.game._id);
-    return historySession ? historySession.current + 1 : this.game.wgoGame.stack.length;
+    return historySession ? historySession.current : this.game.wgoGame.stack.length-1;
   },
   gameLength: function() {
-    return this.game.wgoGame.stack.length;
+    return this.game.wgoGame.stack.length-1;
   },
   historyUpdate: function() {
     var game = this.game;
