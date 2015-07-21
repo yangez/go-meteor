@@ -1,7 +1,7 @@
 <template name="userProfile">
   <div class="row center">
-    <div class="col-md-6">
-      <form id="profile-form" class="form-group" role="form">
+    <form id="profile-form" class="form-group" role="form">
+      <div class="col-md-6">
         <div class="row">
         <div class="input-group">
         <div class="col-md-3">
@@ -32,15 +32,14 @@
           <button class="btn btn-warning">Reset Changes</button>
           <button type="submit" class="btn btn-primary" id="updateProfile">Update Profile</button>
         </div>
-      </form> 
-    </div>
-
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="description">Description:</label>
-        <textarea class="form-control" rows="5" id="description" value="{{description}}"></textarea>
       </div>
-    </div>
 
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="description">Profile:</label>
+          <textarea class="form-control" rows="5" name="description" id="description" value="{{description}}" placeholder="Enter a brief profile about yourself here"></textarea>
+        </div>
+      </div>
+    </form>
   </div>
 </template>
