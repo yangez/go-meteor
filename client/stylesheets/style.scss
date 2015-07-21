@@ -115,6 +115,13 @@ hr {
   padding: 20px;
 }
 
+
+
+label.filter {
+  font-size: 12px;
+  font-weight: 400;
+  input { margin-left: 2px;}
+}
 .game {
   &.your-turn { border-left: 5px #d6e9c6 solid; }
   span {
@@ -128,6 +135,11 @@ hr {
       color: rgba(0, 0, 0, 0.5);
       margin-left: 5px;
     }
+
+  }
+  td{
+    &:first-child { padding-left: 15px; }
+    &:last-child { padding-right: 15px; text-align: right; }
   }
 }
 i.stone {
@@ -135,6 +147,7 @@ i.stone {
     content: ' ';
     float: left;
     margin-right: 8px;
+    margin-left: -2px;
     width: 20px;
     height: 20px;
     border-radius: 10px;

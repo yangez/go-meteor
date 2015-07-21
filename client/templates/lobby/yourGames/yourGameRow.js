@@ -17,6 +17,13 @@ Template.yourGameRow.helpers({
     return this.wgoGame.stack.length
   },
   yourTurn: function() {
-    return this.isCurrentPlayerMove() ? "your-turn" : ""
+    return (
+      // either it's the current player move
+      this.isCurrentPlayerMove() ||
+
+      // OR we're in markDead and the userAcceptedMD is not us
+      ( this.markingDead() && this.userAcceptedMD != Meteor.userId() )
+
+    ) ? "your-turn" : "";
   },
 });

@@ -1,17 +1,4 @@
 Template.lobby.helpers({
-  userGames: function() {
-    if (!Meteor.userId()) return false;
-    return Games.find({ $and: [
-      {archived: {$ne: true}}, // not archived
-      {$or: [ // player is in game
-        {blackPlayerId: Meteor.userId()},
-        {whitePlayerId: Meteor.userId()}
-      ]},
-      // game has no open slot
-      {blackPlayerId: {$exists: true}},
-      {whitePlayerId: {$exists: true}}
-    ] }, { sort: { lastActivityAt: -1 } });
-  },
   openGames: function() {
     return Games.find({ $and: [
       // game is not archived
