@@ -1,0 +1,24 @@
+<template name="yourGamesTable">
+  <div class="games-panel panel panel-success">
+    <div class="panel-heading">
+      Your Games
+
+      <label class="filter pull-right">
+        <input type="checkbox" checked="{{yourMoveOnly}}" class="your-move-filter"/>
+        Your move
+      </label>
+
+    </div>
+    {{#if games.count}}
+    <table class="table table-hover">
+      <tbody>
+        {{#each games}}
+        {{> yourGameRow }}
+        {{/each}}
+      </tbody>
+    </table>
+    {{else}}
+      <div class="panel-body">No games here. Join or create one.</div>
+    {{/if}}
+  </div>
+</template>

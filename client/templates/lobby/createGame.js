@@ -12,7 +12,7 @@ Template.createGame.events({
       if (error)
         return alert(error.reason);
 
-      Router.go('gamePage', { _id: result._id });
+      Router.go('match', { _id: result._id });
 
     });
   }

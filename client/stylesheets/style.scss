@@ -107,6 +107,15 @@ hr {
   clear: both;
 }
 
+#your-games-dropdown {
+  width: 400px;
+  padding: 0;
+  .games-panel {
+    border-radius: 0;
+    margin-bottom: 0;
+    .panel-heading { border-radius: 0; }
+  }
+}
 
 /* lobby */
 
@@ -115,9 +124,18 @@ hr {
   padding: 20px;
 }
 
+
+
+label.filter {
+  font-size: 12px;
+  font-weight: 400;
+  input { margin-left: 2px;}
+}
 .game {
+  &.your-turn { border-left: 5px #d6e9c6 solid; }
   span {
     color: rgba(0, 0, 0, 0.7);
+    &.faded { color: rgba(0, 0, 0, 0.5); }
     &.current-user {
       color: #69769F;
     }
@@ -126,5 +144,28 @@ hr {
       color: rgba(0, 0, 0, 0.5);
       margin-left: 5px;
     }
+
+  }
+  td{
+    &:first-child { padding-left: 15px; }
+    &:last-child { padding-right: 15px; text-align: right; }
+  }
+}
+i.stone {
+  &::after {
+    content: ' ';
+    float: left;
+    margin-right: 8px;
+    margin-left: -2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px 1px rgba(127, 127, 127, 0.3);
+  }
+  &.white::after {
+    background: linear-gradient(-45deg, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+  }
+  &.black::after {
+    background: linear-gradient(135deg, rgba(35,36,39,1) 0%,rgba(0,0,0,1) 100%);
   }
 }

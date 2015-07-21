@@ -3,28 +3,39 @@ var rBoard;
 
 // on rendered
 Template.board.onRendered(function(e){
-  gameData = this.data;
 
-  gameData.createGame(gameData.size, gameData.repeat);
-  createBoard(gameData.size);
+  // this is run every single time something changes
+  this.autorun(function(a) {
+    var game = Template.currentData(this.view);
+    if (!game) return;
 
-  var game = Games.findOne(gameData._id);
-  var board = rBoard.get();
+    // if there's currently no board, or it's equal to another game,
+    // generate stuff for the first time
+    if (rBoard === undefined || rBoard.get().gameId != game._id) {
 
-  // remove any event handlers, set correct session variables
-  removeEventHandlers(board);
-  removeMDEventHandlers(board);
+      game.createGame(game.size, game.repeat);
+      createBoard(game);
 
-  // restore previous game state
-  updateBoard(game.wgoGame.stack[0], game.wgoGame.getPosition());
+      // restore game state from scratch onto new board
+      if (game.wgoGame) updateBoard(game.wgoGame.stack[0], game.wgoGame.getPosition());
+    }
 
-  // update MD markers
-  game.updateMDMarkers(board);
-  game.updateTurnMarker(board);
+    var board = rBoard.get().board;
 
-  // add appropriate event handlers to game
-  if (game.markingDead()) addMDEventHandlers(board);
-  else if (game.isReady()) addEventHandlers(board);
+    // update markers
+    game.updateMDMarkers(board);
+    game.updateTurnMarker(board);
+
+    // remove any event handlers
+    removeEventHandlers(board);
+    removeMDEventHandlers(board);
+
+    // add appropriate event handlers to game
+    if (game.markingDead()) addMDEventHandlers(board, game);
+    else if (game.isReady()) addEventHandlers(board, game);
+
+
+  });
 
 });
 
@@ -38,61 +49,28 @@ Template.board.helpers({
     if (newGame.isReady()){
       updateBoard(oldGame.wgoGame.getPosition(), newGame.wgoGame.getPosition());
     }
-
-
-    if (rBoard) {
-      var board = rBoard.get();
-      newGame.updateMDMarkers(board);
-
-      newGame.updateTurnMarker(board);
-    }
-
-  },
-  'eventRefresh': function() {
-    var game = Games.findOne(this._id);
-    if (Meteor.user()) {
-      if (rBoard) { // if board exists
-
-        var board = rBoard.get();
-
-        // if game state is finished, remove all event handlers
-        if (game.archived) {
-          removeEventHandlers(board);
-          removeMDEventHandlers(board);
-        }
-
-        // if game state is marking dead, add marking dead event handlers
-        else if (game.markingDead()) {
-          removeEventHandlers(board);
-          addMDEventHandlers(board);
-        }
-
-        // if game state is playing and has current player, add game event handlers
-        else {
-          removeMDEventHandlers(board);
-          addEventHandlers(board);
-        }
-      }
-    }
   },
 });
 
 
 updateBoard = function(oldPosition, newPosition) {
   if (rBoard) {
-    var board = rBoard.get();
+    var board = rBoard.get().board;
     var boardDifference = getPositionDifference( oldPosition, newPosition );
     board.update(boardDifference);
   }
 }
 
-createBoard = function(size) {
-  rBoard = new ReactiveVar(
-    new WGo.Board(document.getElementById("board"), {
+createBoard = function(game) {
+  $("#board").html(""); // kill all other boards
+  rBoard = new ReactiveVar({
+    gameId: game._id,
+    board: new WGo.Board(document.getElementById("board"), {
       width: 600,
-      size: size,
+      size: game.size,
       background: ""
     })
+  }
   );
   return rBoard;
 }

@@ -2,7 +2,7 @@ Template.gameRow.events({
   'click tr': function(e) {
     e.preventDefault();
 
-    Router.go('gamePage', { _id: this._id });
+    Router.go('match', { _id: this._id });
   },
   'click .join-game': function(e) {
     e.preventDefault(); // e.preventPropagate() see if it gets rid of error message?
@@ -14,7 +14,7 @@ Template.gameRow.events({
 
     Meteor.call("joinGame", game, color, Meteor.userId(), function(error, result) {
       if (error) return alert(error);
-      Router.go('gamePage', { _id: game._id });
+      Router.go('match', { _id: game._id });
     });
 
   }
