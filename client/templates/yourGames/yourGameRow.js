@@ -6,6 +6,12 @@ Template.yourGameRow.events({
   },
 });
 Template.yourGameRow.helpers({
+  isCurrentGame: function() {
+    var currentRouteName = Router.current().route.getName();
+    if (currentRouteName === "match") {
+      return Router.current().params._id === this._id ? "success" : "";
+    }
+  },
   opponentColor: function() {
     var thisColor = this.getColorOfPlayerId(Meteor.userId());
     return getOppositeColor(thisColor);
