@@ -19,6 +19,13 @@ Template.historyButtons.events({
 });
 
 Template.historyButtons.helpers({
+  currentMoveNumber: function() {
+    var historySession = Session.get("historyMoveIndex"+this.game._id);
+    return historySession ? historySession.current + 1 : this.game.wgoGame.stack.length;
+  },
+  gameLength: function() {
+    return this.game.wgoGame.stack.length;
+  },
   historyUpdate: function() {
     var game = this.game;
     if (!Session.get("historyMoveIndex"+game._id)) return false;
