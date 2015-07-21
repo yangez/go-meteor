@@ -20,6 +20,9 @@
               {{> createGame}}
             {{/if}}
           {{else}}
+            {{#if routeIs 'match'}}
+              {{> yourGamesMenu}}
+            {{/if}}
             <li> <a href="{{pathFor 'lobby'}}"><i class="fa fa-list-ul"></i> Game List</a> </li>
           {{/if}}
           {{> loginButtons}}

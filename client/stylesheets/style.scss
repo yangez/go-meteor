@@ -107,6 +107,15 @@ hr {
   clear: both;
 }
 
+#your-games-dropdown {
+  width: 400px;
+  padding: 0;
+  .games-panel {
+    border-radius: 0;
+    margin-bottom: 0;
+    .panel-heading { border-radius: 0; }
+  }
+}
 
 /* lobby */
 

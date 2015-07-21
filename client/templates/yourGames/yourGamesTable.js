@@ -1,6 +1,11 @@
 Template.yourGamesTable.events({
   "change .your-move-filter": function (e) {
     Session.set("yourMoveOnly", e.target.checked);
+  },
+  // "click .filter": function(e) {
+  // },
+  "click .games-panel": function(e) {
+    e.stopPropagation();
   }
 });
 Template.yourGamesTable.helpers({

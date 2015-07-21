@@ -2,7 +2,7 @@ Template.yourGameRow.events({
   'click tr': function(e) {
     e.preventDefault();
 
-    Router.go('gamePage', { _id: this._id });
+    Router.go('match', { _id: this._id });
   },
 });
 Template.yourGameRow.helpers({
