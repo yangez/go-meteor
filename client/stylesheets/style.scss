@@ -60,13 +60,20 @@
       border-color: #8997AF;
     }
   }
-  .action-buttons {
+  .action-buttons, .history-buttons {
     .btn {
       border-radius: 0;
       border-top: 0;
     }
     // :first-child { border-right: 0; }
   }
+  .history-buttons {
+    .btn {
+      border-right-width: 0;
+      &:last-child { border-right-width: 1px; }
+    }
+  }
+
   .messages-container {
     height: 356px;
     position: relative;

@@ -1,5 +1,5 @@
 // board display logic
-var rBoard;
+rBoard = undefined;
 
 Template.board.onDestroyed(function(e) {
   // unset board so it reinitiates next time
