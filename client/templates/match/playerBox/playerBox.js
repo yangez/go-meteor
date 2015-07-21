@@ -81,13 +81,41 @@ Template.playerBox.helpers({
     return this.game.archived;
   },
   playerTurn: function() {
-    if (!this.game.isReady()) return false;
-    var color = this.game.getColorOfPosition(this.position);
-    if (
-      (this.game.wgoGame.turn === -1 && color === "white") ||
-      (this.game.wgoGame.turn === 1 && color === "black")
-    ) return "player-turn";
-    else return false;
+    // if game is actually playing
+    if (this.game.isReady()) {
+      var color = this.game.getColorOfPosition(this.position);
+      if (
+        (this.game.wgoGame.turn === -1 && color === "white") ||
+        (this.game.wgoGame.turn === 1 && color === "black")
+      ) return "player-turn";
+    }
+    // if game is completed (and we're viewing history)
+    else if (this.game.archived) {
+      var historySession = Session.get("historyMoveIndex");
+
+      if (
+        historySession &&
+        historySession.current !== undefined &&
+        historySession.current < this.game.wgoGame.stack.length-1
+      ) {
+
+        var color = this.game.getColorOfPosition(this.position);
+
+        var boardPosition = this.game.wgoGame.stack[historySession.current];
+
+
+        if (
+          historySession.current === 0 &&
+          color === "black"
+        ) return "player-turn"
+        else if (
+          (boardPosition &&
+          (boardPosition.color === 1 && color === "white") ||
+          (boardPosition.color === -1 && color === "black"))
+        ) return "player-turn";
+      }
+    }
+    return false;
   },
   captureCount: function() {
     if (!this.game.wgoGame) return false;
