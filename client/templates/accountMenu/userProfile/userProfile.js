@@ -35,8 +35,6 @@ Template.userProfile.events({
       location : $(e.target).find('[name=location]').val(),
       description : $(e.target).find('[name=description]').val()
     }
-    console.log($(e.target));
-    console.log('data :', data);
 
     Meteor.users.update({_id:Meteor.userId()}, {$set : {
       "profile.displayName.first" : data.firstname,
@@ -45,6 +43,14 @@ Template.userProfile.events({
       "profile.location" : data.location,
       "profile.description" : data.description
     }});
-    console.log('Form submitted!');
+  },
+
+  'click #profile-reset-button': function(e){
+    e.preventDefault();
+    $('#firstname').val(this.profile.displayName.first);
+    $('#lastname').val(this.profile.displayName.last);
+    $('#age').val(this.profile.age);
+    $('#location').val(this.profile.location);
+    $('#description').val(this.profile.description);
   }
 });

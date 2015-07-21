@@ -177,16 +177,17 @@ i.stone {
   }
 }
 
-.profile-form-buttons {
-  margin-top: 10px;
-}
-
-.right{
-  text-align:right;
-}
 #profile-form {
   .input-group { width: 100%; }
+  .input-group-addon { width: 100px;}
   input {
     width: 100%;
+  }
+  .profile-form-buttons {
+    margin-top: 10px;
+  }
+
+  .right{
+    text-align:right;
   }
 }
