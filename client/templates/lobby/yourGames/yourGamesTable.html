@@ -1,0 +1,16 @@
+<template name="yourGamesTable">
+  <div class="games-panel panel panel-success">
+    <div class="panel-heading">Your Games</div>
+    {{#if games.count}}
+    <table class="table table-hover">
+      <tbody>
+        {{#each games}}
+        {{> yourGameRow }}
+        {{/each}}
+      </tbody>
+    </table>
+    {{else}}
+      <div class="panel-body">No games here. Join or create one.</div>
+    {{/if}}
+  </div>
+</template>

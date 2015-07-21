@@ -1,0 +1,7 @@
+<template name="yourGameRow">
+  <tr class="game">
+    <td>{{color}} <span>vs.</span> {{ > userItem color=opponentColor noTurnIndicator=true }}</td>
+    <td class="{{yourTurn}}">Move {{moveNumber}}</td>
+    <td>{{size}}x{{size}}</td>
+  </tr>
+</template>
