@@ -176,3 +176,18 @@ i.stone {
     background: linear-gradient(135deg, rgba(35,36,39,1) 0%,rgba(0,0,0,1) 100%);
   }
 }
+
+#profile-form {
+  .input-group { width: 100%; }
+  .input-group-addon { width: 100px;}
+  input {
+    width: 100%;
+  }
+  .profile-form-buttons {
+    margin-top: 10px;
+  }
+
+  .right{
+    text-align:right;
+  }
+}
