@@ -15,12 +15,12 @@
         <ul class="nav navbar-nav">
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          {{#if currentUser}}
-            {{#if routeIs 'lobby' }}
+          {{#if routeIs 'lobby' }}
+            {{#if currentUser}}
               {{> createGame}}
-            {{else}}
-              <li> <a href="{{pathFor 'lobby'}}"><i class="fa fa-list-ul"></i> Game List</a> </li>
             {{/if}}
+          {{else}}
+            <li> <a href="{{pathFor 'lobby'}}"><i class="fa fa-list-ul"></i> Game List</a> </li>
           {{/if}}
           {{> loginButtons}}
         </ul>
