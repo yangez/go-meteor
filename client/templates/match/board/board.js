@@ -1,6 +1,11 @@
 // board display logic
 var rBoard;
 
+Template.board.onDestroyed(function(e) {
+  // unset board so it reinitiates next time
+  if (rBoard) rBoard = undefined;
+});
+
 // on rendered
 Template.board.onRendered(function(e){
 
