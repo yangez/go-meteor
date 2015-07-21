@@ -4,6 +4,7 @@
       <span class="{{currentUserColor color}}">
         <i class="fa fa-user"></i> {{username color}}
         {{#if currentMove color}}<i class="fa fa-dot-circle-o move-indicator"></i>{{/if}}
+        {{#if isWinner color}}<small class="score">{{score}}</small>{{/if}}
       </span>
     {{else}}
       {{#if joinable}}

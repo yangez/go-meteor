@@ -1,10 +1,6 @@
 .container { min-width: 970px; }
 
-
-.create-game {
-  width: 220px;
-  padding: 20px;
-}
+/* match page */
 
 .left {
   width: 600px;
@@ -112,14 +108,23 @@ hr {
 }
 
 
+/* lobby */
+
+.create-game {
+  width: 220px;
+  padding: 20px;
+}
+
 .game {
   span {
     color: rgba(0, 0, 0, 0.7);
     &.current-user {
       color: #69769F;
     }
-    .move-indicator {
-      // color: #ccc;
+    small.score {
+      font-size: 11px;
+      color: rgba(0, 0, 0, 0.5);
+      margin-left: 5px;
     }
   }
 }

@@ -1,4 +1,13 @@
 Template.userItem.helpers({
+  isWinner: function(color) {
+    var game = Template.parentData(1);
+    if (color === "black") return game.winnerId === game.blackPlayerId;
+    if (color === "white") return game.winnerId === game.whitePlayerId;
+  },
+  score: function() {
+    var game = Template.parentData(1);
+    return game.score;
+  },
   joinable: function() {
     var game = Template.parentData(1);
     return (game.blackPlayerId != Meteor.userId() && game.whitePlayerId != Meteor.userId());
