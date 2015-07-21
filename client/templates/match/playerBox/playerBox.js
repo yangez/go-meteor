@@ -74,6 +74,12 @@ Template.playerBox.helpers({
     return {}; // default return empty object
 
   },
+  isBottom: function() {
+    return this.position == "bottom";
+  },
+  gameEnded: function() {
+    return this.game.archived;
+  },
   playerTurn: function() {
     if (!this.game.isReady()) return false;
     var color = this.game.getColorOfPosition(this.position);
@@ -130,5 +136,6 @@ Template.playerBox.events({
   'click #md-accept': function(e) {
     e.preventDefault();
     this.game.acceptMD();
-  }
+  },
+
 });
