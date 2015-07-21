@@ -1,0 +1,46 @@
+<template name="userProfile">
+  <div class="row center">
+    <div class="col-md-6">
+      <form id="profile-form" class="form-group" role="form">
+        <div class="row">
+        <div class="input-group">
+        <div class="col-md-3">
+          <label for="username">Username</label>
+          </div>
+          <div class="col-md-9">
+          <input type="text" id="username" class="form-control" name="username" value="{{username}}" disabled="true">
+          </div>
+        </div>
+        </div>
+        <div class="input-group">
+          <label for="firstname">Firstname</label>
+          <input type="text" class="form-control" id="firstname" name="firstname" value="{{firstname}}">
+        </div>
+        <div class="input-group">
+          <label for="lastname">Lastname</label>
+          <input type="text" class="form-control" id="lastname" name="lastname" value="{{lastname}}">
+        </div>
+        <div class="input-group">
+          <label for="age">Age</label>
+          <input type="text" class="form-control" id="age" name="age" value="{{age}}">
+        </div>
+        <div class="input-group">
+          <label for="location">Location</label>
+          <input type="text" class="form-control" id="location" name="location" value="{{location}}" placeholder="City, State">
+        </div>
+        <div class="profile-form-buttons right">
+          <button class="btn btn-warning">Reset Changes</button>
+          <button type="submit" class="btn btn-primary" id="updateProfile">Update Profile</button>
+        </div>
+      </form> 
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea class="form-control" rows="5" id="description" value="{{description}}"></textarea>
+      </div>
+    </div>
+
+  </div>
+</template>
