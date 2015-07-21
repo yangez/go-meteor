@@ -3,7 +3,6 @@ Template.createGame.events({
     e.preventDefault();
 
     var game = {
-      title: $(e.target).find('[name=title]').val(),
       size: $(e.target).find('[name=size] option:selected').val(),
       color: $(e.target).find('[name=color]:checked').val()
     }
