@@ -33,7 +33,7 @@ Template.messageContainer.events({
 });
 
 var scrollMessages = function(speed) {
-  if ($(".messages").length > 0) {
-    $(".messages").animate({scrollTop:$(".messages")[0].scrollHeight}, speed);
+  if ($("#game-live-messages").length > 0) {
+    $("#game-live-messages").animate({scrollTop:$("#game-live-messages")[0].scrollHeight}, speed);
   }
 }
