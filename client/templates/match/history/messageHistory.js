@@ -1,5 +1,5 @@
 Template.messageHistory.onRendered(function(){
-  scrollMessages(0);
+  scrollInGameMessages(0);
 });
 
 Template.messageHistory.helpers({
@@ -9,15 +9,18 @@ Template.messageHistory.helpers({
       return this.getMessagesBeforeMove(moveNumber);
     }
   },
-  inGameMessagesVisible: function() {
-    return Session.get("messageHistoryState") === "ingame" ? "" : "hidden";
+  inGameMessageScroller: function() {
+    if (Session.get("historyMoveIndex")) {
+      scrollInGameMessages();
+      console.log("scrolling");
+    };
   },
-  isInGameMessages: function() {
-    return true; // for message template to see
-  }
+  inGameMessagesVisible: function() {
+    return Session.get("messageHistoryState") === "ingame" ? "" : "background";
+  },
 });
 
-var scrollMessages = function(speed) {
+scrollInGameMessages = function(speed) {
   if ($("#game-ingame-messages").length > 0) {
     $("#game-ingame-messages").animate({scrollTop:$("#game-ingame-messages")[0].scrollHeight}, speed);
   }

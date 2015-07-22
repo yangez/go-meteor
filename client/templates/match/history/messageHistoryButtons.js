@@ -24,5 +24,6 @@ Template.messageHistoryButtons.events({
   },
   'change #chat-ingame': function(e) {
     if (e.target.checked) Session.set("messageHistoryState", "ingame");
+    scrollInGameMessages(0);
   },
 });
