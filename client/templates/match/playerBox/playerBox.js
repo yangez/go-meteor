@@ -167,7 +167,17 @@ Template.playerBox.events({
   },
   'click #resign-game': function(e) {
     e.preventDefault();
-    this.game.resign();
+    var game = this.game;
+
+    $.confirm({
+      title: 'Confirmation',
+      content: 'Are you sure you want to resign? (This action is irreversible.)',
+      confirmButton: "Yes",
+      confirmButtonClass: "btn-danger",
+      cancelButton: "No",
+      theme: "supervan",
+      confirm: function(){ game.resign(); }
+    });
   },
   'click #md-decline': function(e) {
     e.preventDefault();
