@@ -24,8 +24,8 @@ var findArchivedGames = function(){
   return Games.find({ $and: [
         {archived: true},
         {$or: [ // player is in game
-          {blackPlayerId: Meteor.userId()},
-          {whitePlayerId: Meteor.userId()}
+          {blackPlayerId: this._id},
+          {whitePlayerId: this._id}
         ]}
       ] }, { sort: { lastActivityAt: -1 } });
 }
