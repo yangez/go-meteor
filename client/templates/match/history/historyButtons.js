@@ -27,14 +27,17 @@ Template.historyButtons.events({
   },
   'click #history-back': function(e) {
     e.preventDefault();
+
     historyMove(this.game, "back");
   },
   'click #history-forward': function(e) {
     e.preventDefault();
+
     historyMove(this.game, "forward");
   },
   'click #history-end': function(e) {
     e.preventDefault();
+
     historyMove(this.game, "end");
   },
 
@@ -88,6 +91,8 @@ var historyMove = function(game, direction) {
   if (["begin", "back", "forward", "end"].indexOf(direction) === -1)
     var direction = "end";
 
+  // move to history chat tab
+  if ($("#chat-ingame")) $("#chat-ingame").click();
 
   var lastMoveIndex = game.wgoGame.stack.length-1;
   var currentMoveIndex = Session.get("historyMoveIndex").current;
