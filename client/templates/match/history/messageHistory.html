@@ -1,5 +1,5 @@
 <template name="messageHistory">
-  <ul class="messages" id="game-ingame-messages">
+  <ul class="messages {{inGameMessagesVisible}}" id="game-ingame-messages">
     {{#each messages}}
       {{> message}}
     {{/each}}

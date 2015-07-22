@@ -81,6 +81,13 @@
   .message-history-buttons {
     position: absolute;
     top: 0; right: -1px;
+    z-index: 5;
+    background: transparent;
+  }
+  #game-ingame-messages {
+    position: absolute;
+    width: 100%;
+    z-index: 2;
   }
 
   .messages-container {

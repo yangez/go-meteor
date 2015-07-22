@@ -15,6 +15,9 @@ Template.messageHistory.helpers({
   gameEnded: function() {
     return this.archived;
   },
+  inGameMessagesVisible: function() {
+    return Session.get("messageHistoryState") === "ingame" ? "" : "hidden";
+  },
 });
 
 Template.messageContainer.events({
