@@ -191,3 +191,13 @@ i.stone {
     text-align:right;
   }
 }
+
+#user-profile-view{
+  .bold {
+    font-weight: bold;
+  }
+  #profile-edit{
+    margin-top: 0px;
+    width: 100%;
+  }
+}
