@@ -2,6 +2,10 @@
   <div id="game-page">
     <div class="game-id" id="{{this._id}}" style="display: none;"></div>
 
+    {{#if defaultNotify}}
+      <div id="notify-permissions" class="alert alert-info"><a href="#" class="alert-link">Click to enable desktop notifications</a> so you know when it's your turn, without needing to watch this window.</div>
+    {{/if}}
+
     <div class="left">
       {{ > board}}
     </div>
