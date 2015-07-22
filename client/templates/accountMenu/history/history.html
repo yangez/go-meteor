@@ -1,5 +1,19 @@
 <template name="history">
-  hello how are you doing?
-  <br/>
-  {{user}}
+  <div class="row col-md-6 history text-center">
+    <div>
+      <div class="panel-heading">{{heading}}</div>
+      {{#if games.count}}
+      <table class="table table-hover">
+        <tbody>
+          {{#each games}}
+          {{> gameRow }}
+          {{/each}}
+        </tbody>
+      </table>
+      {{else}}
+      {{/if}}
+    </div>
+  </div>
+
+  {{games.count}}
 </template>
