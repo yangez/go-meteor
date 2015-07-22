@@ -276,3 +276,15 @@ i.stone {
     width: 100%;
   }
 }
+
+.filtering{
+  .input-group-addon{
+    border-right: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .form-control {
+    background-color: white;
+    color: black;
+    border: none;
+  }
+}
