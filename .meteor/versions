@@ -10,6 +10,7 @@ blaze-tools@1.0.3
 boilerplate-generator@1.0.3
 callback-hook@1.0.3
 check@1.0.5
+coffeescript@1.0.6
 ddp@1.1.0
 deps@1.0.7
 ejson@1.0.6
@@ -34,6 +35,7 @@ iron:url@1.0.9
 jquery@1.11.3_2
 json@1.0.3
 launch-screen@1.0.2
+less@1.0.14
 livedata@1.0.13
 localstorage@1.0.3
 logging@1.0.7
@@ -43,6 +45,7 @@ minifiers@1.1.5
 minimongo@1.0.8
 mobile-status-bar@1.0.3
 mongo@1.1.0
+multiply:iron-router-progress@1.0.1
 npm-bcrypt@0.7.8_2
 oaf:html5-desktop-notifications@1.0.0
 observe-sequence@1.0.6
