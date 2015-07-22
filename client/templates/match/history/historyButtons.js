@@ -21,6 +21,10 @@ Template.historyButtons.onDestroyed(function(){
 });
 
 Template.historyButtons.events({
+  'click #history-move': function(e) {
+    e.preventDefault();
+    historyMove(this.game, "jump", 4);
+  },
   'click #history-begin': function(e) {
     e.preventDefault();
     historyMove(this.game, "begin");
@@ -87,8 +91,8 @@ Template.historyButtons.helpers({
   },
 });
 
-var historyMove = function(game, direction) {
-  if (["begin", "back", "forward", "end"].indexOf(direction) === -1)
+var historyMove = function(game, direction, jumpNumber) {
+  if (["begin", "back", "forward", "end", "jump"].indexOf(direction) === -1)
     var direction = "end";
 
   // move to history chat tab
@@ -123,6 +127,13 @@ var historyMove = function(game, direction) {
       previous: currentMoveIndex
     });
   }
-
+  else if (direction === "jump") {
+    if (jumpNumber > 0 && jumpNumber < lastMoveIndex) {
+      Session.set("historyMoveIndex", {
+        current: jumpNumber,
+        previous: currentMoveIndex
+      });
+    }
+  }
 
 }
