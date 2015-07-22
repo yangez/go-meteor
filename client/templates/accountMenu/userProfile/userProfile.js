@@ -4,7 +4,7 @@ Template.userProfile.helpers({
   },
 
   games : function(){
-    return findArchivedGames();
+    return findArchivedGames(this);
   },
 
   isUser : function(){
@@ -20,12 +20,12 @@ Template.userProfile.events({
   }
 });
 
-var findArchivedGames = function(){
+var findArchivedGames = function(user){
   return Games.find({ $and: [
         {archived: true},
         {$or: [ // player is in game
-          {blackPlayerId: this._id},
-          {whitePlayerId: this._id}
+          {blackPlayerId: user._id},
+          {whitePlayerId: user._id}
         ]}
       ] }, { sort: { lastActivityAt: -1 } });
 }
