@@ -28,6 +28,9 @@ Template.messageContainer.events({
 
     this.pushMessage(content, Meteor.user());
 
+    // go to chat page
+    if ($("#chat-live")) $("#chat-live").click(); 
+
     $(e.target).find('[name=content]').val("");
   },
 });

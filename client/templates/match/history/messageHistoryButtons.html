@@ -9,11 +9,11 @@
     </label>
   -->
 
-    <label class="btn btn-default {{#if buttonLiveActive}} active{{/if}}">
-      <input type="radio" name="chat-mode" id="chat-live" autocomplete="off" checked> Live Chat
+    <label id="chat-live" class="btn btn-default {{#if buttonLiveActive}} active{{/if}}">
+      <input type="radio" name="chat-mode" autocomplete="off"> Live Chat
     </label>
-    <label class="btn btn-default {{#if buttonInGameActive}} active{{/if}}">
-      <input type="radio" name="chat-mode" id="chat-ingame" autocomplete="off"> In-Game Chat
+    <label id="chat-ingame" class="btn btn-default {{#if buttonInGameActive}} active{{/if}}">
+      <input type="radio" name="chat-mode" autocomplete="off"> In-Game Chat
     </label>
   </div>
 </template>

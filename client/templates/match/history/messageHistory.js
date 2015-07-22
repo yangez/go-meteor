@@ -10,10 +10,7 @@ Template.messageHistory.helpers({
     }
   },
   inGameMessageScroller: function() {
-    if (Session.get("historyMoveIndex")) {
-      scrollInGameMessages();
-      console.log("scrolling");
-    };
+    if (Session.get("historyMoveIndex")) scrollInGameMessages();
   },
   inGameMessagesVisible: function() {
     return Session.get("messageHistoryState") === "ingame" ? "" : "background";
