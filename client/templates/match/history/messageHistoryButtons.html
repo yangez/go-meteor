@@ -1,14 +1,19 @@
 <template name="messageHistoryButtons">
-  <div class="message-history-buttons btn-group btn-group-xs" role="group">
-    {{#if buttonLiveActive}}
-      <button class="btn btn-default active" id="chat-live" data-toggle="button" aria-pressed="true">Live Chat</button>
-    {{else}}
-      <button class="btn btn-default" id="chat-live" data-toggle="button">Live Chat</button>
-    {{/if}}
-    {{#if buttonInGameActive}}
-      <button class="btn btn-default active" id="chat-ingame" data-toggle="button" aria-pressed="true">In-Game Chat</button>
-    {{else}}
-      <button class="btn btn-default" id="chat-ingame" data-toggle="button">In-Game Chat</button>
-    {{/if}}
+  <div class="message-history-buttons btn-group btn-group-xs" role="group" data-toggle="buttons">
+    <!--
+    <label class="btn btn-default{{#if buttonLiveActive}} active{{/if}}">
+      <input type="radio" name="chat-mode" id="chat-live" autocomplete="off" checked="{{#if buttonLiveActive}}true{{else}}false{{/if}}"> Live Chat
+    </label>
+    <label class="btn btn-default{{#if buttonInGameActive}} active{{/if}}">
+      <input type="radio" name="chat-mode" id="chat-ingame" autocomplete="off" checked="{{#if buttonLiveActive}}true{{else}}false{{/if}}"> In-Game Chat
+    </label>
+  -->
+
+    <label class="btn btn-default {{#if buttonLiveActive}} active{{/if}}">
+      <input type="radio" name="chat-mode" id="chat-live" autocomplete="off" checked> Live Chat
+    </label>
+    <label class="btn btn-default {{#if buttonInGameActive}} active{{/if}}">
+      <input type="radio" name="chat-mode" id="chat-ingame" autocomplete="off"> In-Game Chat
+    </label>
   </div>
 </template>
