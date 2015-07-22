@@ -21,6 +21,17 @@ Template.historyButtons.onRendered(function() {
       placement: "left",
       trigger: "manual"
     });
+
+    $('#history-move').on('inserted.bs.popover', function () {
+
+      $("#history-jump-form").submit(function(e){
+        e.preventDefault();
+        historyMove(game, "jump", parseInt($("#history-jump-form input").val()));
+        $("#history-move").popover('hide');
+      });
+
+    });
+
   // });
 });
 
@@ -138,7 +149,7 @@ var historyMove = function(game, direction, jumpNumber) {
     });
   }
   else if (direction === "jump") {
-    if (jumpNumber > 0 && jumpNumber < lastMoveIndex) {
+    if (jumpNumber >= 0 && jumpNumber <= lastMoveIndex) {
       Session.set("historyMoveIndex", {
         current: jumpNumber,
         previous: currentMoveIndex
