@@ -144,6 +144,14 @@
     }
   }
 }
+
+/* popover for history move jump */
+.popover.left{
+  width: 60px;
+  .popover-content { padding: 2px; }
+  .form-control { text-align: center; }
+}
+
 hr {
   clear: both;
 }

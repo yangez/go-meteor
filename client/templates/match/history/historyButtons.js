@@ -13,6 +13,36 @@ Template.historyButtons.onRendered(function() {
         previous: undefined
       });
     }
+
+    // make popover
+    $("#history-move").popover({
+      container: "body",
+      html: true,
+      placement: "left",
+      trigger: "manual"
+    });
+    $('#history-move').on('inserted.bs.popover', function () {
+      var $formInput = $("#history-jump-form input");
+      $("#history-jump-form").submit(function(e){
+        console.log('triggering submit');
+        e.preventDefault();
+        historyMove(game, "jump", parseInt($formInput.val()));
+        $("#history-move").popover('hide');
+      });
+
+    });
+    $("#history-move").on('shown.bs.popover', function() {
+      var $formInput = $("#history-jump-form input");
+      $formInput.focus();
+      $formInput.select();
+    });
+
+    $("html").click(function(e){
+      if ($("#history-jump-form").length > 0) {
+        $("#history-jump-form").submit();
+      }
+    });
+
   // });
 });
 
@@ -21,6 +51,12 @@ Template.historyButtons.onDestroyed(function(){
 });
 
 Template.historyButtons.events({
+  'click #history-move': function(e) {
+    e.stopPropagation(); e.preventDefault();
+    if ($("#history-jump-form").length === 0) {
+      $("#history-move").popover('show');
+    }
+  },
   'click #history-begin': function(e) {
     e.preventDefault();
     historyMove(this.game, "begin");
@@ -87,8 +123,8 @@ Template.historyButtons.helpers({
   },
 });
 
-var historyMove = function(game, direction) {
-  if (["begin", "back", "forward", "end"].indexOf(direction) === -1)
+var historyMove = function(game, direction, jumpNumber) {
+  if (["begin", "back", "forward", "end", "jump"].indexOf(direction) === -1)
     var direction = "end";
 
   // move to history chat tab
@@ -123,6 +159,13 @@ var historyMove = function(game, direction) {
       previous: currentMoveIndex
     });
   }
-
+  else if (direction === "jump") {
+    if (jumpNumber >= 0 && jumpNumber <= lastMoveIndex) {
+      Session.set("historyMoveIndex", {
+        current: jumpNumber,
+        previous: currentMoveIndex
+      });
+    }
+  }
 
 }

@@ -20,9 +20,11 @@ Template.messageHistoryButtons.helpers({
 
 Template.messageHistoryButtons.events({
   'click #chat-live': function(e) {
+    e.stopPropagation();
     Session.set("messageHistoryState", "live");
   },
   'click #chat-ingame': function(e) {
+    e.stopPropagation();
     Session.set("messageHistoryState", "ingame");
     scrollInGameMessages(0);
   },
