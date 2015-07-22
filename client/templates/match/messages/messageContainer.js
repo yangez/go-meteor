@@ -9,6 +9,9 @@ Template.messageContainer.helpers({
   messages: function(){
     return this.messages;
   },
+  gameEnded: function() {
+    return this.archived;
+  },
 });
 
 Template.messageContainer.events({

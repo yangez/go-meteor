@@ -1,5 +1,9 @@
 <template name="messageContainer">
   <div class="messages-container">
+    {{#if gameEnded}}
+      {{> messageHistoryButtons}}
+      {{> messageHistory}}
+    {{/if}}
     <ul class="messages">
       {{#each messages}}
         {{> message}}

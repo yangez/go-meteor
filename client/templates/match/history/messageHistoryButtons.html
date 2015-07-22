@@ -1,0 +1,14 @@
+<template name="messageHistoryButtons">
+  <div class="message-history-buttons btn-group btn-group-xs" role="group">
+    {{#if buttonLiveActive}}
+      <button class="btn btn-default active" id="chat-live" data-toggle="button" aria-pressed="true">Live Chat</button>
+    {{else}}
+      <button class="btn btn-default" id="chat-live" data-toggle="button">Live Chat</button>
+    {{/if}}
+    {{#if buttonInGameActive}}
+      <button class="btn btn-default active" id="chat-ingame" data-toggle="button" aria-pressed="true">In-Game Chat</button>
+    {{else}}
+      <button class="btn btn-default" id="chat-ingame" data-toggle="button">In-Game Chat</button>
+    {{/if}}
+  </div>
+</template>
