@@ -133,6 +133,14 @@ Template.playerBox.helpers({
     if (!this.game) return false;
     var game = Games.findOne(this.game._id); // refresh
     return (game.userAcceptedMD === Meteor.userId()) ? "disabled" : "";
+  },
+  score: function() {
+    var game = this.game;
+    if (game.archived && game.winnerId && game.score) {
+      var color = game.getColorOfPlayerId(game.winnerId);
+      var positionColor = game.getColorOfPosition(this.position);
+      if (color === positionColor) return game.score;
+    }
   }
 
 });
@@ -156,6 +164,10 @@ Template.playerBox.events({
   'click #pass-game': function(e) {
     e.preventDefault();
     this.game.playPass();
+  },
+  'click #resign-game': function(e) {
+    e.preventDefault();
+    this.game.resign();
   },
   'click #md-decline': function(e) {
     e.preventDefault();

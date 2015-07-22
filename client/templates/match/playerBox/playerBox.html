@@ -3,9 +3,8 @@
     <div class="user">
       {{#if data.user}}
         <i class="fa fa-user"></i> {{data.user.username}}
-        {{#if data.isCurrentPlayer}}
-          <em>(you)</em>
-        {{/if}}
+        {{#if data.isCurrentPlayer}} <em>(you)</em> {{/if}}
+        {{#if score}}<small class="score">{{score}}</small>{{/if}}
         {{#if captureCount}}
           <br/><small>Captured: <strong>{{captureCount}}</strong></small>
         {{/if}}
@@ -33,8 +32,8 @@
     {{#if data.isCurrentPlayer}}
       {{#if playerTurn}}
         <div class="action-buttons btn-group btn-group-justified btn-group-sm" role="group">
+          <a href="#" class="btn btn-default" id="resign-game">Resign</a>
           <a href="#" class="btn btn-default" id="pass-game">Pass <i class="fa fa-arrow-circle-o-right"></i></a>
-          <!-- <a href="#" class="btn btn-default" id="archive-game">End Game</a> -->
         </div>
       {{else}}
         {{#if markingDead}}
