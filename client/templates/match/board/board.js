@@ -23,8 +23,12 @@ Template.board.onRendered(function(e){
 
       // restore game state from scratch onto new board
       if (game.wgoGame) updateBoard(game.wgoGame.stack[0], game.wgoGame.getPosition());
+
     } else {
+
+      // if they've already been on the page, notify them that it's their turn
       game.notifyCurrentPlayer();
+
     }
 
     var board = rBoard.get().board;
@@ -40,10 +44,6 @@ Template.board.onRendered(function(e){
     // add appropriate event handlers to game
     if (game.markingDead()) addMDEventHandlers(board, game);
     else if (game.isReady()) addEventHandlers(board, game);
-
-
-    // send notification if it's your turn
-
 
   });
 
