@@ -23,6 +23,8 @@ Template.board.onRendered(function(e){
 
       // restore game state from scratch onto new board
       if (game.wgoGame) updateBoard(game.wgoGame.stack[0], game.wgoGame.getPosition());
+    } else {
+      game.notifyCurrentPlayer();
     }
 
     var board = rBoard.get().board;
@@ -40,6 +42,9 @@ Template.board.onRendered(function(e){
     else if (game.isReady()) addEventHandlers(board, game);
 
 
+    // send notification if it's your turn
+
+
   });
 
 });
@@ -54,6 +59,8 @@ Template.board.helpers({
     if (newGame.isReady()){
       updateBoard(oldGame.wgoGame.getPosition(), newGame.wgoGame.getPosition());
     }
+  },
+  'desktopNotifications' : function() {
   },
 });
 
