@@ -1,18 +1,26 @@
 <template name="userProfile">
-  <div class="row">
+  <div class="row" id="user-profile-view">
     <div class="col-md-4">
       <div class="games-panel panel panel-default {{style}}">
         <div class="panel-heading">User Profile</div>
-        <ul>
-          <li>Username : {{user.username}}</li>
-          <li>Firstname : {{user.profile.displayName.first}}</li>
-          <li>Lastname : {{user.profile.displayName.last}}</li>
-          <li>Age : {{user.profile.age}}</li>
-          <li>Location : {{user.profile.location}}</li>
-          <li>Profile : {{user.profile.description}}</li>
+
+
+        <ul class="list-group">
+          <button type="button" class="list-group-item"><span class="bold">Username</span> : {{user.username}}</button>
+          <button type="button" class="list-group-item"><span class="bold">Name</span> : {{user.profile.displayName.first}} {{user.profile.displayName.last}}</button>
+          <button type="button" class="list-group-item"><span class="bold">Age</span> : {{user.profile.age}}</button>
+          <button type="button" class="list-group-item"><span class="bold">Location</span> : {{user.profile.location}}</button>
+          <button type="button" class="list-group-item"><span class="bold">Profile</span> : {{user.profile.description}}</button>
         </ul>
+
+
+
       </div>
+      {{#if isUser}}
+        <button class="btn btn-info" type="button" id="profile-edit">Edit Profile</button>
+      {{/if}}
     </div>
+
 
     <div class="col-md-8">
       {{> gameTable games=games heading="Game History"}}

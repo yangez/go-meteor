@@ -5,17 +5,20 @@ Template.userProfile.helpers({
 
   games : function(){
     return findArchivedGames();
+  },
+
+  isUser : function(){
+    return this._id === Meteor.userId();
   }
 });
+
+
 Template.userProfile.events({
-
+  'click #profile-edit' : function(e){
+    e.preventDefault();
+    Router.go('editUserProfile', { username : Meteor.user().username });
+  }
 });
-
-
-
-
-
-
 
 var findArchivedGames = function(){
   return Games.find({ $and: [
