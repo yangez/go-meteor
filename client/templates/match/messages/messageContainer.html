@@ -1,8 +1,12 @@
 <template name="messageContainer">
   <div class="messages-container">
-    <ul class="messages">
+    {{#if gameEnded}}
+      {{> messageHistoryButtons}}
+      {{> messageHistory}}
+    {{/if}}
+    <ul class="messages" id="game-live-messages">
       {{#each messages}}
-        {{> message}}
+        {{> message }}
       {{/each}}
       {{messageScroller}}
     </ul>

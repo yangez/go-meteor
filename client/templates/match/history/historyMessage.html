@@ -1,0 +1,14 @@
+<template name="historyMessage">
+  <li class="message">
+    <em>{{this.currentMove}}: </em>
+    {{#if this.author}}
+      <span class="author">[{{this.author}}]</span> {{this.content}}
+    {{else}}
+      {{#if this.class}}
+        <span class="{{this.class}}">{{this.content}}</span>
+      {{else}}
+        <em>{{this.content}}</em>
+      {{/if}}
+    {{/if}}
+  </li>
+</template>

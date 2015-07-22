@@ -9,6 +9,9 @@ Template.messageContainer.helpers({
   messages: function(){
     return this.messages;
   },
+  gameEnded: function() {
+    return this.archived;
+  },
 });
 
 Template.messageContainer.events({
@@ -25,12 +28,15 @@ Template.messageContainer.events({
 
     this.pushMessage(content, Meteor.user());
 
+    // go to chat page
+    if ($("#chat-live")) $("#chat-live").click(); 
+
     $(e.target).find('[name=content]').val("");
   },
 });
 
 var scrollMessages = function(speed) {
-  if ($(".messages").length > 0) {
-    $(".messages").animate({scrollTop:$(".messages")[0].scrollHeight}, speed);
+  if ($("#game-live-messages").length > 0) {
+    $("#game-live-messages").animate({scrollTop:$("#game-live-messages")[0].scrollHeight}, speed);
   }
 }

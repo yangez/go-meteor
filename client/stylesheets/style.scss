@@ -65,18 +65,24 @@
       border-color: #8997AF;
     }
   }
-  .action-buttons, .history-buttons {
+  .action-buttons, .history-buttons, .message-history-buttons{
     .btn {
       border-radius: 0;
       border-top: 0;
     }
     :first-child { border-right: 0; }
   }
-  .history-buttons {
+  .history-buttons, .message-history-buttons {
     .btn {
       border-right-width: 0;
       &:last-child { border-right-width: 1px; }
     }
+  }
+  .message-history-buttons {
+    position: absolute;
+    top: 0; right: -1px;
+    z-index: 5;
+    background: transparent;
   }
 
   .messages-container {
@@ -99,6 +105,8 @@
       height: 321px;
       background: #eee;
       overflow: auto;
+      position: absolute;
+      width: 100%;
 
       &::-webkit-scrollbar { -webkit-appearance: none; }
       &::-webkit-scrollbar:vertical { width: 11px; }
@@ -112,6 +120,21 @@
       }
       .game-message{ font-weight: 600; }
       em { color: rgba(0, 0, 0, 0.5); }
+
+
+      &#game-ingame-messages {
+        background-color: #d1eaff;
+        z-index: 3;
+        &.background { z-index: 1; }
+
+        &::-webkit-scrollbar-thumb { border-radius: 8px; border: 2px solid #d1eaff; /* should match background, can't be transparent */ background-color: rgba(0, 0, 0, .5); }
+        &::-webkit-scrollbar-track { background-color: #d1eaff; border-radius: 8px; }
+      }
+      &#game-live-messages{
+        z-index: 2;
+        position: absolute;
+        width: 100%;
+      }
     }
   }
 }
