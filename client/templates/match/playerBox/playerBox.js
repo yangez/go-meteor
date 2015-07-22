@@ -74,6 +74,12 @@ Template.playerBox.helpers({
     return {}; // default return empty object
 
   },
+  userIsOnline: function() {
+    var color = this.game.getColorOfPosition(this.position);
+    var user = this.game.getPlayerAtColor(color);
+    var object = Presences.findOne({userId: user._id});
+    return (object && object.state === "online");
+  },
   isBottom: function() {
     return this.position == "bottom";
   },
