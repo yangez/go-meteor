@@ -1,7 +1,8 @@
 <template name="userItem">
     {{#if username color}}
       <span class="{{currentUserColor color}}">
-        <i class="fa fa-user"></i> {{username color}}
+        {{#if userIsOnline color}}<i class="fa fa-user"></i>{{/if}}
+        {{username color}}
         {{#if noTurnIndicator}}{{else}}
           {{#if currentMove color}}<i class="fa fa-dot-circle-o move-indicator"></i>{{/if}}
         {{/if}}
