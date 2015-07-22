@@ -1,3 +1,21 @@
+Template.historyButtons.onRendered(function() {
+  // this.autorun(function(a) {
+    var tData = Template.currentData(this.view);
+    var game = tData.game;
+    if (!game) return;
+
+    // if we don't have a current index, set it to current move
+
+    if (!Session.get("historyMoveIndex")) {
+      var lastMoveIndex = game.wgoGame.stack.length-1;
+      Session.set("historyMoveIndex", {
+        current: lastMoveIndex,
+        previous: undefined
+      });
+    }
+  // });
+});
+
 Template.historyButtons.onDestroyed(function(){
   Session.set("historyMoveIndex", undefined);
 });
@@ -70,16 +88,8 @@ var historyMove = function(game, direction) {
   if (["begin", "back", "forward", "end"].indexOf(direction) === -1)
     var direction = "end";
 
-  // if we don't have a current index, set it to current move
+
   var lastMoveIndex = game.wgoGame.stack.length-1;
-
-  if (!Session.get("historyMoveIndex"))
-    Session.set("historyMoveIndex", {
-      current: lastMoveIndex,
-      previous: undefined
-    });
-
-
   var currentMoveIndex = Session.get("historyMoveIndex").current;
 
   if (direction === "begin") {
