@@ -13,6 +13,14 @@ Template.historyButtons.onRendered(function() {
         previous: undefined
       });
     }
+
+    // make popover
+    $("#history-move").popover({
+      container: "body",
+      html: true,
+      placement: "left",
+      trigger: "manual"
+    });
   // });
 });
 
@@ -22,8 +30,10 @@ Template.historyButtons.onDestroyed(function(){
 
 Template.historyButtons.events({
   'click #history-move': function(e) {
-    e.preventDefault();
-    historyMove(this.game, "jump", 4);
+    // e.preventDefault();
+    $("#history-move").popover('toggle');
+
+    // historyMove(this.game, "jump", 4);
   },
   'click #history-begin': function(e) {
     e.preventDefault();
