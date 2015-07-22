@@ -20,11 +20,9 @@ Template.messageHistoryButtons.helpers({
 
 Template.messageHistoryButtons.events({
   'change #chat-live': function(e) {
-    debugger;
     if (e.target.checked) Session.set("messageHistoryState", "live");
   },
   'change #chat-ingame': function(e) {
-    debugger;
     if (e.target.checked) Session.set("messageHistoryState", "ingame");
   },
 });
