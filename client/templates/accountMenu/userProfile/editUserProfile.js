@@ -23,6 +23,8 @@ Template.editUserProfile.events({
       "profile.location" : data.location,
       "profile.description" : data.description
     }});
+
+    Router.go('userProfile', { username : Meteor.user().username });
   },
 
   'click #profile-reset-button': function(e){
