@@ -170,7 +170,7 @@ Template.playerBox.events({
     var game = this.game;
 
     $.confirm({
-      title: 'Confirmation',
+      title: 'Really resign?',
       content: 'Are you sure you want to resign? (This action is irreversible.)',
       confirmButton: "Yes",
       confirmButtonClass: "btn-danger",
