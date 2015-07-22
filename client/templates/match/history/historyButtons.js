@@ -52,7 +52,7 @@ Template.historyButtons.onDestroyed(function(){
 
 Template.historyButtons.events({
   'click #history-move': function(e) {
-    e.stopPropagation();
+    e.stopPropagation(); e.preventDefault();
     if ($("#history-jump-form").length === 0) {
       $("#history-move").popover('show');
     }
