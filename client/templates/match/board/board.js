@@ -18,7 +18,6 @@ Template.board.onRendered(function(e){
     // generate stuff for the first time
     if (rBoard === undefined || rBoard.get().gameId != game._id) {
 
-      game.createGame(game.size, game.repeat);
       createBoard(game);
 
       // restore game state from scratch onto new board
