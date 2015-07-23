@@ -1,5 +1,10 @@
 <template name="lobby">
   <div class="row">
+    {{ > globalChat }}
+  </div>
+
+  <hr />
+  <div class="row">
     {{#if currentUser}}
     <div class="col-md-6">
       {{> yourGamesTable }}
