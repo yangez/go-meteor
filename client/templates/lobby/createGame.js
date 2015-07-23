@@ -8,12 +8,8 @@ Template.createGame.events({
     }
 
     Meteor.call('game/insert', game, function(error, result) {
-      // display error and abort
-      if (error)
-        return alert(error.reason);
-
+      if (error) return console.log(error.message);
       Router.go('match', { _id: result._id });
-
     });
   }
 });
