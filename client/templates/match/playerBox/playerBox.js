@@ -184,7 +184,11 @@ Template.playerBox.events({
       confirmButtonClass: "btn-danger",
       cancelButton: "No",
       theme: "supervan",
-      confirm: function(){ game.resign(); }
+      confirm: function(){
+        Meteor.call('game/resign', game._id, function(error, result) {
+          if (error) return console.log(error.message);
+        });
+      }
     });
   },
   'click #md-decline': function(e) {
