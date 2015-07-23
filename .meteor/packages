@@ -17,3 +17,5 @@ tmeasday:presence
 oaf:html5-desktop-notifications
 alethes:lodash
 multiply:iron-router-progress
+mizzao:timesync
+momentjs:moment
