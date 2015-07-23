@@ -12,7 +12,7 @@ Template.gameRow.events({
 
     var game = Template.currentData();
 
-    Meteor.call("game/join", game, color, Meteor.userId(), function(error, result) {
+    Meteor.call("game/join", game, color, function(error, result) {
       if (error) return alert(error);
       Router.go('match', { _id: game._id });
     });

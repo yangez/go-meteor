@@ -157,7 +157,7 @@ Template.playerBox.events({
 
     var color = e.target.getAttribute('data-color');
 
-    Meteor.call("game/join", this.game, color, Meteor.userId(), function(error, result) {
+    Meteor.call("game/join", this.game, color, function(error, result) {
       if (error) return alert(error);
     });
   },
