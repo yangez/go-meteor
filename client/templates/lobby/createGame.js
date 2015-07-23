@@ -15,5 +15,17 @@ Template.createGame.events({
       if (error) return console.log(error.message);
       Router.go('match', { _id: result._id });
     });
+  },
+
+  'change #enable-timer': function(e) {
+    element = e.target;
+    Session.set("newGameTimerEnabled", element.checked);
+  }
+});
+
+Template.createGame.helpers({
+  timerEnabled: function(e) {
+    debugger;
+    return Session.get("newGameTimerEnabled");
   }
 });
