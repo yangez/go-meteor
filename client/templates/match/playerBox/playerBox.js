@@ -169,7 +169,9 @@ Template.playerBox.events({
   },
   'click #pass-game': function(e) {
     e.preventDefault();
-    this.game.playPass();
+    Meteor.call('game/pass', this.game._id, function(error, result) {
+      if (error) return console.log(error.message);
+    });
   },
   'click #resign-game': function(e) {
     e.preventDefault();
