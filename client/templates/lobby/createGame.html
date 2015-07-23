@@ -27,6 +27,17 @@
         </label>
       </div>
     </div>
+    <div class="form-group">
+      <div class="controls">
+        <label class="control-label" for="title">
+          <input type="checkbox" name="enable-timer" id="enable-timer" checked="{{timerEnabled}}"/> Timed
+        </label>
+        {{#if timerEnabled}}
+        <input name="time-control" id="time-control" class="form-control" placeholder="# minutes"/>
+        {{/if}}
+      </div>
+    </div>
+
     <input type="submit" value="Create Game &rarr;" class="btn btn-primary"/>
   </form>
 </li>
