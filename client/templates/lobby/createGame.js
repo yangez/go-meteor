@@ -7,7 +7,7 @@ Template.createGame.events({
       color: $(e.target).find('[name=color]:checked').val()
     }
 
-    Meteor.call('gameInsert', game, function(error, result) {
+    Meteor.call('game/insert', game, function(error, result) {
       // display error and abort
       if (error)
         return alert(error.reason);
