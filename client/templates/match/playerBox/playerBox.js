@@ -169,7 +169,7 @@ Template.playerBox.events({
   },
   'click #pass-game': function(e) {
     e.preventDefault();
-    Meteor.call('game/pass', this.game._id, function(error, result) {
+    Meteor.call('game/action', this.game._id, "pass", function(error, result) {
       if (error) return console.log(error.message);
     });
   },
@@ -185,7 +185,7 @@ Template.playerBox.events({
       cancelButton: "No",
       theme: "supervan",
       confirm: function(){
-        Meteor.call('game/resign', game._id, function(error, result) {
+        Meteor.call('game/action', game._id, "resign", function(error, result) {
           if (error) return console.log(error.message);
         });
       }
@@ -193,11 +193,15 @@ Template.playerBox.events({
   },
   'click #md-decline': function(e) {
     e.preventDefault();
-    this.game.declineMD();
+    Meteor.call('game/action', this.game._id, "declineMD", function(error, result) {
+      if (error) return console.log(error.message);
+    });
   },
   'click #md-accept': function(e) {
     e.preventDefault();
-    this.game.acceptMD();
+    Meteor.call('game/action', this.game._id, "acceptMD", function(error, result) {
+      if (error) return console.log(error.message);
+    });
   },
 
 });
