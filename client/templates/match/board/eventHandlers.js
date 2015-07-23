@@ -78,7 +78,9 @@ addEventHandlers = function(board, game) {
       Session.set("hoverStone"+game._id, undefined);
 
       // play move
-      game.playMove(x, y);
+      Meteor.call('game/action', game._id, "playMove", {x: x, y: y}, function(error, result) {
+        if (error) console.log(error.message);
+      });
     });
 
   }
