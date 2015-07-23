@@ -1,0 +1,44 @@
+<template name="filtering">
+<div class="filtering games-panel panel panel-default {{style}}">
+  <div class="panel-heading">Filtering & Options</div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <select class="form-control" id="color-filter">
+          <option selected value="all">Any color</option>
+          <option value="black">Black</option>
+          <option value="white">White</option>
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <select class="form-control" id="win-loss-filter">
+          <option selected value="all">Win or Loss</option>
+          <option value="win">Win</option>
+          <option value="loss">Loss</option>
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <select class="form-control" id="board-size-filter">
+          <option selected value="all">Any Board</option>
+          <option value="9">9 x 9</option>
+          <option value="13">13 x 13</option>
+          <option value="19">19 x 19</option>
+      </select>
+    </div>
+    <!-- 
+    <div class="col-md-3">
+      <select class="form-control" id="outcome-filter">
+          <option selected value="all">All outcomes</option>
+          <option value="resign">Resign</option>
+          <option value="small">&lt; 10 points</option>
+          <option value="medium">10 - 30 points</option>
+          <option value="big">&gt; 30 points</option>
+      </select>
+    </div>
+    -->
+  </div>
+
+</div>
+</template>
