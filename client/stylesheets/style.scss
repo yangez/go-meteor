@@ -1,5 +1,38 @@
 .container { min-width: 970px; }
 
+/* errors */
+.errors{
+  position: fixed;
+  z-index: 10000;
+  padding: 10px;
+  top: 0px; left: 0px; right: 0px; bottom: 0px;
+  pointer-events: none;
+}
+.alert {
+  animation: fadeOut 2700ms ease-in 0s 1 forwards;
+  -webkit-animation: fadeOut 2700ms ease-in 0s 1 forwards;
+  -moz-animation: fadeOut 2700ms ease-in 0s 1 forwards;
+  width: 300px;
+  float: right;
+  clear: both;
+  margin-bottom: 5px;
+  pointer-events: auto;
+}
+@-webkit-keyframes fadeOut {
+  0% {opacity: 0;}
+  10% {opacity: 1;}
+  90% {opacity: 1;}
+  100% {opacity: 0;}
+}
+@keyframes fadeOut {
+  0% {opacity: 0;}
+  10% {opacity: 1;}
+  90% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+
+
 /* top progress bar */
 #iron-router-progress {
   // background-color : #d1eaff;
