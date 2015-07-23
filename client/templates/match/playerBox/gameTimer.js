@@ -10,7 +10,13 @@ Template.gameTimer.helpers({
 
     var timeRemaining = game.timeRemaining(color);
 
-    if (timeRemaining) return moment(timeRemaining).format("m:ss");
-    else return false;
+    if (timeRemaining > 0 || timeRemaining === 0) {
+
+      if (timeRemaining === 0 && !game.archived)
+        Meteor.call("game/endOnTime", game._id, color);
+
+      // if player still has time
+      return moment(timeRemaining).format("m:ss");
+    } else return false;
   }
 });
