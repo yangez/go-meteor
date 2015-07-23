@@ -157,7 +157,7 @@ Template.playerBox.events({
 
     var color = e.target.getAttribute('data-color');
 
-    Meteor.call("joinGame", this.game, color, Meteor.userId(), function(error, result) {
+    Meteor.call("game/join", this.game._id, color, function(error, result) {
       if (error) return alert(error);
     });
   },
@@ -169,7 +169,9 @@ Template.playerBox.events({
   },
   'click #pass-game': function(e) {
     e.preventDefault();
-    this.game.playPass();
+    Meteor.call('game/action', this.game._id, "pass", function(error, result) {
+      if (error) return console.log(error.message);
+    });
   },
   'click #resign-game': function(e) {
     e.preventDefault();
@@ -182,16 +184,24 @@ Template.playerBox.events({
       confirmButtonClass: "btn-danger",
       cancelButton: "No",
       theme: "supervan",
-      confirm: function(){ game.resign(); }
+      confirm: function(){
+        Meteor.call('game/action', game._id, "resign", function(error, result) {
+          if (error) return console.log(error.message);
+        });
+      }
     });
   },
   'click #md-decline': function(e) {
     e.preventDefault();
-    this.game.declineMD();
+    Meteor.call('game/action', this.game._id, "declineMD", function(error, result) {
+      if (error) return console.log(error.message);
+    });
   },
   'click #md-accept': function(e) {
     e.preventDefault();
-    this.game.acceptMD();
+    Meteor.call('game/action', this.game._id, "acceptMD", function(error, result) {
+      if (error) return console.log(error.message);
+    });
   },
 
 });

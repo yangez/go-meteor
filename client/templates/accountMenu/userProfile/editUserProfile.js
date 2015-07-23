@@ -16,6 +16,7 @@ Template.editUserProfile.events({
       description : $(e.target).find('[name=description]').val()
     }
 
+    // note by Eric: we want to use Meteor.call here probably
     Meteor.users.update({_id:Meteor.userId()}, {$set : {
       "profile.displayName.first" : data.firstname,
       "profile.displayName.last" : data.lastname,

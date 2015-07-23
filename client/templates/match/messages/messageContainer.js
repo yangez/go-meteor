@@ -21,17 +21,23 @@ Template.messageContainer.events({
   'submit #comment-form': function(e) {
     e.preventDefault();
 
-    if (!Meteor.userId()) return false;
+    var game = this;
+    var $input = $(e.target).find('[name=content]');
+    var content = $input.val();
 
-    var content = $(e.target).find('[name=content]').val();
-    if (!content) return false;
+    Meteor.call('game/message', game._id, content, function(error, result) {
+      if (error) return console.log(error.reason);
 
-    this.pushMessage(content, Meteor.user());
+      // go to chat section
+      if (Session.get("messageHistoryState") === "ingame" && $("#chat-live")) {
+        $("#chat-live").click();
+        $input.focus();
+      }
 
-    // go to chat page
-    if ($("#chat-live")) $("#chat-live").click(); 
+      // set input val to nothing
+      $input.val("");
+    });
 
-    $(e.target).find('[name=content]').val("");
   },
 });
 

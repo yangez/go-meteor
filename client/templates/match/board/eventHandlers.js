@@ -13,7 +13,11 @@ addMDEventHandlers = function(board, game) {
   ) {
     board.addEventListener("click", MDClickHandler = function(x, y) {
       // game = Games.findOne(game._id);
-      game.togglePointAsDead(x, y);
+
+      Meteor.call('game/action', game._id, "togglePointAsDead", {x: x, y: y}, function(error, result) {
+        if (error) console.log(error.message);
+      });
+
     });
   }
 
@@ -74,7 +78,9 @@ addEventHandlers = function(board, game) {
       Session.set("hoverStone"+game._id, undefined);
 
       // play move
-      game.playMove(x, y);
+      Meteor.call('game/action', game._id, "playMove", {x: x, y: y}, function(error, result) {
+        if (error) console.log(error.message);
+      });
     });
 
   }
