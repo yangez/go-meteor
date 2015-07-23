@@ -31,6 +31,7 @@ Template.messageContainer.events({
       // go to chat section
       if (Session.get("messageHistoryState") === "ingame" && $("#chat-live")) {
         $("#chat-live").click();
+        $input.focus();
       }
 
       // set input val to nothing
