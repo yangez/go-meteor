@@ -15,13 +15,13 @@ Template.board.onRendered(function(e){
     if (!game) return;
 
     // if there's currently no board, or it's equal to another game,
-    // generate stuff for the first time
     if (rBoard === undefined || rBoard.get().gameId != game._id) {
 
+      // regenerate board
       createBoard(game);
 
       // restore game state from scratch onto new board
-      if (game.wgoGame) updateBoard(game.wgoGame.stack[0], game.wgoGame.getPosition());
+      updateBoard(game.wgoGame.stack[0], game.wgoGame.getPosition());
 
     } else {
 
@@ -58,8 +58,6 @@ Template.board.helpers({
     if (newGame.isReady()){
       updateBoard(oldGame.wgoGame.getPosition(), newGame.wgoGame.getPosition());
     }
-  },
-  'desktopNotifications' : function() {
   },
 });
 
