@@ -2,9 +2,13 @@ Template.createGame.events({
   'submit form': function(e) {
     e.preventDefault();
 
+    var timeEntered = parseInt( $(e.target).find('[name=time-control]').val() );
+    if (timeEntered) var timeInMilliseconds = moment.duration(timeEntered, "minutes").asMilliseconds();
+
     var game = {
       size: $(e.target).find('[name=size] option:selected').val(),
-      color: $(e.target).find('[name=color]:checked').val()
+      color: $(e.target).find('[name=color]:checked').val(),
+      gameLength: timeInMilliseconds,
     }
 
     Meteor.call('game/insert', game, function(error, result) {
