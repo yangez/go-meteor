@@ -61,7 +61,7 @@
     position: relative;
     height: 66px;
     .user {
-      width: 75%;
+      width: 60%;
       float: left;
       line-height: 1.2;
       position:relative;
@@ -75,8 +75,18 @@
         }
       }
     }
+    .timer {
+      float: right;
+      margin-right: 10px;
+      text-align: right;
+      font-weight: 600;
+      font-size: 20px;
+      position:relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
     .color {
-      width: 20%;
+      width: 24px;
       height: 24px;
       float: right;
       text-align: right;
@@ -102,6 +112,7 @@
     &.player-turn {
       background: #d1eaff;
       border-color: #8997AF;
+      .timer { color: green; }
     }
   }
   .action-buttons, .history-buttons, .message-history-buttons{
