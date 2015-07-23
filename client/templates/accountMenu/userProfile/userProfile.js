@@ -4,8 +4,8 @@ Template.userProfile.helpers({
   },
 
   games : function(){
-    // var archivedGames = findArchivedGames(this);
-    var filteredGames = applyGameFilters();
+    var user = this;
+    var filteredGames = applyGameFilters(user);
     return filteredGames;
   },
 
@@ -32,13 +32,13 @@ function findArchivedGames(user){
       ] }, { sort: { lastActivityAt: -1 } });
 }
 
-function applyGameFilters(){
+function applyGameFilters(user){
   var filters = Session.get('historyFilters');
 
   if(isDefaultFilters(filters))
-    return findArchivedGames(Meteor.user());
+    return findArchivedGames(user);
   else{
-    var currentUserId = Meteor.user()._id;
+    var currentUserId = user._id;
     var colorFilter, winLossFilter, sizeFilter, outcomeFilter;
 
     for(var key in filters){
