@@ -27,17 +27,14 @@ Template.messageContainer.events({
 
     Meteor.call('game/message', game._id, content, function(error, result) {
       if (error) return console.log(error.reason);
-
-      // go to chat section
-      if (Session.get("messageHistoryState") === "ingame" && $("#chat-live")) {
-        $("#chat-live").click();
-        $input.focus();
-      }
-
-      // set input val to nothing
-      $input.val("");
     });
 
+    if (Session.get("messageHistoryState") === "ingame" && $("#chat-live")) {
+      $("#chat-live").click();
+      $input.focus();
+    }
+
+    $input.val("");
   },
 });
 
