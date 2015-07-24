@@ -29,4 +29,7 @@ Template.lobby.helpers({
       {whitePlayerId: {$exists: true}},
     ]}, {sort: { endedAt : -1 } } );
   },
+  globalChatRoom: function(){
+  	return Chatrooms.findOne({name : 'Global'});
+  }
 });

@@ -1,5 +1,16 @@
 <template name="lobby">
   <div class="row">
+    <div class="col-md-9 global-chat">
+      {{!-- {{> globalChat }} --}}
+      {{> Template.dynamic template="globalChat" data=globalChatRoom}}
+    </div>
+    <div class="col-md-3 online-users">
+      {{> onlineUsers}}
+    </div>
+  </div>
+
+  <hr />
+  <div class="row">
     {{#if currentUser}}
     <div class="col-md-6">
       {{> yourGamesTable }}
