@@ -19,3 +19,9 @@ Template.gameRow.events({
 
   }
 });
+
+Template.gameRow.helpers({
+  timeString: function() {
+    if (this.isTimed()) return timeDisplay(this.gameLength, 'letters');
+  }
+});

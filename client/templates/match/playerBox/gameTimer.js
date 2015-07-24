@@ -19,23 +19,3 @@ Template.gameTimer.helpers({
     } else return false;
   }
 });
-
-function timeDisplay(ms) {
-  var string;
-  var duration = moment.duration(ms);
-
-  var seconds = duration.seconds();
-  var minutes = duration.minutes();
-
-  string = minutes + ":" + padToTwo(seconds);
-
-  var hours = duration.hours();
-  if (hours) string = hours + ":" + padToTwo(minutes) + ":" + padToTwo(seconds);
-
-  return string;
-}
-
-function padToTwo(number) {
-  if (number<=99) { number = ("0"+number).slice(-2); }
-  return number;
-}
