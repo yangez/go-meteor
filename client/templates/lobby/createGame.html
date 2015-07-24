@@ -33,7 +33,11 @@
           <input type="checkbox" name="enable-timer" id="enable-timer" checked="{{timerEnabled}}"/> Timed
         </label>
         {{#if timerEnabled}}
-        <input name="time-control" id="time-control" class="form-control" placeholder="# minutes"/>
+        <div class="input-group" id="timer-group">
+          <input type="text" name="time-control" id="time-control" class="form-control" placeholder="#" value="20"/>
+          <input type="hidden" name="time-type" id="time-type" value="minutes"/>
+          <a href="#" class="input-group-addon" id="time-type-display">minutes</a>
+        </div>
         {{/if}}
       </div>
     </div>

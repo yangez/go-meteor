@@ -215,6 +215,19 @@ hr {
 .create-game {
   width: 220px;
   padding: 20px;
+
+  #timer-group {
+    #time-control {
+      text-align: center;
+    }
+    #time-type-display {
+      width: 50%;
+      &:hover {
+        color: #000;
+      }
+    }
+
+  }
 }
 
 
