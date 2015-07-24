@@ -25,7 +25,6 @@ Template.createGame.events({
 
 Template.createGame.helpers({
   timerEnabled: function(e) {
-    debugger;
     return Session.get("newGameTimerEnabled");
   }
 });

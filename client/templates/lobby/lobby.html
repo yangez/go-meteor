@@ -1,6 +1,11 @@
 <template name="lobby">
   <div class="row">
-    {{ > globalChat }}
+    <div class="col-md-9 global-chat">
+      {{> globalChat }}
+    </div>
+    <div class="col-md-3 online-users">
+      {{> onlineUsers}}
+    </div>
   </div>
 
   <hr />

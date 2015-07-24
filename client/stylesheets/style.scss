@@ -300,10 +300,20 @@ i.stone {
   }
 }
 
-// .globalChat{
-//   .panel{
-//     padding: 0px;
-//     padding-left: 0px;
-//     padding-right: 0px;
-//   }
-// }
+.online-users{
+  .panel-body{
+    padding: 0px;
+  }
+  .online-user{
+    padding: 5px;
+    // border: 1px;
+    // border-radius: 4px;
+    // border-left: 0px;
+    // border-right: 0px;
+    // border-top: 1px;
+    // border-bottom: 0px;
+  }
+  .list-group{
+    margin : 0px;
+  }
+}
