@@ -53,7 +53,11 @@ addEventHandlers = function(board, game) {
         // if it's on the board and it's a valid move (no existing piece)
         if (game.wgoGame.isOnBoard(x, y) && game.wgoGame.isValid(x,y)) {
           // add new object
-          var newObj = { x: x, y: y, c: game.wgoGame.turn };
+          if (game.wgoGame.turn === WGo.B) {
+            var newObj = { x: x, y: y, type: "BLACK_HOVER" };
+          } else {
+            var newObj = { x: x, y: y, type: "WHITE_HOVER" };
+          }
           board.addObject(newObj);
           Session.set("hoverStone"+game._id, newObj);
         }
