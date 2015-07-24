@@ -12,6 +12,9 @@ Template.messageContainer.helpers({
   gameEnded: function() {
     return this.archived;
   },
+  loggedIn: function() {
+    return Meteor.userId();
+  }
 });
 
 Template.messageContainer.events({

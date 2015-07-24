@@ -21,7 +21,9 @@
             {{/if}}
           {{else}}
             {{#if routeIs 'match'}}
-              {{> yourGamesMenu}}
+              {{#if currentUser}}
+                {{> yourGamesMenu}}
+              {{/if}}
             {{/if}}
             <li> <a href="{{pathFor 'lobby'}}"><i class="fa fa-list-ul"></i> Game List</a> </li>
           {{/if}}

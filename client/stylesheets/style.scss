@@ -215,17 +215,36 @@ hr {
 .create-game {
   width: 220px;
   padding: 20px;
+
+  #timer-group {
+    #time-control {
+      text-align: center;
+    }
+    #time-type-display {
+      width: 50%;
+      &:hover {
+        color: #000;
+      }
+    }
+
+  }
 }
-
-
 
 label.filter {
   font-size: 12px;
   font-weight: 400;
+  margin-left: 10px;
   input { margin-left: 2px;}
 }
 .game {
-  &.your-turn { border-left: 5px #d6e9c6 solid; }
+  &.your-turn {
+    border-left: 5px #d6e9c6 solid;
+    .time-left { color: green;}
+  }
+  .time-left {
+    color: rgba(0, 0, 0, 0.5);
+    transition: color 200ms;
+  }
   span {
     color: rgba(0, 0, 0, 0.7);
     &.faded { color: rgba(0, 0, 0, 0.5); }

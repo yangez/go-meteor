@@ -1,6 +1,9 @@
 Template.yourGamesTable.events({
   "change .your-move-filter": function (e) {
-    Session.set("yourMoveOnly", e.target.checked);
+    Session.set("YGyourMoveOnly", e.target.checked);
+  },
+  "change .is-timed-filter": function (e) {
+    Session.set("YGisTimed", e.target.checked);
   },
   // "click .filter": function(e) {
   // },
@@ -10,31 +13,31 @@ Template.yourGamesTable.events({
 });
 Template.yourGamesTable.helpers({
   yourMoveOnly: function() {
-    return (Session.get("yourMoveOnly"));
+    return (Session.get("YGyourMoveOnly"));
+  },
+  isTimed: function() {
+    return (Session.get("YGisTimed"));
   },
   games: function() {
     if (!Meteor.userId()) return false;
-    if (!Session.get("yourMoveOnly")) {
-      return Games.find({ $and: [
-        {archived: {$ne: true}}, // not archived
-        {$or: [ // player is in game
-          {blackPlayerId: Meteor.userId()},
-          {whitePlayerId: Meteor.userId()}
-        ]},
-        // game has no open slot
-        {blackPlayerId: {$exists: true}},
-        {whitePlayerId: {$exists: true}}
-      ] }, { sort: { lastActivityAt: -1 } });
-    } else {
-      // return where it's current players' move
-      return Games.find({ $and: [
-        // not archived
-        {archived: {$ne: true}},
+    var and = [
+      {archived: {$ne: true}}, // not archived
 
-        // game has no open slot
-        {blackPlayerId: {$exists: true}},
-        {whitePlayerId: {$exists: true}},
+      // game has no open slot
+      {blackPlayerId: {$exists: true}},
+      {whitePlayerId: {$exists: true}},
 
+      // player is in game
+      {$or: [
+        {blackPlayerId: Meteor.userId()},
+        {whitePlayerId: Meteor.userId()}
+      ]},
+    ];
+
+
+    // add stuff relevant to 'yourMoveOnly'
+    if (Session.get("YGyourMoveOnly")) {
+      var add = [
         // player isn't in MD and already accepted
         {userAcceptedMD: {$ne: Meteor.userId() }},
 
@@ -58,10 +61,20 @@ Template.yourGamesTable.helpers({
           ]},
 
         ]}
-        // return (this.markedDead && !this.archived && this.markedSchema) ? true : false;
+      ];
 
-        // { wgoGame.turn: currentPlayerColor }
-      ] }, { sort: { lastActivityAt: -1 } });
+      _.merge(and, add);
     }
+
+    // add stuff relevant to 'timed'
+    if (Session.get("YGisTimed")) {
+      var add = [
+        { timeUsed: { $exists: true } },
+        { gameLength: { $exists: true } },
+      ]
+      _.merge(and, add);
+    }
+
+    return Games.find({ $and: and }, { sort: { lastActivityAt: -1 } });
   },
 });
