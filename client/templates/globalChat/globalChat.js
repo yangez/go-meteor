@@ -1,12 +1,18 @@
 Template.globalChat.onRendered(function(){
-	$('.chat-messages').animate({scrollTop : 500});
-
+	$('.chat-messages').animate({scrollTop : 10000});
 })
 
 Template.globalChat.helpers({
 	messages : function(){
-		$('.chat-messages').animate({scrollTop : 500});
-		return this.messages;
+		$('.chat-messages').animate({scrollTop : 10000});
+		var returnMessages = [];
+		var length = this.messages.length;
+		if(length > 100){
+			var difference = length - 100;
+			returnMessages = this.messages.slice(difference);
+		}
+
+		return length > 100 ? returnMessages : this.messages;
 	}
 });
 
