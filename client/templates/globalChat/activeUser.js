@@ -5,7 +5,7 @@ Template.activeUser.helpers({
 })
 
 Template.activeUser.events({
-	'click .glyphicon-user' : function(e){
+	'click .online-user' : function(e){
 		var selectedUser = Meteor.users.findOne({_id : this.userId});
 		Router.go('userProfile', { username : selectedUser.username });
 	}
