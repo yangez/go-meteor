@@ -303,17 +303,36 @@ i.stone {
 .online-users{
   .panel-body{
     padding: 0px;
+    overflow: auto;
   }
   .online-user{
     padding: 5px;
-    // border: 1px;
-    // border-radius: 4px;
-    // border-left: 0px;
-    // border-right: 0px;
-    // border-top: 1px;
-    // border-bottom: 0px;
   }
   .list-group{
     margin : 0px;
+  }
+}
+
+.global-chat{
+  .chat-body{
+    padding : 5px;
+    .separator{
+      margin-top: 10px;
+    }
+
+    .chat-messages{
+      max-height: 350px;
+      min-height: 350px;
+      overflow: auto;
+      // padding: 7px;
+      padding: 5px;
+      .global-msg-username {
+        font-weight: bold;
+      }
+    }
+
+  }
+  .enter-message{
+    padding : 10px;
   }
 }
