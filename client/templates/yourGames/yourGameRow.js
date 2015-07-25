@@ -34,18 +34,13 @@ Template.yourGameRow.helpers({
   },
   timeLeft: function() {
     var game = Games.findOne(this._id);
-
     if (!game.isTimed()) return false;
 
     var color = game.getColorOfPlayerId(Meteor.userId());
-
     var timeRemaining = game.timeRemaining(color);
 
     if (timeRemaining > 0 || timeRemaining === 0) {
-
-      if (timeRemaining === 0 && !game.archived)
-        Meteor.call("game/endOnTime", game._id, color);
-
+      game.checkTimerFlag();
       return timeDisplay(timeRemaining);
     } else return false;
 

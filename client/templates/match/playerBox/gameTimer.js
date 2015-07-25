@@ -12,10 +12,9 @@ Template.gameTimer.helpers({
 
     if (timeRemaining > 0 || timeRemaining === 0) {
 
-      if (timeRemaining === 0 && !game.archived)
-        Meteor.call("game/endOnTime", game._id, color);
-
+      game.checkTimerFlag();
       return timeDisplay(timeRemaining);
+
     } else return false;
   }
 });
