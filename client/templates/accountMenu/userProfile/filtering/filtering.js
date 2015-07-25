@@ -36,8 +36,7 @@ Template.filtering.events({
     filterEventHandler(e, 'pending');
   },
 
-  'change #user-filter' : function(e){
-    e.preventDefault();
+  'keyup #user-filter' : function(e){
     var setting = $(e.target).val();
     var newFilters = _.clone(Session.get('gameFilters'));
     newFilters['user'] = setting;
