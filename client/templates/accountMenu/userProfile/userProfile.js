@@ -33,7 +33,7 @@ function findArchivedGames(user){
 }
 
 function applyGameFilters(user){
-  var filters = Session.get('historyFilters');
+  var filters = Session.get('gameFilters');
 
   if(isDefaultFilters(filters))
     return findArchivedGames(user);
@@ -96,14 +96,14 @@ function applyGameFilters(user){
 
   function filterGames(colorFilter, winLossFilter, sizeFilter){
     return Games.find(
-        { $and: 
+        { $and:
           [
             {archived: true},
             {$or: colorFilter},
             {$or: winLossFilter},
             {$or : sizeFilter}
-          ] 
-        }, 
+          ]
+        },
         { sort: { lastActivityAt: -1 } });
   }
 
