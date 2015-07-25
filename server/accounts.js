@@ -1,8 +1,3 @@
-var accountConfig = {
-  maxLength : 16,
-  minLength : 3,
-}
-Object.freeze(accountConfig);
 
 Accounts.onCreateUser(function(options, user) {
   if (options.profile){
@@ -19,19 +14,15 @@ Accounts.onCreateUser(function(options, user) {
 });
 
 Accounts.validateNewUser(function(user){
-  var passedLength = false;
-  var passedUsernameValidation = false;
-
-  if(user && user.username.length >= accountConfig.minLength && user.username.length <= accountConfig.maxLength){
-    passedLength = true;
+  var accountConfig = {
+    maxLength : 16,
+    minLength : 3,
   }
+  Object.freeze(accountConfig);
 
-  if(user){
-    var allUsers = Meteor.users.find({}).fetch();
-    passedUsernameValidation = allUsers.every(function(userInArr){
-      return userInArr.username.toLowerCase() !== user.username.toLowerCase();
-    });
-  }
+  var passedLength = checkMaxLength();
+  var passedUsernameValidation = checkUsernameValid();
+
 
   if(!passedLength)
     throw new Meteor.Error('Invalid username length', 'Username must be between 3 and 16 characters.');
@@ -40,4 +31,19 @@ Accounts.validateNewUser(function(user){
 
   if(passedLength && passedUsernameValidation) return true;
   else return false;
+
+  function checkMaxLength(){
+    if(user && user.username.length >= accountConfig.minLength && user.username.length <= accountConfig.maxLength){
+      return true;
+    }else return false;
+  }
+
+  function checkUsernameValid(){
+    if(user){
+      var allUsers = Meteor.users.find({}).fetch();
+      return allUsers.every(function(userInArr){
+        return userInArr.username.toLowerCase() !== user.username.toLowerCase();
+      });
+    }else return false;
+  }
 });
