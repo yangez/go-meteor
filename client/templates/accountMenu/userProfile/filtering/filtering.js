@@ -4,6 +4,7 @@ defaultFilters = {
   boardSize : 'all',
   outcome : 'all',
   user : 'all',
+  pending : 'archived',
 }
 
 Template.filtering.onRendered(function(){
@@ -31,11 +32,16 @@ Template.filtering.events({
     filterEventHandler(e, 'outcome');
   },
 
+  'change #pending-filter' : function(e){
+    filterEventHandler(e, 'pending');
+  },
+
   'change #user-filter' : function(e){
     e.preventDefault();
     var setting = $(e.target).val();
     var newFilters = _.clone(Session.get('gameFilters'));
-    newFilters[]
+    newFilters['user'] = setting;
+    Session.set('gameFilters', newFilters);
   },
 });
 
