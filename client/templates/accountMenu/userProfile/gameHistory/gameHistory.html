@@ -1,0 +1,16 @@
+<template name="gameHistory">
+  <div class="games-panel panel panel-default {{style}}">
+    <div class="panel-heading">{{heading}}</div>
+    {{#if games.length}}
+    <table class="table table-hover">
+      <tbody>
+        {{#each games}}
+          {{> gameRow }}
+        {{/each}}
+      </tbody>
+    </table>
+    {{else}}
+      <div class="panel-body">No games here.</div>
+    {{/if}}
+  </div>
+</template>

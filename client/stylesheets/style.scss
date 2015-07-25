@@ -308,14 +308,24 @@ i.stone {
 }
 
 .filtering{
+  .row{
+    padding: 5px;
+  }
   .input-group-addon{
     border-right: 1px solid #ccc;
     border-radius: 4px;
   }
   .form-control {
+    padding: 5px;
     background-color: white;
     color: black;
     border: none;
+  }
+  .filter-seperator {
+    margin: 0px;
+  }
+  #user-filter{
+    margin: 0px;
   }
 }
 

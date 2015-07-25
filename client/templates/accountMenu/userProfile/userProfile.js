@@ -5,8 +5,15 @@ Template.userProfile.helpers({
 
   games : function(){
     var user = this;
-    var filteredGames = applyGameFilters(user);
-    return filteredGames;
+    var gamesArray = applyGameFilters(user).fetch();
+
+    // Filtering by User
+    if(!gamesArray) return undefined;
+    else{
+      var outcomeFiltered = outcomeFilter(gamesArray);
+      var usernameFiltered = usernameFilter(outcomeFiltered);
+      return usernameFiltered;
+    }
   },
 
   isUser : function(){
@@ -22,6 +29,45 @@ Template.userProfile.events({
   }
 });
 
+function outcomeFilter(gamesArr){
+  if(Session.get('gameFilters') === undefined || gamesArr === undefined) return gamesArr;
+  var outcomeType = Session.get('gameFilters').outcome;
+
+  return gamesArr.filter(function(game){
+    if(!game.score) return false;
+    var score = parseInt(game.score.slice(2));
+
+    if(outcomeType === 'resign'){
+      if(game.score === 'W+' || score === 'B+') return true;
+    }else if(outcomeType === 'small'){
+      if(score < 10) return true;
+    }else if(outcomeType === 'medium'){
+      if(score >= 10 && score < 30) return true;
+    }else if(outcomeType === 'big'){
+      if(score >= 30) return true;
+    }else{
+      return true; //push every game
+    }
+    return false;
+  });;
+}
+
+function usernameFilter(gamesArr){
+  var searchedUsername = Session.get('gameFilters').user;
+  if(searchedUsername === ''){
+    return gamesArr; //escape if empty
+  }else{
+    return gamesArr.filter(function(game){
+      var whiteName = Meteor.users.findOne({_id : game.whitePlayerId}).username;
+      var blackName = Meteor.users.findOne({_id : game.blackPlayerId}).username;
+      if(whiteName.indexOf(searchedUsername) >= 0 || blackName.indexOf(searchedUsername) >= 0){
+        return true;
+      }
+      return false;
+    });
+  }
+}
+
 function findArchivedGames(user){
   return Games.find({ $and: [
         {archived: true},
@@ -33,13 +79,13 @@ function findArchivedGames(user){
 }
 
 function applyGameFilters(user){
-  var filters = Session.get('historyFilters');
+  var filters = Session.get('gameFilters');
 
   if(isDefaultFilters(filters))
     return findArchivedGames(user);
   else{
     var currentUserId = user._id;
-    var colorFilter, winLossFilter, sizeFilter, outcomeFilter;
+    var colorFilter, winLossFilter, sizeFilter, outcomeFilter, pendingFilter, userFilter;
 
     for(var key in filters){
       var filterVal = filters[key];
@@ -79,6 +125,18 @@ function applyGameFilters(user){
           sizeFilter = [{ size : '9' }, { size : '13' }, { size : '19' }]
         }
       }
+      else if(key === 'pending'){
+        pendingFilter = filterVal;
+      }
+      // else if(key === 'user'){
+      //   if(filterVal === ""){
+      //     userFilter = [{}]
+      //   }else{
+      //     var filterUser = Meteor.users.findOne({username : filterVal});
+      //     userFilter = [{ blackPlayerId : filterUser._id }, { whitePlayerId : filterUser._id }];
+      //     console.log(userFilter);
+      //   }
+      // }
       // else if(key === 'outcome'){
       //   if(filterVal === 'resign')
       //     outcomeFilter = { $or : [ {score : 'B+'}, { score : 'W+'}]}
@@ -90,21 +148,38 @@ function applyGameFilters(user){
       //   else
       // }
     }
-    return filterGames(colorFilter, winLossFilter, sizeFilter);
+    return filterGames(colorFilter, winLossFilter, sizeFilter, pendingFilter, userFilter);
 
   }
 
-  function filterGames(colorFilter, winLossFilter, sizeFilter){
-    return Games.find(
-        { $and: 
-          [
-            {archived: true},
-            {$or: colorFilter},
-            {$or: winLossFilter},
-            {$or : sizeFilter}
-          ] 
-        }, 
-        { sort: { lastActivityAt: -1 } });
+  function filterGames(colorFilter, winLossFilter, sizeFilter, pendingFilter, userFilter){
+    // pending filter can either be default:'archived', 'open', or 'all'
+    if(pendingFilter === 'archived'){
+      // run the default search command
+      return Games.find(
+          { $and:
+            [
+              {archived: true},
+              {$or: colorFilter},
+              {$or: winLossFilter},
+              {$or : sizeFilter},
+              // {$or : userFilter}
+            ]
+          },
+          { sort: { lastActivityAt: -1 } });
+    }else if(pendingFilter === 'open'){
+      return Games.find(
+          { $and:
+            [
+              {archived: {$exists : false}},
+              {$or: colorFilter},
+              // {$or: winLossFilter},
+              {$or : sizeFilter},
+              // {$or : userFilter}
+            ]
+          },
+          { sort: { lastActivityAt: -1 } });
+    }
   }
 
   function isDefaultFilters(filters){
