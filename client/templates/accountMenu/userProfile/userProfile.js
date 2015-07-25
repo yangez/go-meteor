@@ -32,6 +32,7 @@ Template.userProfile.events({
 function outcomeFilter(gamesArr){
   if(Session.get('gameFilters') === undefined || gamesArr === undefined) return gamesArr;
   var outcomeType = Session.get('gameFilters').outcome;
+  if(outcomeType === 'all') return gamesArr;
 
   return gamesArr.filter(function(game){
     if(!game.score) return false;
