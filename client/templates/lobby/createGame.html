@@ -28,19 +28,36 @@
       </div>
     </div>
     <div class="form-group">
-      <div class="controls">
-        <label class="control-label" for="enable-timer">
-          <input type="checkbox" name="enable-timer" id="enable-timer" checked="{{timerEnabled}}"/> Timed
-        </label>
-        {{#if timerEnabled}}
-        <div class="input-group" id="timer-group">
-          <input type="text" name="time-control" id="time-control" class="form-control" placeholder="#" value="20"/>
-          <input type="hidden" name="time-type" id="time-type" value="minutes"/>
-          <a href="#" class="input-group-addon" id="time-type-display">minutes</a>
-        </div>
-        {{/if}}
+      <label class="control-label" for="enable-timer">
+        <input type="checkbox" name="enable-timer" id="enable-timer" checked="{{timerEnabled}}"/> Timed
+      </label>
+    </div>
+    {{#if timerEnabled}}
+    <div class="form-group">
+      <label class="sublabel" for="time-control">Main time</label>
+      <div class="input-group" id="timer-group">
+        <input type="text" name="time-control" id="time-control" class="form-control" placeholder="#" value="20"/>
+        <input type="hidden" name="time-type" id="time-type" value="minutes"/>
+        <a href="#" class="input-group-addon" id="time-type-display">minutes</a>
       </div>
     </div>
+    <div class="form-group">
+      <label class="sublabel" for="by-number">Byo-yomi</label>
+      <table id="by-group"><tr>
+        <td>
+          <input type="text" name="by-number" id="by-number" class="form-control" placeholder="#" value="5"/>
+        </td>
+        <td></td> <td>x</td> <td></td> <!-- empty td for spacing -->
+        <td>
+          <div class="input-group" id="by-group">
+            <input type="text" name="by-time" id="by-time" class="form-control" placeholder="#" value="1"/>
+            <input type="hidden" name="by-time-type" id="by-time-type" value="mins"/>
+            <a href="#" class="input-group-addon" id="by-time-type-display">mins</a>
+          </div>
+        </td>
+      </tr></table>
+    </div>
+    {{/if}}
 
     <input type="submit" value="Create Game &rarr;" class="btn btn-primary"/>
   </form>
