@@ -42,17 +42,20 @@
   <hr class="filter-seperator"/>
 
   <div class="row">
-    <div class="col-md-6">
-      <input type="text" id="user-filter" class="form-control" placeholder="Filter by opponent username...">
-    </div>
-
     <div class="col-md-3">
       <select class="form-control" id="pending-filter">
         <option selected value="archived">Archived Games</option>
         <option value="open">Open Games</option>
-        <option value="all">Archived & Open</option>
+        <!-- <option value="all">Archived & Open</option> -->
       </select>
     </div>
+
+    <div class="col-md-6 col-md-offset-3">
+      <input type="text" id="user-filter" class="form-control" placeholder="Enter username to filter by...">
+    </div>
+
+
+
   </div>
 
 </div>

@@ -3,7 +3,7 @@ defaultFilters = {
   winLoss : 'all',
   boardSize : 'all',
   outcome : 'all',
-  user : 'all',
+  user : '',
   pending : 'archived',
 }
 
