@@ -1,0 +1,39 @@
+<template name="userStats">
+<div class="stat-panel panel panel-default {{style}}">
+  <div class="panel-heading">Games Overview</div>
+  <ul class="list-group">
+    <button type="button" class="list-group-item">
+      <div class="col-md-4">
+        <span class="bold">Total</span> : {{totalGames}}
+      </div>
+
+      <div class="col-md-4">
+        <span class="bold">Open</span> : {{openGames}}
+      </div>
+
+      <div class="col-md-4">
+        <span class="bold finished">Finished</span><span class="finished"> : {{completedGames}}</span>
+      </div>
+    </button>
+
+    <button type="button" class="list-group-item">
+      <div class="col-md-6 text-center">
+        <span class="bold win">Wins : </span><span class="win">{{wonGames}}</span>
+      </div>
+      <div class="col-md-6 text-center">
+        <span class="bold win">Win % : </span><span class="win">{{winPercentage}}</span>
+      </div>
+    </button>
+
+    <button type="button" class="list-group-item">
+      <div class="col-md-6 text-center">
+        <span class="bold lost">Losses : </span><span class="lost">{{lostGames}}</span>
+      </div>
+      <div class="col-md-6 text-center">
+        <span class="bold lost">Loss % : </span><span class="lost">{{lossPercentage}}</span>
+      </div>
+    </button>
+
+  </ul>
+</div>
+</template>
