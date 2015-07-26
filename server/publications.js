@@ -14,5 +14,5 @@ Meteor.publish('userPresence', function() {
 });
 
 Meteor.publish('messages', function(){
-  return Messages.find({ pm : false });
+  return Messages.find();
 });

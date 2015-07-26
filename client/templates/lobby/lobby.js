@@ -30,7 +30,7 @@ Template.lobby.helpers({
     ]}, {sort: { endedAt : -1 } } );
   },
   globalChatRoom: function(){
-  	return Messages.find({ room : 'Global' }, {
+  	return Messages.find({ to : 'Global' }, {
       limit : 100,
       sort : { time : 1 }
     });
