@@ -1,5 +1,6 @@
 Template.createGame.events({
   'click #time-type-display': function(e) {
+    e.preventDefault();
     $type = $("#time-type");
     if ( $type.val() === "minutes" ) {
       $type.val("hours");
@@ -9,6 +10,19 @@ Template.createGame.events({
       $type.val("minutes");
       $("#time-control").val(30);
       $("#time-type-display").html("minutes");
+    }
+  },
+  'click #by-time-type-display': function(e) {
+    e.preventDefault();
+    $type = $("#by-time-type");
+    if ( $type.val() === "mins" ) {
+      $type.val("secs");
+      $("#by-time").val(30);
+      $("#by-time-type-display").html("secs");
+    } else if ($type.val() === "secs") {
+      $type.val("mins");
+      $("#by-time").val(1);
+      $("#by-time-type-display").html("mins");
     }
   },
   'submit form': function(e) {
@@ -24,10 +38,26 @@ Template.createGame.events({
       var timeInMilliseconds = moment.duration(timeEntered, timeType).asMilliseconds();
     }
 
+    var byoEntered = {};
+    byoEntered.periods = parseInt( $(e.target).find('[name=by-periods]').val());
+    byoEntered.time = parseInt( $(e.target).find('[name=by-time]').val());
+
+    if (byoEntered.periods && byoEntered.time) {
+      var byoTimeType = $(e.target).find('[name=by-time-type]').val();
+
+      if (["mins", "secs"].indexOf(byoTimeType) === -1) byoTimeType = "mins";
+
+      var byoTimeInMilliseconds = moment.duration(byoEntered.time, byoTimeType).asMilliseconds();
+
+      var byoyomi = {};
+
+    }
+
     var game = {
       size: $(e.target).find('[name=size] option:selected').val(),
       color: $(e.target).find('[name=color]:checked').val(),
       gameLength: timeInMilliseconds,
+      byoyomi: byoyomi,
     }
 
     Meteor.call('game/insert', game, function(error, result) {
