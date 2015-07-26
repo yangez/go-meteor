@@ -59,9 +59,11 @@ function usernameFilter(gamesArr){
     return gamesArr; //escape if empty
   }else{
     return gamesArr.filter(function(game){
-      var whiteName = Meteor.users.findOne({_id : game.whitePlayerId}).username;
-      var blackName = Meteor.users.findOne({_id : game.blackPlayerId}).username;
-      if(whiteName.indexOf(searchedUsername) >= 0 || blackName.indexOf(searchedUsername) >= 0){
+      var whitePlayer = Meteor.users.findOne({_id : game.whitePlayerId});
+      var blackPlayer = Meteor.users.findOne({_id : game.blackPlayerId});
+      if(!whitePlayer || !blackPlayer) return false;
+
+      if(whitePlayer.username.toLowerCase().indexOf(searchedUsername.toLowerCase()) >= 0 || blackPlayer.username.toLowerCase().indexOf(searchedUsername.toLowerCase()) >= 0){
         return true;
       }
       return false;
