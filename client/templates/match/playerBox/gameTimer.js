@@ -23,9 +23,6 @@ Template.gameTimer.helpers({
     var position = this.position;
     var color = game.getColorOfPosition(position);
 
-    var byoTimeRemaining = game.byoTimeRemaining(color);
-
-    return byoTimeRemaining;
-
+    return game.byoFormatTimeRemaining(color);
   }
 });

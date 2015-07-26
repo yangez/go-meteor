@@ -1,6 +1,11 @@
 <template name="gameTimer">
 {{#if gameIsTimed}}
-  <div class="timer">{{formattedTime}}</div>
-  <div class="byo">{{byoFormattedTime}}</div>
+  <div class="timer">
+    {{formattedTime}}<br/>
+    {{#if byoFormattedTime.time}}
+      {{byoFormattedTime.periods}} x {{byoFormattedTime.time}}
+    {{/if}}
+  </div>
+
 {{/if}}
 </template>
