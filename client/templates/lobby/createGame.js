@@ -15,12 +15,12 @@ Template.createGame.events({
   'click #by-time-type-display': function(e) {
     e.preventDefault();
     $type = $("#by-time-type");
-    if ( $type.val() === "mins" ) {
-      $type.val("secs");
+    if ( $type.val() === "minutes" ) {
+      $type.val("seconds");
       $("#by-time").val(30);
       $("#by-time-type-display").html("secs");
-    } else if ($type.val() === "secs") {
-      $type.val("mins");
+    } else if ($type.val() === "seconds") {
+      $type.val("minutes");
       $("#by-time").val(1);
       $("#by-time-type-display").html("mins");
     }
@@ -38,18 +38,20 @@ Template.createGame.events({
       var timeInMilliseconds = moment.duration(timeEntered, timeType).asMilliseconds();
     }
 
-    var byoEntered = {};
-    byoEntered.periods = parseInt( $(e.target).find('[name=by-periods]').val());
-    byoEntered.time = parseInt( $(e.target).find('[name=by-time]').val());
+    byoPeriods = parseInt( $(e.target).find('[name=by-periods]').val());
+    byoTime = parseInt( $(e.target).find('[name=by-time]').val());
 
-    if (byoEntered.periods && byoEntered.time) {
+    if (byoPeriods && byoTime) {
       var byoTimeType = $(e.target).find('[name=by-time-type]').val();
 
-      if (["mins", "secs"].indexOf(byoTimeType) === -1) byoTimeType = "mins";
+      if (["minutes", "seconds"].indexOf(byoTimeType) === -1) byoTimeType = "minutes";
 
-      var byoTimeInMilliseconds = moment.duration(byoEntered.time, byoTimeType).asMilliseconds();
+      var byoTimeInMilliseconds = moment.duration(byoTime, byoTimeType).asMilliseconds();
 
-      var byoyomi = {};
+      var byoyomi = {
+        periods: byoPeriods,
+        time: byoTimeInMilliseconds,
+      };
 
     }
 
