@@ -37,7 +37,7 @@ Template.yourGameRow.helpers({
     if (!game.isTimed()) return false;
 
     var color = game.getColorOfPlayerId(Meteor.userId());
-    var timeRemaining = game.timeRemaining(color);
+    var timeRemaining = game.absTimeRemaining(color);
 
     if (timeRemaining > 0 || timeRemaining === 0) {
       game.checkTimerFlag();
