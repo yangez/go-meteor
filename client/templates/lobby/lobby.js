@@ -30,6 +30,9 @@ Template.lobby.helpers({
     ]}, {sort: { endedAt : -1 } } );
   },
   globalChatRoom: function(){
-  	return Chatrooms.findOne({name : 'Global'});
+  	return Messages.find({ room : 'Global' }, {
+      limit : 100,
+      sort : { time : 1 }
+    });
   }
 });

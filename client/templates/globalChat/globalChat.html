@@ -8,14 +8,14 @@
       <div class="panel-body chat-messages">
         {{#each messages}}
           <div class="global-msg">
-          <span><span class="global-msg-username">{{user}} [{{time}}]: </span>{{text}}</span>
+          <span><span class="global-msg-username">{{username}} [{{displayTime}}]: </span>{{text}}</span>
           </div>
         {{/each}}
       </div>
     </div>
     <hr />
     <form class="input-group enter-message" id="chat-form-submit">
-      <input type="text" id="enter-message-text" class="form-control" placeholder="Enter message here..." aria-describedby="basic-addon2">
+      <input type="text" name="message" id="enter-message-text" class="form-control" placeholder="Enter message here..." aria-describedby="basic-addon2">
       <span class="input-group-btn">
        <button class="btn btn-danger" id="enter-message-submit" type="submit">Submit</button>
       </span>

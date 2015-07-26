@@ -13,6 +13,6 @@ Meteor.publish('userPresence', function() {
   return Presences.find(filter, { fields: { state: true, userId: true }});
 });
 
-Meteor.publish('chatroom', function(){
-  return Chatrooms.find();
-})
+Meteor.publish('messages', function(){
+  return Messages.find({ pm : false });
+});
