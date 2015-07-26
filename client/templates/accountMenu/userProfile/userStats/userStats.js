@@ -32,11 +32,11 @@ Template.userStats.helpers({
   },
 
   winPercentage : function(){
-    return wonGames / completedGames * 100 || null;
+    return (wonGames / completedGames * 100).toFixed(2) || null;
   },
 
   lossPercentage : function(){
-    return lostGames / completedGames * 100 || null;
+    return (lostGames / completedGames * 100).toFixed(2) || null;
   },
 
 });
