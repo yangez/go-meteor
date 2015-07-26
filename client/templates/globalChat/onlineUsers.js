@@ -1,16 +1,14 @@
 Template.onlineUsers.helpers({
 	activeUsers : function(){
-		var tempIdCheck = [];
-		var uniqueOnlineUsers = [];
-		var activeUsers = Presences.find({}).forEach(function(person){
-			var id = person.userId;
-			if(tempIdCheck.indexOf(id) === -1){
-				tempIdCheck.push(id);
-				uniqueOnlineUsers.push(person);
+		var presences = Presences.find({}).fetch();
+		var temp = [];
+		return presences.filter(function(user){ // filter out duplicate users
+			if(temp.indexOf(user.userId) === -1){
+				temp.push(user.userId);
+				return true;
 			}
+			return false;
 		});
-
-		return uniqueOnlineUsers;
 	}
 })
 
