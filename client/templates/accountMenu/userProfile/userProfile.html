@@ -2,9 +2,7 @@
   <div class="row" id="user-profile-view">
     <div class="col-md-4">
       <div class="games-panel panel panel-default {{style}}">
-        <div class="panel-heading">User Profile</div>
-
-
+      <div class="panel-heading">User Profile</div>
         <ul class="list-group">
           <button type="button" class="list-group-item"><span class="bold">Username</span> : {{user.username}}</button>
           <button type="button" class="list-group-item"><span class="bold">Name</span> : {{user.profile.displayName.first}} {{user.profile.displayName.last}}</button>
@@ -12,16 +10,15 @@
           <button type="button" class="list-group-item"><span class="bold">Location</span> : {{user.profile.location}}</button>
           <button type="button" class="list-group-item"><span class="bold">Profile</span> : {{user.profile.description}}</button>
         </ul>
-
-
-
       </div>
+
+      {{ > userStats }}
+
+
       {{#if isUser}}
         <button class="btn btn-info" type="button" id="profile-edit">Edit Profile</button>
       {{/if}}
     </div>
-
-
     <div class="col-md-8">
       {{> filtering }}
       {{> gameHistory games=games heading="Game History"}}

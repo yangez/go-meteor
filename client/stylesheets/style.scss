@@ -370,3 +370,27 @@ i.stone {
     padding : 10px;
   }
 }
+
+tr.game {
+  .glyphicon{
+    font-size: 1em;
+  }
+}
+
+.stat-panel{
+  .win{
+    text-align: center;
+    float: center;
+    color: lightgreen;
+  }
+  .lost{
+    text-align: center;
+    float: center;
+    color: red;
+  }
+  .finished{
+    text-align: center;
+    float: center;
+    color: blue;
+  }
+}

@@ -1,8 +1,8 @@
 <template name="yourGameRow">
   <tr class="game {{yourTurn}} {{isCurrentGame}}">
     <td><i class="stone {{color}}"></i> <span>vs.</span> {{ > userItem color=opponentColor noTurnIndicator=true }}</td>
-    <td>Move {{moveNumber}}</td>
-    <td><span class="time-left">{{timeLeft}}</span></td>
-    <td>{{size}}x{{size}}</td>
+    <td><span class="glyphicon glyphicon-pawn" aria-hidden="true"></span> Move {{moveNumber}}</td>
+    <td><span class="time-left"> {{timeLeft}}</span></td>
+    <td><span class="glyphicon glyphicon-th" aria-hidden="true"></span> {{size}}x{{size}}</td>
   </tr>
 </template>
