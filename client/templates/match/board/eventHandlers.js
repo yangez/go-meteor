@@ -79,7 +79,9 @@ addEventHandlers = function(board, game) {
       game = Games.findOne(game._id);
 
       // invalidate hover piece
+      var oldObj = Session.get("hoverStone"+game._id);
       Session.set("hoverStone"+game._id, undefined);
+      if (oldObj) board.removeObject(oldObj);
 
       // play move
       Meteor.call('game/action', game._id, "playMove", {x: x, y: y}, function(error, result) {
