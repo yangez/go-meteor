@@ -37,11 +37,21 @@ Template.yourGameRow.helpers({
     if (!game.isTimed()) return false;
 
     var color = game.getColorOfPlayerId(Meteor.userId());
-    var timeRemaining = game.timeRemaining(color);
 
-    if (timeRemaining > 0 || timeRemaining === 0) {
+    var totalTimeLeft = game.totalTimeLeft(color);
+
+    if (totalTimeLeft >= 0) {
       game.checkTimerFlag();
-      return timeDisplay(timeRemaining);
+
+      var absTimeLeft = game.absTimeLeft(color);
+
+      if (absTimeLeft > 0) return timeDisplay(absTimeLeft);
+      else {
+        var byoFormatted = game.byoFormatTimeLeft(color);
+        var byoString = byoFormatted.periods + " x " + byoFormatted.time;
+        return byoString;
+      }
+
     } else return false;
 
   }

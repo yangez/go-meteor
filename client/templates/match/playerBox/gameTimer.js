@@ -8,13 +8,39 @@ Template.gameTimer.helpers({
     var position = this.position;
     var color = game.getColorOfPosition(position);
 
-    var timeRemaining = game.timeRemaining(color);
+    var totalTimeLeft = game.totalTimeLeft(color);
+    var absTimeLeft = game.absTimeLeft(color);
+    var byoTimeLeft = game.byoTimeLeft(color);
 
-    if (timeRemaining > 0 || timeRemaining === 0) {
+    if (totalTimeLeft >= 0) {
+      var byoFormatted = game.byoFormatTimeLeft(color);
 
-      game.checkTimerFlag();
-      return timeDisplay(timeRemaining);
+      return {
+        absolute: timeDisplay(absTimeLeft),
+        byoyomi: byoFormatted
+      }
 
     } else return false;
+  },
+  absRunning: function() {
+    var game = Games.findOne(this.game._id);
+    if (!game.isTimed()) return false;
+
+    var position = this.position;
+    var color = game.getColorOfPosition(position);
+    var absTimeLeft = game.absTimeLeft(color);
+
+    return (absTimeLeft > 0);
+
+  },
+  byoRunning: function() {
+    var game = Games.findOne(this.game._id);
+    if (game.isTimed() !== "byoyomi") return false;
+
+    var position = this.position;
+    var color = game.getColorOfPosition(position);
+    var absTimeLeft = game.absTimeLeft(color);
+
+    return (absTimeLeft === 0);
   }
 });

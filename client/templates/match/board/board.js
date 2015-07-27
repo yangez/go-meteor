@@ -35,6 +35,7 @@ Template.board.onRendered(function(e){
     // update markers
     game.updateMDMarkers(board);
     game.updateTurnMarker(board);
+    game.clearHover(board);  
 
     // remove any event handlers
     removeEventHandlers(board);
@@ -43,6 +44,7 @@ Template.board.onRendered(function(e){
     // add appropriate event handlers to game
     if (game.markingDead()) addMDEventHandlers(board, game);
     else if (game.isReady()) addEventHandlers(board, game);
+
 
   });
 

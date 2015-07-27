@@ -81,9 +81,16 @@
       text-align: right;
       font-weight: 600;
       font-size: 20px;
+      line-height: 1;
       position:relative;
       top: 50%;
       transform: translateY(-50%);
+      small {
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 80%;
+        font-weight: 400;
+        line-height: 1.2;
+      }
     }
     .color {
       width: 24px;
@@ -216,17 +223,23 @@ hr {
   width: 220px;
   padding: 20px;
 
-  #timer-group {
-    #time-control {
-      text-align: center;
-    }
-    #time-type-display {
-      width: 50%;
-      &:hover {
-        color: #000;
-      }
-    }
+  #enable-timer-label { margin-bottom: 0; }
+  .sublabel { font-weight: 400; }
 
+  .input-group {
+    input { text-align: center; }
+    .input-group-addon {
+      width: 50%;
+      &:hover { color: #000; }
+    }
+  }
+
+  #by-periods {
+    width: 38px;
+  }
+
+  #by-group {
+    td:empty { width: 5px; }
   }
 }
 

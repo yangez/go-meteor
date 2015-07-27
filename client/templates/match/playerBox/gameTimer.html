@@ -1,5 +1,22 @@
 <template name="gameTimer">
 {{#if gameIsTimed}}
-  <div class="timer">{{formattedTime}}</div>
+  <div class="timer">
+    {{#if formattedTime.absolute}}
+      {{#if absRunning}}
+        {{formattedTime.absolute}}{{#if formattedTime.byoyomi.time}}<br/>{{/if}}
+      {{else}}
+        <small>{{formattedTime.absolute}}{{#if formattedTime.byoyomi.time}}<br/>{{/if}}</small>
+      {{/if}}
+    {{/if}}
+
+    {{#if formattedTime.byoyomi.time}}
+      {{#if byoRunning}}
+        {{formattedTime.byoyomi.periods}} x {{formattedTime.byoyomi.time}}
+      {{else}}
+        <small>{{formattedTime.byoyomi.periods}} x {{formattedTime.byoyomi.time}}</small>
+      {{/if}}
+    {{/if}}
+  </div>
+
 {{/if}}
 </template>

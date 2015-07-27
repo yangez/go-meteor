@@ -25,6 +25,16 @@ Template.gameRow.helpers({
     if (!this.isTimed()) return false;
 
     this.checkTimerFlag();
-    return timeDisplay(this.gameLength, 'letters');
+    var string = "";
+
+    if (this.gameLength > 0) string += timeDisplay(this.gameLength, 'letters');
+
+    if (this.gameLength > 0 && this.isTimed() === "byoyomi") string += " + ";
+
+    if (this.isTimed() === "byoyomi") {
+      string += byoToString(this.byoyomi.periods, this.byoyomi.time, 'letters');
+    }
+
+    return string;
   }
 });

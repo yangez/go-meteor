@@ -24,7 +24,6 @@ Template.historyButtons.onRendered(function() {
     $('#history-move').on('inserted.bs.popover', function () {
       var $formInput = $("#history-jump-form input");
       $("#history-jump-form").submit(function(e){
-        console.log('triggering submit');
         e.preventDefault();
         historyMove(game, "jump", parseInt($formInput.val()));
         $("#history-move").popover('hide');
