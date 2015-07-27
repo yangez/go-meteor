@@ -1,9 +1,9 @@
 <template name="gameTimer">
 {{#if gameIsTimed}}
   <div class="timer">
-    {{formattedTime}}<br/>
-    {{#if byoFormattedTime.time}}
-      {{byoFormattedTime.periods}} x {{byoFormattedTime.time}}
+    {{formattedTime.absolute}}<br/>
+    {{#if formattedTime.byoyomi.time}}
+      {{formattedTime.byoyomi.periods}} x {{formattedTime.byoyomi.time}}
     {{/if}}
   </div>
 
