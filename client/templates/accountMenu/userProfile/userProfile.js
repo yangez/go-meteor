@@ -5,12 +5,12 @@ Template.userProfile.helpers({
 
   games : function(){
     var user = this;
-    var gamesArray = applyGameFilters(user).fetch();
+    var gamesArray = applyGameFilters(user)
 
     // Filtering by User
     if(!gamesArray) return undefined;
     else{
-      var outcomeFiltered = outcomeFilter(gamesArray);
+      var outcomeFiltered = outcomeFilter(gamesArray).fetch();
       var usernameFiltered = usernameFilter(outcomeFiltered);
       return usernameFiltered;
     }
