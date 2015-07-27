@@ -21,7 +21,26 @@ Template.gameTimer.helpers({
       }
 
     } else return false;
+  },
+  absRunning: function() {
+    var game = Games.findOne(this.game._id);
+    if (!game.isTimed()) return false;
 
+    var position = this.position;
+    var color = game.getColorOfPosition(position);
+    var absTimeLeft = game.absTimeLeft(color);
 
+    return (absTimeLeft > 0);
+
+  },
+  byoRunning: function() {
+    var game = Games.findOne(this.game._id);
+    if (game.isTimed() !== "byoyomi") return false;
+
+    var position = this.position;
+    var color = game.getColorOfPosition(position);
+    var absTimeLeft = game.absTimeLeft(color);
+
+    return (absTimeLeft === 0);
   }
 });
