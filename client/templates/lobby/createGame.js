@@ -33,7 +33,7 @@ Template.createGame.events({
     if (timeEntered) {
       var timeType = $(e.target).find('[name=time-type]').val();
 
-      if (["seconds", "minutes", "hours"].indexOf(timeType) === -1) timeType = "minutes";
+      if (["minutes", "hours"].indexOf(timeType) === -1) timeType = "minutes";
 
       var timeInMilliseconds = moment.duration(timeEntered, timeType).asMilliseconds();
     }
