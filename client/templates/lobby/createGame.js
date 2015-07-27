@@ -53,6 +53,8 @@ Template.createGame.events({
         time: byoTimeInMilliseconds,
       };
 
+      // default game time
+      if (!timeInMilliseconds) var timeInMilliseconds = 0;
     }
 
     var game = {
