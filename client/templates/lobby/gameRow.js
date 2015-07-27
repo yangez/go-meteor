@@ -32,7 +32,7 @@ Template.gameRow.helpers({
     if (this.gameLength > 0 && this.isTimed() === "byoyomi") string += " + ";
 
     if (this.isTimed() === "byoyomi") {
-      string += this.byoyomi.periods + "x" + timeDisplay(this.byoyomi.time, "letters");
+      string += byoToString(this.byoyomi.periods, this.byoyomi.time, 'letters');
     }
 
     return string;
