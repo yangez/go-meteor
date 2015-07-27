@@ -28,21 +28,28 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label" for="enable-timer">
+      <label for="enable-timer" id="enable-timer-label">
         <input type="checkbox" name="enable-timer" id="enable-timer" checked="{{timerEnabled}}"/> Timed
       </label>
     </div>
     {{#if timerEnabled}}
     <div class="form-group">
-      <label class="sublabel" for="time-control">Main time</label>
+      <label class="sublabel" for="enable-main-time">
+        <input type="checkbox" name="enable-main-time" id="enable-main-time" checked="{{mainTimeEnabled}}"/> Main time
+      </label>
+      {{#if mainTimeEnabled}}
       <div class="input-group" id="timer-group">
         <input type="text" name="time-control" id="time-control" class="form-control" placeholder="#" value="20"/>
         <input type="hidden" name="time-type" id="time-type" value="minutes"/>
         <a href="#" class="input-group-addon" id="time-type-display">minutes</a>
       </div>
+      {{/if}}
     </div>
     <div class="form-group">
-      <label class="sublabel" for="by-periods">Byo-yomi</label>
+      <label class="sublabel" for="enable-byoyomi">
+        <input type="checkbox" name="enable-byoyomi" id="enable-byoyomi" checked="{{byoyomiEnabled}}"/> Byo-yomi
+      </label>
+      {{#if byoyomiEnabled}}
       <table id="by-group"><tr>
         <td>
           <input type="text" name="by-periods" id="by-periods" class="form-control" placeholder="#" value="5"/>
@@ -56,6 +63,7 @@
           </div>
         </td>
       </tr></table>
+      {{/if}}
     </div>
     {{/if}}
 

@@ -1,3 +1,8 @@
+Template.createGame.onRendered(function() {
+    // default main time should be enabled
+    Session.set("mainTimeEnabled", true);
+});
+
 Template.createGame.events({
   'click #time-type-display': function(e) {
     e.preventDefault();
@@ -73,11 +78,27 @@ Template.createGame.events({
   'change #enable-timer': function(e) {
     element = e.target;
     Session.set("newGameTimerEnabled", element.checked);
-  }
+  },
+
+  'change #enable-main-time': function(e) {
+    element = e.target;
+    Session.set("mainTimeEnabled", element.checked);
+  },
+
+  'change #enable-byoyomi': function(e) {
+    element = e.target;
+    Session.set("byoyomiEnabled", element.checked);
+  },
 });
 
 Template.createGame.helpers({
-  timerEnabled: function(e) {
+  timerEnabled: function() {
     return Session.get("newGameTimerEnabled");
-  }
+  },
+  mainTimeEnabled: function() {
+    return Session.get("mainTimeEnabled");
+  },
+  byoyomiEnabled: function() {
+    return Session.get("byoyomiEnabled");
+  },
 });
