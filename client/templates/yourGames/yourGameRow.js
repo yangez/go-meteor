@@ -37,11 +37,11 @@ Template.yourGameRow.helpers({
     if (!game.isTimed()) return false;
 
     var color = game.getColorOfPlayerId(Meteor.userId());
-    var timeRemaining = game.absTimeRemaining(color);
+    var timeLeft = game.absTimeLeft(color);
 
-    if (timeRemaining > 0 || timeRemaining === 0) {
+    if (timeLeft > 0 || timeLeft === 0) {
       game.checkTimerFlag();
-      return timeDisplay(timeRemaining);
+      return timeDisplay(timeLeft);
     } else return false;
 
   }
