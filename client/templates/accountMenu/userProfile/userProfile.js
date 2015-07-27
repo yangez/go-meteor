@@ -10,7 +10,7 @@ Template.userProfile.helpers({
     // Filtering by User
     if(!gamesArray) return undefined;
     else{
-      var outcomeFiltered = outcomeFilter(gamesArray).fetch();
+      var outcomeFiltered = outcomeFilter(gamesArray.fetch());
       var usernameFiltered = usernameFilter(outcomeFiltered);
       return usernameFiltered;
     }
