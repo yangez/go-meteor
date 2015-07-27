@@ -39,7 +39,7 @@ function outcomeFilter(gamesArr){
     var score = parseInt(game.score.slice(2));
 
     if(outcomeType === 'resign'){
-      if(game.score === 'W+' || score === 'B+') return true;
+      if(game.score === 'W+' || game.score === 'B+'){} return true;
     }else if(outcomeType === 'small'){
       if(score < 10) return true;
     }else if(outcomeType === 'medium'){
