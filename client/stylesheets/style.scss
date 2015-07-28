@@ -7,16 +7,17 @@
   padding: 10px;
   top: 0px; left: 0px; right: 0px; bottom: 0px;
   pointer-events: none;
-}
-.alert {
-  animation: fadeOut 2700ms ease-in 0s 1 forwards;
-  -webkit-animation: fadeOut 2700ms ease-in 0s 1 forwards;
-  -moz-animation: fadeOut 2700ms ease-in 0s 1 forwards;
-  width: 300px;
-  float: right;
-  clear: both;
-  margin-bottom: 5px;
-  pointer-events: auto;
+  .alert {
+    animation: fadeOut 2700ms ease-in 0s 1 forwards;
+    -webkit-animation: fadeOut 2700ms ease-in 0s 1 forwards;
+    -moz-animation: fadeOut 2700ms ease-in 0s 1 forwards;
+    width: 300px;
+    float: right;
+    clear: both;
+    margin-bottom: 5px;
+    pointer-events: auto;
+  }
+
 }
 @-webkit-keyframes fadeOut {
   0% {opacity: 0;}
@@ -40,12 +41,12 @@
 }
 
 /* match page */
-
 #notify-permissions {
   text-align: center;
   font-size: 12px;
   padding: 12px;
 }
+
 .left {
   width: 600px;
   float: left;
