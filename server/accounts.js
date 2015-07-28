@@ -1,3 +1,9 @@
+Accounts.config({
+  sendVerificationEmail: true
+})
+
+Accounts.emailTemplates.siteName = "onlinego.net";
+Accounts.emailTemplates.from = "Online Go <no-reply@onlinego.net>";
 
 Accounts.onCreateUser(function(options, user) {
   if (options.profile){
