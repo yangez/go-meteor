@@ -3,7 +3,7 @@ Meteor.publish('games', function() {
 });
 
 Meteor.publish("allUsers", function () {
-  return Meteor.users.find();
+  return Meteor.users.find({}, {fields: { profile: 1, username: 1, _id: 1} });
 });
 
 Meteor.publish('userPresence', function() {

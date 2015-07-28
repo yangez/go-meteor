@@ -1,5 +1,5 @@
 Accounts.ui.config({
-  passwordSignupFields: 'USERNAME_ONLY'
+  passwordSignupFields: 'USERNAME_AND_EMAIL'
 });
 
 notify.config({pageVisibility: true, autoClose: 2500})

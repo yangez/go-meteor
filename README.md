@@ -2,12 +2,16 @@
 
 Play at **http://onlinego.net**
 
-To contribute, please create new issues (including how to reproduce) and then submit PR with issue # attached. (Install meteor with `curl https://install.meteor.com/ | sh` and run it locally with `meteor` in this directory)
+To contribute:
+1. Install meteor with `curl https://install.meteor.com/ | sh`. You can run it locally with `meteor` in this directory
+2. Create a new issue (including how to reproduce) for new stuff
+3. If you're working on code, submit a PR with issue # attached
 
-To deploy, make sure you have your SSH key set up in ~/.ssh and send it to me so I can add you to Digital Ocean. Then:
-
-1. `npm install -g mup` on your computer
-2. Go to our directory and make your changes.
-3. `mup deploy` pushes it to production. Only use this on `master` branch please.
+To deploy live:
+1. Set up your SSH key in ~/.ssh
+2. Send Eric your public key and get `mup.json` from him to add to your working directory
+3. `npm install -g mup` on your computer
+4. Go to our directory and make your changes.
+5. `mup deploy` pushes it to production. Only use this on up-to-date `master` branch please.
 
 Cheers!
