@@ -10,6 +10,10 @@ Template.createGame.events({
   'submit form': function(e) {
     e.preventDefault();
 
+    // close menu
+    $('#create-game-menu').dropdown("toggle");
+
+    // figure out all game parameters
     var timeEntered = parseInt( $(e.target).find('[name=time-control]').val() );
 
     if (timeEntered) {
@@ -57,6 +61,8 @@ Template.createGame.events({
 
       Meteor.call('challenge/create', game, challengeUsername, function(error, result) {
         if (error) return console.log(error.message);
+
+        $('#challenges-menu').dropdown("toggle");
 
         showMessage("Challenge successfully sent to "+result.recipient+".");
       });
