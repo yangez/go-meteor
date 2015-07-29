@@ -24,6 +24,7 @@ Template.sentChallengeRow.helpers({
 
 Template.sentChallengeRow.events({
   'click .challenge-cancel': function(e) {
+    e.stopPropagation();
     Meteor.call("challenge/cancel", this._id, function(e, r) {
       if (e) return console.log(e.message);
     })

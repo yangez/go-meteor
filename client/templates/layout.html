@@ -13,6 +13,10 @@
       </div>
       <div class="collapse navbar-collapse" id="navigation">
         <ul class="nav navbar-nav">
+          {{#if routeIsNot 'lobby'}}
+            <li> <a href="{{pathFor 'lobby'}}"><i class="fa fa-list-ul"></i> Game List</a> </li>
+          {{/if}}
+
         </ul>
         <ul class="nav navbar-nav navbar-right">
           {{#if currentUser}}
@@ -20,14 +24,10 @@
 
             {{> challengeMenu}}
 
-            {{#if routeIs 'match'}}
-              {{> yourGamesMenu}}
-            {{/if}}
+            {{> yourGamesMenu}}
           {{/if}}
 
-          {{#if routeIs 'match'}}
-            <li> <a href="{{pathFor 'lobby'}}"><i class="fa fa-list-ul"></i> Game List</a> </li>
-          {{/if}}
+
 
           {{> loginButtons}}
         </ul>
