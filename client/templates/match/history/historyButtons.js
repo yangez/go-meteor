@@ -92,15 +92,15 @@ Template.historyButtons.helpers({
 
     var currentIndex = Session.get("historyMoveIndex").current
     var previousIndex = Session.get("historyMoveIndex").previous
-    if (rBoard) {
-      var board = rBoard.get().board;
+    if (gameBoard) {
+      var board = gameBoard.board;
       var oldPosition = game.wgoGame.stack[previousIndex];
       var newPosition = game.wgoGame.stack[currentIndex];
 
 
       if (oldPosition && newPosition)  {
         // update to new position
-        updateBoard(oldPosition, newPosition);
+        gameBoard.update(oldPosition, newPosition);
 
         // remove all other turn markers
         board.removeObjectsOfType("CR");
