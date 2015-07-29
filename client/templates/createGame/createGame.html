@@ -1,0 +1,39 @@
+<template name="createGame">
+  <li class="dropdown">
+    <p class="navbar-btn">
+      <a href="#" class="btn btn-success dropdown-toggle" id="create-game-menu" data-toggle="dropdown"><i class="fa fa-plus"></i> New Game</a>
+      <form class="form create-game dropdown-menu" aria-labelledby="create-game-menu">
+        <div class="form-group">
+          <label class="control-label" for="title">Size</label>
+          <div class="controls">
+            <select name="size" id="size" class="form-control">
+              <option value="9">9x9</option>
+              <option value="13" selected>13x13</option>
+              <option value="19">19x19</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="title">Your Color</label>
+          <div class="controls">
+            <label class="radio-inline">
+              <input type="radio" name="color" value="black" checked />
+              Black
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="color" value="white" />
+              White
+            </label>
+          </div>
+        </div>
+        {{> timerSettings }}
+
+        <input type="submit" value="Create Game &rarr;" class="btn btn-primary"/>
+      </form>
+
+    </p>
+
+
+  </li>
+
+</template>
