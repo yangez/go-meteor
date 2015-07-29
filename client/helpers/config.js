@@ -9,16 +9,19 @@ Errors = new Mongo.Collection(null);
 
 // Setup the state function on the client
 Presence.state = function() {
-  var routeName = Router.current().route.getName();
-  var obj = {
-    online: true,
-    currentRoute: routeName
-  };
+  var routeName, obj = { online: true }
 
-  if ( routeName === "match") {
+  if (Router.current()) {
+    var routeName = Router.current().route.getName();
     obj = _.extend(obj, {
-      currentGameId: Router.current().params._id,
-    })
+      currentRoute: routeName
+    });
+
+    if (routeName === "match") {
+      obj = _.extend(obj, {
+        currentGameId: Router.current().params._id,
+      });
+    }
   }
   return obj;
 }
