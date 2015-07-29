@@ -3,8 +3,8 @@
   {{#if showChallenges}}
   <li class="dropdown">
     <a href="#" class="dropdown-toggle" id="challenges-menu" data-toggle="dropdown">
-      {{#if hasReceivedChallenges}}
-        <span class="label label-danger">{{receivedChallengeCount}}</span>
+      {{#if receivedChallenges.count}}
+        <span class="label label-danger">{{receivedChallenges.count}}</span>
       {{else}}
         <i class="fa fa-bullhorn"></i>
       {{/if}}
@@ -13,6 +13,7 @@
 
     <div class="challenges dropdown-menu" aria-labelledby="challenges-menu">
 
+      {{#if sentChallenges.count}}
       <label>Sent</label>
       <table class="table table-striped">
         <tbody>
@@ -21,8 +22,10 @@
           {{/each}}
         </tbody>
       </table>
+      {{/if}}
 
 
+      {{#if receivedChallenges.count}}
       <label>Received</label>
       <table class="table table-striped">
         <tbody>
@@ -31,6 +34,7 @@
           {{/each}}
         </tbody>
       </table>
+      {{/if}}
 
     </div>
 

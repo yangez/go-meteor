@@ -21,3 +21,20 @@ Template.receivedChallengeRow.helpers({
     return this.gameAttributes.size + "x" + this.gameAttributes.size;
   }
 });
+
+Template.receivedChallengeRow.events({
+  'click .challenge-decline': function(e) {
+    Meteor.call("challenge/decline", this._id, function(e, r) {
+      if (e) return console.log(e.message);
+    })
+  },
+
+  'click .challenge-accept': function(e) {
+    Meteor.call("challenge/accept", this._id, function(e, r) {
+      if (e) return console.log(e.message);
+
+      Router.go('match', { _id: r.gameId });
+    })
+  },
+
+});

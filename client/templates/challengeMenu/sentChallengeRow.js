@@ -21,3 +21,11 @@ Template.sentChallengeRow.helpers({
     return this.gameAttributes.size + "x" + this.gameAttributes.size;
   }
 });
+
+Template.sentChallengeRow.events({
+  'click .challenge-cancel': function(e) {
+    Meteor.call("challenge/cancel", this._id, function(e, r) {
+      if (e) return console.log(e.message);
+    })
+  }
+});
