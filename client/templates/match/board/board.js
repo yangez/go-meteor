@@ -1,9 +1,9 @@
 // board display logic
-rBoard = undefined;
+gameBoard = undefined;
 
 Template.board.onDestroyed(function(e) {
   // unset board so it reinitiates next time
-  if (rBoard) rBoard = undefined;
+  if (gameBoard) gameBoard = undefined;
 });
 
 // on rendered
@@ -15,7 +15,7 @@ Template.board.onRendered(function(e){
     if (!game) return;
 
     // if there's currently no board, or it's equal to another game,
-    if (rBoard === undefined || rBoard.get().gameId != game._id) {
+    if (gameBoard === undefined || gameBoard.gameId != game._id) {
 
       // regenerate board
       createBoard(game);
@@ -30,12 +30,12 @@ Template.board.onRendered(function(e){
 
     }
 
-    var board = rBoard.get().board;
+    var board = gameBoard.board;
 
     // update markers
     game.updateMDMarkers(board);
     game.updateTurnMarker(board);
-    game.clearHover(board);  
+    game.clearHover(board);
 
     // remove any event handlers
     removeEventHandlers(board);
@@ -65,8 +65,8 @@ Template.board.helpers({
 
 
 updateBoard = function(oldPosition, newPosition) {
-  if (rBoard) {
-    var board = rBoard.get().board;
+  if (gameBoard) {
+    var board = gameBoard.board;
     var boardDifference = getPositionDifference( oldPosition, newPosition );
     board.update(boardDifference);
   }
@@ -74,14 +74,13 @@ updateBoard = function(oldPosition, newPosition) {
 
 createBoard = function(game) {
   $("#board").html(""); // kill all other boards
-  rBoard = new ReactiveVar({
+  gameBoard = new Board({
     gameId: game._id,
     board: new WGo.Board(document.getElementById("board"), {
       width: 600,
       size: game.size,
       background: ""
     })
-  }
-  );
-  return rBoard;
+  })
+  return gameBoard;
 }

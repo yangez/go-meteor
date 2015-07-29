@@ -92,8 +92,8 @@ Template.historyButtons.helpers({
 
     var currentIndex = Session.get("historyMoveIndex").current
     var previousIndex = Session.get("historyMoveIndex").previous
-    if (rBoard) {
-      var board = rBoard.get().board;
+    if (GameBoard) {
+      var board = GameBoard.board;
       var oldPosition = game.wgoGame.stack[previousIndex];
       var newPosition = game.wgoGame.stack[currentIndex];
 
