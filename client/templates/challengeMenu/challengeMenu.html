@@ -1,5 +1,39 @@
 <template name="challengeMenu">
-  {{#each challenges}}
-    {{> challengeRow}}
-  {{/each}}
+
+  {{#if showChallenges}}
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" id="challenges-menu" data-toggle="dropdown">
+      {{#if hasReceivedChallenges}}
+        <span class="label label-danger">{{receivedChallengeCount}}</span>
+      {{else}}
+        <i class="fa fa-bullhorn"></i>
+      {{/if}}
+      Challenges
+    </a>
+
+    <div class="challenges dropdown-menu" aria-labelledby="challenges-menu">
+
+      <label>Sent</label>
+      <table class="table table-striped">
+        <tbody>
+          {{#each sentChallenges}}
+            {{> sentChallengeRow}}
+          {{/each}}
+        </tbody>
+      </table>
+
+
+      <label>Received</label>
+      <table class="table table-striped">
+        <tbody>
+          {{#each receivedChallenges}}
+            {{> receivedChallengeRow}}
+          {{/each}}
+        </tbody>
+      </table>
+
+    </div>
+
+  </li>
+  {{/if}}
 </template>

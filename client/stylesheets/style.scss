@@ -208,6 +208,8 @@ hr {
   clear: both;
 }
 
+/* Your Games menu */
+
 #your-games-dropdown {
   width: 400px;
   padding: 0;
@@ -218,8 +220,7 @@ hr {
   }
 }
 
-/* lobby */
-
+/* Create Game menu */
 
 .create-game {
   width: 220px;
@@ -244,6 +245,25 @@ hr {
     td:empty { width: 5px; }
   }
 }
+
+/* Challenges menu */
+
+.challenges {
+  width: 400px;
+  padding: 20px;
+  table {
+    border: 1px solid #ddd;
+
+    .challenge-row {
+      color: rgba(0, 0, 0, 0.5);
+      strong {
+        color: rgba(0, 0, 0, 1);
+      }
+    }
+  }
+}
+
+/* --- */
 
 label.filter {
   font-size: 12px;

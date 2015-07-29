@@ -15,18 +15,20 @@
         <ul class="nav navbar-nav">
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          {{#if routeIs 'lobby' }}
-            {{#if currentUser}}
-              {{> createGame}}
-            {{/if}}
-          {{else}}
+          {{#if currentUser}}
+            {{> createGame}}
+
+            {{> challengeMenu}}
+
             {{#if routeIs 'match'}}
-              {{#if currentUser}}
-                {{> yourGamesMenu}}
-              {{/if}}
+              {{> yourGamesMenu}}
             {{/if}}
+          {{/if}}
+
+          {{#if routeIs 'match'}}
             <li> <a href="{{pathFor 'lobby'}}"><i class="fa fa-list-ul"></i> Game List</a> </li>
           {{/if}}
+
           {{> loginButtons}}
         </ul>
       </div>
