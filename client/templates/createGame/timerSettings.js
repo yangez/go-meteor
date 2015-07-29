@@ -1,3 +1,9 @@
+Template.timerSettings.onRendered(function(){
+  // default should be timed
+  Session.set("mainTimeEnabled", true);
+  Session.set("newGameTimerEnabled", true);
+})
+
 Template.timerSettings.events({
 
   'click #time-type-display': function(e) {

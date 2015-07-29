@@ -3,6 +3,8 @@
     <p class="navbar-btn">
       <a href="#" class="btn btn-success dropdown-toggle" id="create-game-menu" data-toggle="dropdown"><i class="fa fa-plus"></i> New Game</a>
       <form class="form create-game dropdown-menu" aria-labelledby="create-game-menu">
+
+
         <div class="form-group">
           <label class="control-label" for="title">Size</label>
           <div class="controls">
@@ -26,9 +28,14 @@
             </label>
           </div>
         </div>
+
         {{> timerSettings }}
 
-        <input type="submit" value="Create Game &rarr;" class="btn btn-primary"/>
+        <hr />
+
+        {{> challengeSettings}}
+
+        <input type="submit" value="{{buttonText}} &rarr;" class="btn btn-primary"/>
       </form>
 
     </p>

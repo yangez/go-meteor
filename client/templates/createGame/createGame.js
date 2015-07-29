@@ -1,7 +1,9 @@
-Template.createGame.onRendered(function() {
-    // default main time should be enabled
-    Session.set("mainTimeEnabled", true);
-});
+
+Template.createGame.helpers({
+  buttonText: function() {
+    return Session.get("challengeEnabled") ? "Challenge" : "Create Game";
+  },
+})
 
 Template.createGame.events({
   'submit form': function(e) {
