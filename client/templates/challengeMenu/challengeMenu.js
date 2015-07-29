@@ -16,4 +16,10 @@ Template.challengeMenu.helpers({
 });
 
 Template.challengeMenu.events({
+  'click #new-challenge': function(e) {
+    Session.set("challengeEnabled", true);
+    $('#create-game-menu').dropdown("toggle");
+    $("#challenge-username").focus();
+    e.stopPropagation();
+  }
 });

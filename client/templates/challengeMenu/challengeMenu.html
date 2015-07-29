@@ -1,7 +1,7 @@
 <template name="challengeMenu">
 
   {{#if showChallenges}}
-  <li class="dropdown">
+  <li class="dropdown" id="challenges-dropdown">
     <a href="#" class="dropdown-toggle" id="challenges-menu" data-toggle="dropdown">
       {{#if receivedChallenges.count}}
         <span class="label label-danger">{{receivedChallenges.count}}</span>
@@ -12,6 +12,8 @@
     </a>
 
     <div class="challenges dropdown-menu" aria-labelledby="challenges-menu">
+
+      <button class="btn btn-xs btn-default" id="new-challenge"><i class="fa fa-plus"></i> New</button>
 
       {{#if sentChallenges.count}}
       <label>Sent</label>
