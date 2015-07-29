@@ -2,7 +2,9 @@
   <div class="player-box {{playerTurn}}">
     <div class="user">
       {{#if data.user}}
-        {{#if userIsOnline}} <i class="fa fa-user"></i> {{/if}}
+        {{#if userIsOnline}}
+          <i class="fa fa-user {{userPresent}}"></i>
+        {{/if}}
         {{data.user.username}}
         {{#if data.isCurrentPlayer}} <em>(you)</em> {{/if}}
         {{#if score}}<small class="score">{{score}}</small>{{/if}}

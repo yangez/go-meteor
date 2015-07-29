@@ -29,7 +29,7 @@ Meteor.publish('challenges', function() {
     ] },
 
     // challenge is pending
-    { acknowledged: {$exists: false} }, 
+    { acknowledged: {$exists: false} },
     { declined: {$exists: false} },
     { canceled: {$exists: false} },
   ] });

@@ -75,6 +75,10 @@
           color: rgba(0, 0, 0, 0.8);
         }
       }
+      .fa-user {
+        color: #a30000;
+        &.in-game { color: #000000; }
+      }
     }
     .timer {
       float: right;
