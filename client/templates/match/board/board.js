@@ -1,4 +1,4 @@
-// board display logic
+// declare global board
 gameBoard = undefined;
 
 Template.board.onDestroyed(function(e) {
@@ -18,32 +18,29 @@ Template.board.onRendered(function(e){
     if (gameBoard === undefined || gameBoard.gameId != game._id) {
 
       // regenerate board
+      Board.clearBoards();
       gameBoard = new Board(game);
 
       // restore game state from scratch onto new board
-      updateBoard(game.wgoGame.stack[0], game.wgoGame.getPosition());
+      gameBoard.update(game.wgoGame.stack[0], game.wgoGame.getPosition())
 
     } else {
-
       // if they've already been on the page, notify them that it's their turn
       game.notifyCurrentPlayer();
-
     }
 
-    var board = gameBoard.board;
-
     // update markers
-    game.updateMDMarkers(board);
-    game.updateTurnMarker(board);
-    game.clearHover(board);
+    game.updateMDMarkers(gameBoard);
+    game.updateTurnMarker(gameBoard);
+    game.clearHover(gameBoard);
 
     // remove any event handlers
-    removeEventHandlers(board);
-    removeMDEventHandlers(board);
+    gameBoard.removeEventHandlers();
+    gameBoard.removeMDEventHandlers();
 
     // add appropriate event handlers to game
-    if (game.markingDead()) addMDEventHandlers(board, game);
-    else if (game.isReady()) addEventHandlers(board, game);
+    if (game.markingDead()) gameBoard.addMDEventHandlers();
+    else if (game.isReady()) gameBoard.addEventHandlers();
 
 
   });
@@ -57,17 +54,8 @@ Template.board.helpers({
     var newGame = Games.findOne(this._id);
 
     // update board to new position after move in Playing mode
-    if (newGame.isReady()){
-      updateBoard(oldGame.wgoGame.getPosition(), newGame.wgoGame.getPosition());
+    if (newGame.isReady() && gameBoard){
+      gameBoard.update(oldGame.wgoGame.getPosition(), newGame.wgoGame.getPosition());
     }
   },
 });
-
-
-updateBoard = function(oldPosition, newPosition) {
-  if (gameBoard) {
-    var board = gameBoard.board;
-    var boardDifference = getPositionDifference( oldPosition, newPosition );
-    board.update(boardDifference);
-  }
-}

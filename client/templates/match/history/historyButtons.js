@@ -100,7 +100,7 @@ Template.historyButtons.helpers({
 
       if (oldPosition && newPosition)  {
         // update to new position
-        updateBoard(oldPosition, newPosition);
+        gameBoard.update(oldPosition, newPosition);
 
         // remove all other turn markers
         board.removeObjectsOfType("CR");
