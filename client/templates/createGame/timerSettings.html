@@ -1,13 +1,7 @@
 <template name="timerSettings">
   <div class="form-group">
-    <label for="enable-timer" id="enable-timer-label">
-      <input type="checkbox" name="enable-timer" id="enable-timer" checked="{{timerEnabled}}"/> Timed
-    </label>
-  </div>
-  {{#if timerEnabled}}
-  <div class="form-group">
     <label class="sublabel" for="enable-main-time">
-      <input type="checkbox" name="enable-main-time" id="enable-main-time" checked="{{mainTimeEnabled}}"/> Main time
+      <input type="checkbox" name="enable-main-time" id="enable-main-time" checked="{{mainTimeEnabled}}"/> Main timer
     </label>
     {{#if mainTimeEnabled}}
     <div class="input-group" id="timer-group">
@@ -19,7 +13,7 @@
   </div>
   <div class="form-group">
     <label class="sublabel" for="enable-byoyomi">
-      <input type="checkbox" name="enable-byoyomi" id="enable-byoyomi" checked="{{byoyomiEnabled}}"/> Byo-yomi
+      <input type="checkbox" name="enable-byoyomi" id="enable-byoyomi" checked="{{byoyomiEnabled}}"/> Byo-yomi timer
     </label>
     {{#if byoyomiEnabled}}
     <table id="by-group"><tr>
@@ -37,5 +31,4 @@
     </tr></table>
     {{/if}}
   </div>
-  {{/if}}
 </template>

@@ -1,7 +1,6 @@
 Template.timerSettings.onRendered(function(){
   // default should be timed
   Session.set("mainTimeEnabled", true);
-  Session.set("newGameTimerEnabled", true);
 })
 
 Template.timerSettings.events({
@@ -33,11 +32,6 @@ Template.timerSettings.events({
     }
   },
 
-  'change #enable-timer': function(e) {
-    element = e.target;
-    Session.set("newGameTimerEnabled", element.checked);
-  },
-
   'change #enable-main-time': function(e) {
     element = e.target;
     Session.set("mainTimeEnabled", element.checked);
@@ -52,9 +46,6 @@ Template.timerSettings.events({
 
 
 Template.timerSettings.helpers({
-  timerEnabled: function() {
-    return Session.get("newGameTimerEnabled");
-  },
   mainTimeEnabled: function() {
     return Session.get("mainTimeEnabled");
   },
