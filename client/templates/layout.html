@@ -13,20 +13,22 @@
       </div>
       <div class="collapse navbar-collapse" id="navigation">
         <ul class="nav navbar-nav">
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          {{#if routeIs 'lobby' }}
-            {{#if currentUser}}
-              {{> createGame}}
-            {{/if}}
-          {{else}}
-            {{#if routeIs 'match'}}
-              {{#if currentUser}}
-                {{> yourGamesMenu}}
-              {{/if}}
-            {{/if}}
+          {{#if routeIsNot 'lobby'}}
             <li> <a href="{{pathFor 'lobby'}}"><i class="fa fa-list-ul"></i> Game List</a> </li>
           {{/if}}
+
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          {{#if currentUser}}
+            {{> createGame}}
+
+            {{> challengeMenu}}
+
+            {{> yourGamesMenu}}
+          {{/if}}
+
+
+
           {{> loginButtons}}
         </ul>
       </div>

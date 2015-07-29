@@ -1,0 +1,45 @@
+<template name="challengeMenu">
+
+  {{#if showChallenges}}
+  <li class="dropdown" id="challenges-dropdown">
+    <a href="#" class="dropdown-toggle" id="challenges-menu" data-toggle="dropdown">
+      {{#if receivedChallenges.count}}
+        <span class="label label-danger">{{receivedChallenges.count}}</span>
+      {{else}}
+        <i class="fa fa-bullhorn"></i>
+      {{/if}}
+      Challenges
+    </a>
+
+    <div class="challenges dropdown-menu" aria-labelledby="challenges-menu">
+
+      <button class="btn btn-xs btn-default" id="new-challenge"><i class="fa fa-plus"></i> New</button>
+
+      {{#if sentChallenges.count}}
+      <label>Sent</label>
+      <table class="table table-striped">
+        <tbody>
+          {{#each sentChallenges}}
+            {{> sentChallengeRow}}
+          {{/each}}
+        </tbody>
+      </table>
+      {{/if}}
+
+
+      {{#if receivedChallenges.count}}
+      <label>Received</label>
+      <table class="table table-striped">
+        <tbody>
+          {{#each receivedChallenges}}
+            {{> receivedChallengeRow}}
+          {{/each}}
+        </tbody>
+      </table>
+      {{/if}}
+
+    </div>
+
+  </li>
+  {{/if}}
+</template>
