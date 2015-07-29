@@ -80,6 +80,11 @@ Template.playerBox.helpers({
     var object = Presences.findOne({userId: user._id});
     return (object && object.state);
   },
+  userPresent: function() {
+    var color = this.game.getColorOfPosition(this.position);
+    var user = this.game.getPlayerAtColor(color);
+    return this.game.userIdPresent(user._id) ? "in-game" : "";
+  },
   isBottom: function() {
     return this.position == "bottom";
   },
