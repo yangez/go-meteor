@@ -18,7 +18,7 @@ Template.board.onRendered(function(e){
     if (gameBoard === undefined || gameBoard.gameId != game._id) {
 
       // regenerate board
-      createBoard(game);
+      gameBoard = new Board(game);
 
       // restore game state from scratch onto new board
       updateBoard(game.wgoGame.stack[0], game.wgoGame.getPosition());
@@ -70,17 +70,4 @@ updateBoard = function(oldPosition, newPosition) {
     var boardDifference = getPositionDifference( oldPosition, newPosition );
     board.update(boardDifference);
   }
-}
-
-createBoard = function(game) {
-  $("#board").html(""); // kill all other boards
-  gameBoard = new Board({
-    gameId: game._id,
-    board: new WGo.Board(document.getElementById("board"), {
-      width: 600,
-      size: game.size,
-      background: ""
-    })
-  })
-  return gameBoard;
 }

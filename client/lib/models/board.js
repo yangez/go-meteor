@@ -1,13 +1,20 @@
-Board = function(attr){
+Board = function(game){
   var board = Object.create(Board.prototype);
 
-  board = _.extend(board, attr);
+  $("#board").html(""); // kill all other boards
+  board = _.extend(board, {
+    gameId: game._id,
+    board: new WGo.Board(document.getElementById("board"), {
+      width: 600,
+      size: game.size,
+      background: ""
+    })
+  });
 
   return board;
 };
 
 _.extend(Board.prototype, {
 
-  // accept: function() {
 
 });
