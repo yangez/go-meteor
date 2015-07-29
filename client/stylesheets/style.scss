@@ -222,6 +222,9 @@ hr {
 
 /* Create Game menu */
 
+.dropdown > .navbar-btn {
+  margin-right: 15px; margin-left: 15px;
+}
 .create-game {
   width: 220px;
   padding: 20px;
