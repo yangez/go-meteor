@@ -1,11 +1,20 @@
 <template name="sentChallengeRow">
   <tr class="challenge-row">
+    {{#if acceptedAt}}
+      <td><strong>{{username}}</strong> accepted!</td>
+    {{else}}
     <td>Waiting for <strong>{{username}}</strong>...</td>
+    {{/if}}
+
     <td>{{timeString}}</td>
     <td>{{size}}</td>
     <td>
       <div class="pull-right">
+        {{#if acceptedAt}}
+        <button class="btn btn-success btn-xs challenge-acknowledge"><i class="fa fa-arrow-right"></i></button>
+        {{else}}
         <button class="btn btn-danger btn-xs challenge-cancel"><i class="fa fa-times"></i></button>
+        {{/if}}
       </div>
     </td>
   </tr>

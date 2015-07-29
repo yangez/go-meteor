@@ -27,5 +27,11 @@ Template.sentChallengeRow.events({
     Meteor.call("challenge/cancel", this._id, function(e, r) {
       if (e) return console.log(e.message);
     })
+  },
+  'click .challenge-acknowledge': function(e) {
+    Meteor.call("challenge/acknowledge", this._id, function(e, r) {
+      if (e) return console.log(e.message);
+      Router.go("match", { _id: r.gameId });
+    })
   }
 });

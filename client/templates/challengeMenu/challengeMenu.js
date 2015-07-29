@@ -8,9 +8,10 @@ Template.challengeMenu.helpers({
     });
   },
   receivedChallenges: function() {
-    return Challenges.find({
-      recipientId: Meteor.userId()
-    });
+    return Challenges.find({ $and: [
+      { recipientId: Meteor.userId() },
+      { acceptedAt: { $exists: false } },
+    ] });
   }
 });
 
