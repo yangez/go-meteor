@@ -1,6 +1,10 @@
 Template.challengeMenu.helpers({
   showChallenges: function() {
-    return Challenges.find().count() > 0;
+    var sentChallenges = Challenges.find({ senderId: Meteor.userId() });
+    var receivedChallenges = Challenges.find({ $and: [ { recipientId: Meteor.userId() }, { acceptedAt: { $exists: false } }, ] });
+
+    if (sentChallenges.count() > 0 || receivedChallenges.count() > 0) return true;
+    else return false;
   },
   sentChallenges: function() {
     return Challenges.find({
