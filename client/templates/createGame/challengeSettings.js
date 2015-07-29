@@ -12,12 +12,4 @@ Template.challengeSettings.helpers({
     return Session.get("challengeEnabled");
   },
 
-  search: function(query, sync, callback)  {
-    Meteor.call('users/autocomplete', query, {}, function(err, res) {
-      if (err) return console.log(err);
-
-      console.log(query);
-      callback(res.map(function(v){ return {value: v.username}; }));
-    });
-  },
 });
