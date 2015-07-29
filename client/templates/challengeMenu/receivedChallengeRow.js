@@ -32,7 +32,6 @@ Template.receivedChallengeRow.events({
   'click .challenge-accept': function(e) {
     Meteor.call("challenge/accept", this._id, function(e, r) {
       if (e) return console.log(e.message);
-
       Router.go('match', { _id: r.gameId });
     })
   },

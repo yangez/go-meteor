@@ -64,7 +64,7 @@ Template.createGame.events({
 
     // if this is merely a new game
     else {
-      Meteor.call('game/insert', game, function(error, result) {
+      Meteor.call('game/insert', game, Meteor.userId(), function(error, result) {
         if (error) return console.log(error.message);
         Router.go('match', { _id: result._id });
       });

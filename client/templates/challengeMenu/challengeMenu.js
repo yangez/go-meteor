@@ -15,7 +15,4 @@ Template.challengeMenu.helpers({
 });
 
 Template.challengeMenu.events({
-  'click .challenges': function(e) {
-    e.stopPropagation();
-  }
 });
