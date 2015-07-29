@@ -78,7 +78,7 @@ Template.playerBox.helpers({
     var color = this.game.getColorOfPosition(this.position);
     var user = this.game.getPlayerAtColor(color);
     var object = Presences.findOne({userId: user._id});
-    return (object && object.state === "online");
+    return (object && object.state);
   },
   isBottom: function() {
     return this.position == "bottom";

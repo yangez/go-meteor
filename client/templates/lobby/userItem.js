@@ -32,7 +32,7 @@ Template.userItem.helpers({
     var game = Template.parentData(1);
     var user = game.getPlayerAtColor(color);
     var object = Presences.findOne({userId: user._id});
-    return (object && object.state === "online");
+    return (object && object.state);
   },
 
 });
