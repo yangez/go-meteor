@@ -28,17 +28,27 @@ Template.board.onRendered(function(e){
       // restore game state from scratch onto new board
       gameBoard.update(game.wgoGame.stack[0], game.wgoGame.getPosition())
 
-    } else {
-      // if they've already been on the page, notify them that it's their turn
-      game.notifyCurrentPlayer();
     }
+
+    // if board already exists
+    else {
+      // notify them that it's their turn
+      game.notifyCurrentPlayer();
+
+      // update from previous move to latest
+      var currentMove = game.wgoGame.stack.length-1;
+      var lastMove = currentMove-1;
+      gameBoard.update(game.wgoGame.stack[lastMove], game.wgoGame.getPosition())
+    }
+
+    // update markers
+    game.updateMDMarkers(gameBoard);
+    game.updateTurnMarker(gameBoard);
 
     var currentRouteName = Router.current().route.getName();
     if (currentRouteName === "match") {
 
-      // update markers
-      game.updateMDMarkers(gameBoard);
-      game.updateTurnMarker(gameBoard);
+
       game.clearHover(gameBoard);
 
       // remove any event handlers
@@ -51,21 +61,6 @@ Template.board.onRendered(function(e){
 
     }
 
-
   });
 
-});
-
-Template.board.helpers({
-  'restoreState' : function(){
-    // game stuff
-
-    var oldGame = this;
-    var newGame = Games.findOne(this._id);
-
-    // update board to new position after move in Playing mode
-    if (newGame.isReady() && gameBoard){
-      gameBoard.update(oldGame.wgoGame.getPosition(), newGame.wgoGame.getPosition());
-    }
-  },
 });
