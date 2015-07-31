@@ -19,7 +19,7 @@ Template.board.onRendered(function(e){
 
       // regenerate board
       Board.clearBoards();
-      gameBoard = new Board(game);
+      gameBoard = new Board(game, 600);
 
       // restore game state from scratch onto new board
       gameBoard.update(game.wgoGame.stack[0], game.wgoGame.getPosition())

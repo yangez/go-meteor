@@ -1,10 +1,10 @@
-Board = function(game){
+Board = function(game, width){
   var board = Object.create(Board.prototype);
 
   board = _.extend(board, {
     gameId: game._id,
     board: new WGo.Board(document.getElementById("board"), {
-      width: 600,
+      width: width,
       size: game.size,
       background: ""
     })
@@ -26,7 +26,7 @@ _.extend(Board.prototype, {
 
   // update board from oldPosition to newPosition
   update: function(oldPosition, newPosition) {
-    var board = gameBoard.board;
+    var board = this.board;
     var boardDifference = getPositionDifference( oldPosition, newPosition );
     board.update(boardDifference);
     return true;
