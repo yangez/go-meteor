@@ -41,20 +41,19 @@ Template.historyButtons.onRendered(function() {
 
     // arrow events
     $(document).on('keyup', function(e){
-      if (!Session.get("historyMoveIndex")) return false;
-      if ([37, 38, 39, 40].indexOf(e.keyCode) === -1) return false;
-
-      e.preventDefault();
-
-      if (e.keyCode === 37) historyMove(game, "back");
-      else if (e.keyCode === 39) historyMove(game, "forward");
-      else if (e.keyCode === 38) historyMove(game, "begin");
-      else if (e.keyCode === 40) historyMove(game, "end");
+      if (
+        Session.get("historyMoveIndex") &&
+        [37, 38, 39, 40].indexOf(e.keyCode) > -1
+      ) {
+        if (e.keyCode === 37) historyMove(game, "back");
+        else if (e.keyCode === 39) historyMove(game, "forward");
+        else if (e.keyCode === 38) historyMove(game, "begin");
+        else if (e.keyCode === 40) historyMove(game, "end");
+      }
     });
     // prevent up and down from scrolling
     $(document).on('keydown', function(e) {
-      e.preventDefault();
-      if ([38, 40].indexOf(e.keyCode) === -1) return false;
+      if ([38, 40].indexOf(e.keyCode) > -1) return false;
     });
 
 });
