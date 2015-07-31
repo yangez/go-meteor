@@ -11,15 +11,18 @@ Template.board.onRendered(function(e){
 
   // this is run every single time something changes
   this.autorun(function(a) {
-    var game = Template.currentData(this.view);
+    var game = Template.currentData();
     if (!game) return;
 
     // if there's currently no board, or it's equal to another game,
     if (gameBoard === undefined || gameBoard.gameId != game._id) {
 
+      // get board size
+      var size = parseInt( $("#board").css("width"));
+
       // regenerate board
       Board.clearBoards();
-      gameBoard = new Board(game, 600);
+      gameBoard = new Board(game, size);
 
       // restore game state from scratch onto new board
       gameBoard.update(game.wgoGame.stack[0], game.wgoGame.getPosition())
@@ -29,18 +32,23 @@ Template.board.onRendered(function(e){
       game.notifyCurrentPlayer();
     }
 
-    // update markers
-    game.updateMDMarkers(gameBoard);
-    game.updateTurnMarker(gameBoard);
-    game.clearHover(gameBoard);
+    var currentRouteName = Router.current().route.getName();
+    if (currentRouteName === "match") {
 
-    // remove any event handlers
-    gameBoard.removeEventHandlers();
-    gameBoard.removeMDEventHandlers();
+      // update markers
+      game.updateMDMarkers(gameBoard);
+      game.updateTurnMarker(gameBoard);
+      game.clearHover(gameBoard);
 
-    // add appropriate event handlers to game
-    if (game.markingDead()) gameBoard.addMDEventHandlers();
-    else if (game.isReady()) gameBoard.addEventHandlers();
+      // remove any event handlers
+      gameBoard.removeEventHandlers();
+      gameBoard.removeMDEventHandlers();
+
+      // add appropriate event handlers to game
+      if (game.markingDead()) gameBoard.addMDEventHandlers();
+      else if (game.isReady()) gameBoard.addEventHandlers();
+
+    }
 
 
   });

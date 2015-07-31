@@ -279,7 +279,13 @@ hr {
   }
 }
 
+
+/* board-related stuff */
+#board { width: 100%; }
+.show-game #board { cursor: pointer; }
 /* --- */
+
+
 
 label.filter {
   font-size: 12px;
