@@ -6,4 +6,7 @@ Template.showGame.events({
 });
 
 Template.showGame.helpers({
+  game: function() {
+    return Games.findOne(this._id);
+  }
 });

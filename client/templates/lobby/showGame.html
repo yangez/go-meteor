@@ -4,7 +4,9 @@
     <div class="panel-body">
       <table class="table latest">
         <tbody>
-          {{> gameRow }}
+          {{#with game}}
+            {{> gameRow }}
+          {{/with}}
         </tbody>
       </table>
 
