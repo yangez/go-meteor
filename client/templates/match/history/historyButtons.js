@@ -47,9 +47,14 @@ Template.historyButtons.onRendered(function() {
       e.preventDefault();
 
       if (e.keyCode === 37) historyMove(game, "back");
-      else if (e.keyCode === 38) historyMove(game, "begin");
       else if (e.keyCode === 39) historyMove(game, "forward");
+      else if (e.keyCode === 38) historyMove(game, "begin");
       else if (e.keyCode === 40) historyMove(game, "end");
+    });
+    // prevent up and down from scrolling
+    $(document).on('keydown', function(e) {
+      e.preventDefault();
+      if ([38, 40].indexOf(e.keyCode) === -1) return false;
     });
 
 });
@@ -59,6 +64,7 @@ Template.historyButtons.onDestroyed(function(){
 
   // remove arrow events
   $(document).off('keyup');
+  $(document).off('keydown');
 });
 
 Template.historyButtons.events({
