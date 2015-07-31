@@ -1,0 +1,17 @@
+<template name="yourGamesMenu">
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" id="your-games-menu" data-toggle="dropdown">
+    {{#if yourTurnCount}}
+      <span class="label label-success">{{yourTurnCount}}</span>
+    {{else}}
+      <i class="fa fa-user"></i>
+    {{/if}}
+    Your Games
+  </a>
+
+  <div id="your-games-dropdown" class="dropdown-menu" aria-labelledby="your-games-menu">
+    {{> yourGamesTable}}
+  </div>
+</li>
+
+</template>
