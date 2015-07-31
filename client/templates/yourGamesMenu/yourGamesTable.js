@@ -1,3 +1,7 @@
+Template.yourGamesTable.onRendered(function(){
+  Session.set("YGyourMoveOnly", true);
+});
+
 Template.yourGamesTable.events({
   "change .your-move-filter": function (e) {
     Session.set("YGyourMoveOnly", e.target.checked);
