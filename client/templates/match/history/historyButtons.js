@@ -1,11 +1,9 @@
 Template.historyButtons.onRendered(function() {
-  // this.autorun(function(a) {
     var tData = Template.currentData(this.view);
     var game = tData.game;
     if (!game) return;
 
     // if we don't have a current index, set it to current move
-
     if (!Session.get("historyMoveIndex")) {
       var lastMoveIndex = game.wgoGame.stack.length-1;
       Session.set("historyMoveIndex", {
@@ -35,18 +33,32 @@ Template.historyButtons.onRendered(function() {
       $formInput.focus();
       $formInput.select();
     });
-
     $("html").click(function(e){
       if ($("#history-jump-form").length > 0) {
         $("#history-jump-form").submit();
       }
     });
 
-  // });
+    // arrow events
+    $(document).on('keyup', function(e){
+      if (!Session.get("historyMoveIndex")) return false;
+      if ([37, 38, 39, 40].indexOf(e.keyCode) === -1) return false;
+
+      e.preventDefault();
+
+      if (e.keyCode === 37) historyMove(game, "back");
+      else if (e.keyCode === 38) historyMove(game, "begin");
+      else if (e.keyCode === 39) historyMove(game, "forward");
+      else if (e.keyCode === 40) historyMove(game, "end");
+    });
+
 });
 
 Template.historyButtons.onDestroyed(function(){
   Session.set("historyMoveIndex", undefined);
+
+  // remove arrow events
+  $(document).off('keyup');
 });
 
 Template.historyButtons.events({
@@ -127,8 +139,10 @@ var historyMove = function(game, direction, jumpNumber) {
     var direction = "end";
 
   // move to history chat tab
-  if ($("#chat-ingame") && Session.get("messageHistoryState") === 'live')
+  if ($("#chat-ingame") && Session.get("messageHistoryState") === 'live') {
     $("#chat-ingame").click();
+    $("#chat-ingame input").blur();
+  }
 
   var lastMoveIndex = game.wgoGame.stack.length-1;
   var currentMoveIndex = Session.get("historyMoveIndex").current;
