@@ -1,0 +1,28 @@
+<template name="actionButtons">
+{{#if gameEnded}}
+  {{#if isBottom}}
+    {{> historyButtons}}
+  {{/if}}
+{{else}}
+  {{#if playerBox_data.isCurrentPlayer}}
+    {{#if playerBox_playerTurn}}
+      <div class="action-buttons btn-group btn-group-justified btn-group-sm" role="group">
+        <a href="#" class="btn btn-default" id="resign-game">Resign</a>
+        <a href="#" class="btn btn-default" id="pass-game">Pass <i class="fa fa-arrow-circle-o-right"></i></a>
+      </div>
+    {{else}}
+      {{#if markingDead}}
+        <div class="action-buttons btn-group btn-group-justified btn-group-sm" role="group">
+          {{#if mdDisabled}}
+            <a href="#" class="btn btn-default" disabled>Waiting for opponent...</a>
+          {{else}}
+            <a href="#" class="btn btn-danger" id="md-decline"><i class="fa fa-times"></i> Decline</a>
+            <a href="#" class="btn btn-success" id="md-accept"><i class="fa fa-check"></i> Accept </a>
+          {{/if}}
+        </div>
+      {{/if}}
+    {{/if}}
+  {{/if}}
+
+{{/if}}
+</template>
