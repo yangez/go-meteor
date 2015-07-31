@@ -1,11 +1,13 @@
 Template.lobby.helpers({
   latestGame: function() {
-    var game = Games.findOne({ $and: [
-      { lastMoveAt: {$exists: true} },
-      { blackPlayerId: {$exists: true } },
-      { whitePlayerId: {$exists: true } },
-    ] }, { sort: { lastMoveAt: -1 } });
-    if (game) return game;
+    return Tracker.nonreactive(function() {
+      var game = Games.findOne({ $and: [
+        { lastMoveAt: {$exists: true} },
+        { blackPlayerId: {$exists: true } },
+        { whitePlayerId: {$exists: true } },
+      ] }, { sort: { lastMoveAt: -1 } });
+      if (game) return game;
+    });
   },
   openGames: function() {
     return Games.find({ $and: [
