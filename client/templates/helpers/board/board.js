@@ -15,6 +15,10 @@ Template.board.onRendered(function(e){
     if (gameData) var game = Games.findOne(gameData._id);
     if (!game) return;
 
+    var lastMoveIndex = Session.get("boardLastMoveIndex"+game._id);
+    var currentMoveIndex = game.wgoGame.stack.length-1;
+    Session.set("boardLastMoveIndex"+game._id, currentMoveIndex);
+
     // if there's currently no board, or it's equal to another game,
     if (gameBoard === undefined || gameBoard.gameId != game._id) {
 
@@ -27,7 +31,6 @@ Template.board.onRendered(function(e){
 
       // restore game state from scratch onto new board
       gameBoard.update(game.wgoGame.stack[0], game.wgoGame.getPosition())
-
     }
 
     // if board already exists
@@ -36,9 +39,7 @@ Template.board.onRendered(function(e){
       game.notifyCurrentPlayer();
 
       // update from previous move to latest
-      var currentMove = game.wgoGame.stack.length-1;
-      var lastMove = currentMove-1;
-      gameBoard.update(game.wgoGame.stack[lastMove], game.wgoGame.getPosition())
+      gameBoard.update(game.wgoGame.stack[lastMoveIndex], game.wgoGame.getPosition())
     }
 
     // update markers
