@@ -139,8 +139,10 @@ var historyMove = function(game, direction, jumpNumber) {
     var direction = "end";
 
   // move to history chat tab
-  if ($("#chat-ingame") && Session.get("messageHistoryState") === 'live')
+  if ($("#chat-ingame") && Session.get("messageHistoryState") === 'live') {
     $("#chat-ingame").click();
+    $("#chat-ingame input").blur();
+  }
 
   var lastMoveIndex = game.wgoGame.stack.length-1;
   var currentMoveIndex = Session.get("historyMoveIndex").current;
