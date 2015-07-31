@@ -8,14 +8,15 @@ Template.board.onDestroyed(function(e) {
 
 // on rendered
 Template.board.onRendered(function(e){
-  // every time Game changes
+  // every time Game changes, update board
   this.autorun(function(a) {
     var gameData = Template.currentData();
     if (gameData) var game = Games.findOne(gameData._id);
     updateBoard(game);
   });
 
-  // Every time browser size changes
+  // Every time browser size changes, regenerate board
+  // this is the weirdass syntax required by the library
   (function($, viewport){
     $(window).resize(
       viewport.changed(function(){
