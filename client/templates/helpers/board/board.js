@@ -11,7 +11,8 @@ Template.board.onRendered(function(e){
 
   // this is run every single time something changes
   this.autorun(function(a) {
-    var game = Template.currentData();
+    var gameData = Template.currentData();
+    if (gameData) var game = Games.findOne(gameData._id);
     if (!game) return;
 
     // if there's currently no board, or it's equal to another game,
@@ -58,6 +59,7 @@ Template.board.onRendered(function(e){
 Template.board.helpers({
   'restoreState' : function(){
     // game stuff
+
     var oldGame = this;
     var newGame = Games.findOne(this._id);
 
