@@ -1,6 +1,7 @@
 Template.gameRow.events({
   'click tr': function(e) {
     e.preventDefault();
+    var game = Template.currentData();
 
     Router.go('match', { _id: this._id });
   },

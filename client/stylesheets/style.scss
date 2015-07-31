@@ -314,6 +314,11 @@ label.filter {
     &:last-child { padding-right: 15px; text-align: right; }
   }
 }
+.table.latest {
+  .game{
+    td { border-top: 0;}
+  }
+}
 i.stone {
   &::after {
     content: ' ';
