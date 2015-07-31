@@ -19,7 +19,11 @@ Template.messageContainer.helpers({
 
 Template.messageContainer.events({
   'click .messages-container': function(e) {
-    $("#comment-form input[type=text]").focus();
+    if (window.getSelection().toString().length > 0) {
+      e.preventDefault();
+    } else {
+      $("#comment-form input[type=text]").focus();
+    }
   },
   'submit #comment-form': function(e) {
     e.preventDefault();
