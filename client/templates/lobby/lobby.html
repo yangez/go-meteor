@@ -14,6 +14,15 @@
     <div class="col-md-6">
       {{> gameTable games=openGames heading="Open games" style="panel-info" }}
     </div>
+
+
+    {{#if latestGame}}
+      <div class="col-md-6">
+        {{#with latestGame}}
+          {{> showGame }}
+        {{/with}}
+      </div>
+    {{/if}}
   </div>
 
   <hr />
