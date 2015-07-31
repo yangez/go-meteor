@@ -21,16 +21,7 @@ Template.board.onRendered(function(e){
 
     // if there's currently no board, or it's equal to another game,
     if (gameBoard === undefined || gameBoard.gameId != game._id) {
-
-      // get board size
-      var size = parseInt( $("#board").css("width"));
-
-      // regenerate board
-      Board.clearBoards();
-      gameBoard = new Board(game, size);
-
-      // restore game state from scratch onto new board
-      gameBoard.update(game.wgoGame.stack[0], game.wgoGame.getPosition())
+      regenerateBoard(game);
     }
 
     // if board already exists
@@ -62,6 +53,27 @@ Template.board.onRendered(function(e){
 
     }
 
+
   });
 
+  // rebuild board every time the size changes
+  var game = Template.currentData();
+  (function($, viewport){
+    $(window).resize(
+      viewport.changed(function(){
+        regenerateBoard(game)
+      }, 10)
+    );
+  })(jQuery, ResponsiveBootstrapToolkit);
+
 });
+
+var regenerateBoard = function(game) {
+  var size = parseInt( $("#board").css("width"));
+
+  Board.clearBoards();
+  gameBoard = new Board(game, size);
+
+  // restore game state from scratch onto new board
+  gameBoard.update(game.wgoGame.stack[0], game.wgoGame.getPosition())
+}
