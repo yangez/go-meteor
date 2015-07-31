@@ -81,7 +81,6 @@
       }
     }
     .timer {
-      float: right;
       margin-right: 10px;
       text-align: right;
       font-weight: 600;
@@ -102,6 +101,7 @@
       height: 24px;
       float: right;
       text-align: right;
+      margin-left: 8px;
       position:relative;
       top: 50%;
       transform: translateY(-50%);
