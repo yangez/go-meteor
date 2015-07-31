@@ -1,14 +1,13 @@
 Template.lobby.helpers({
   latestGame: function() {
-    // return Tracker.nonreactive(function() {
+    return Tracker.nonreactive(function() {
       var game = Games.findOne({ $and: [
-        { archived: {$ne: true} },
         { lastMoveAt: {$exists: true} },
         { blackPlayerId: {$exists: true } },
         { whitePlayerId: {$exists: true } },
       ] }, { sort: { lastMoveAt: -1 } });
       if (game) return game;
-    // });
+    });
   },
   openGames: function() {
     return Games.find({ $and: [
