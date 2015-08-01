@@ -49,27 +49,38 @@
   }
 
 
-}
 
+  /*
+   * Your Games menu
+   */
+  #yourGamesMenu {
 
-/* Your Games menu */
-#your-games-menu {
-  .your-turn-count {
-    @extend .label, .label-success;
+    #your-games-menu {
+      .your-turn-count {
+        @extend .label, .label-success;
+      }
+    }
+
+    #your-games-dropdown {
+      width: 400px;
+      padding: 0;
+
+      .games-panel {
+        @extend .panel, .panel-success;
+        border-radius: 0; margin-bottom: 0;
+
+        .panel-heading { border-radius: 0; }
+
+        .games-table { @extend .table, .table-hover; }
+
+      }
+
+    }
   }
-}
-
-#your-games-dropdown {
-  width: 400px;
-  padding: 0;
-
-  .games-panel {
-    border-radius: 0;
-    margin-bottom: 0;
-    .panel-heading { border-radius: 0; }
-  }
 
 }
+
+
 
 /* Challenges menu */
 
