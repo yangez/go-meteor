@@ -5,14 +5,8 @@
 }
 
 /* match page */
-.left {
-  // width: 600px;
-  // float: left;
-}
 .right {
-  // width: 340px;
   margin-top: 31px;
-  // float: right;
 
   .player-box {
     border: 1px solid #ccc;
@@ -166,76 +160,7 @@
   .form-control { text-align: center; }
 }
 
-hr {
-  clear: both;
-}
 
-/* Your Games menu */
-
-#your-games-dropdown {
-  width: 400px;
-  padding: 0;
-  .games-panel {
-    border-radius: 0;
-    margin-bottom: 0;
-    .panel-heading { border-radius: 0; }
-  }
-}
-
-/* Create Game menu */
-
-.dropdown > .navbar-btn {
-  margin-right: 15px; margin-left: 15px;
-}
-.create-game {
-  width: 220px;
-  padding: 20px;
-
-  #enable-timer-label { margin-bottom: 0; }
-  .sublabel { font-weight: 400; }
-
-  .input-group {
-    input { text-align: center; }
-    .input-group-addon {
-      width: 50%;
-      &:hover { color: #000; }
-    }
-  }
-
-  #by-periods {
-    width: 38px;
-  }
-
-  #by-group {
-    td:empty { width: 5px; }
-  }
-}
-
-/* Challenges menu */
-
-.challenges {
-  width: 400px;
-  padding: 20px;
-
-  table {
-    border: 1px solid #ddd;
-
-    .challenge-row {
-      color: rgba(0, 0, 0, 0.5);
-      strong {
-        color: rgba(0, 0, 0, 1);
-      }
-    }
-
-    &:last-child { margin-bottom: 6px; }
-
-  }
-
-  #new-challenge {
-    position: absolute;
-    top: 16px; right: 20px;
-  }
-}
 
 
 /* board-related stuff */

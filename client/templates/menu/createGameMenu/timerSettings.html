@@ -1,29 +1,29 @@
 <template name="timerSettings">
-  <div class="form-group">
-    <label class="sublabel" for="enable-main-time">
+  <div class="timer-settings">
+    <label for="enable-main-time">
       <input type="checkbox" name="enable-main-time" id="enable-main-time" checked="{{mainTimeEnabled}}"/> Main timer
     </label>
     {{#if mainTimeEnabled}}
     <div class="input-group" id="timer-group">
-      <input type="text" name="time-control" id="time-control" class="form-control" placeholder="#" value="20"/>
+      <input type="text" name="time-control" id="time-control" placeholder="#" value="20"/>
       <input type="hidden" name="time-type" id="time-type" value="minutes"/>
       <a href="#" class="input-group-addon" id="time-type-display">minutes</a>
     </div>
     {{/if}}
   </div>
-  <div class="form-group">
-    <label class="sublabel" for="enable-byoyomi">
+  <div class="timer-settings">
+    <label for="enable-byoyomi">
       <input type="checkbox" name="enable-byoyomi" id="enable-byoyomi" checked="{{byoyomiEnabled}}"/> Byo-yomi timer
     </label>
     {{#if byoyomiEnabled}}
     <table id="by-group"><tr>
       <td>
-        <input type="text" name="by-periods" id="by-periods" class="form-control" placeholder="#" value="5"/>
+        <input type="text" name="by-periods" id="by-periods" placeholder="#" value="5"/>
       </td>
       <td></td> <td>x</td> <td></td> <!-- empty td for spacing -->
       <td>
         <div class="input-group" id="by-group">
-          <input type="text" name="by-time" id="by-time" class="form-control" placeholder="#" value="1"/>
+          <input type="text" name="by-time" id="by-time" placeholder="#" value="1"/>
           <input type="hidden" name="by-time-type" id="by-time-type" value="minutes"/>
           <a href="#" class="input-group-addon" id="by-time-type-display">mins</a>
         </div>
