@@ -1,21 +1,21 @@
 <template name="playerBox">
-  <div class="player-box {{playerTurn}}">
+  <div class="player-box {{playerBox_playerTurn}}">
     <div class="user">
-      {{#if data.user}}
+      {{#if playerBox_data.user}}
         {{#if userIsOnline}}
           <i class="fa fa-user {{userPresent}}"></i>
         {{/if}}
-        {{data.user.username}}
-        {{#if data.isCurrentPlayer}} <em>(you)</em> {{/if}}
+        {{playerBox_data.user.username}}
+        {{#if playerBox_data.isCurrentPlayer}} <em>(you)</em> {{/if}}
         {{#if score}}<small class="score">{{score}}</small>{{/if}}
         {{#if captureCount}}
           <br/><small>Captured: <strong>{{captureCount}}</strong></small>
         {{/if}}
       {{else}}
-        {{#if data.joinButton}}
-          <a href="#" class="join-game btn btn-primary" data-color="{{data.color}}">Join as {{data.color}}</a>
+        {{#if playerBox_data.joinButton}}
+          <a href="#" class="join-game btn btn-primary" data-color="{{playerBox_data.color}}">Join as {{playerBox_data.color}}</a>
         {{else}}
-          {{#if data.joinPrompt}}
+          {{#if playerBox_data.joinPrompt}}
             <small><em><a href="#" class="login-prompt">Log in or register</a> to play</em></small>
           {{else}}
             <small><em>Waiting for opponent...</em></small>
@@ -23,35 +23,10 @@
         {{/if}}
       {{/if}}
     </div>
-    <div class="color {{data.color}}"></div>
+    <div class="color {{playerBox_data.color}}"></div>
     {{> gameTimer}}
     <div class="clearfix"></div>
   </div>
 
-  {{#if gameEnded}}
-    {{#if isBottom}}
-      {{> historyButtons}}
-    {{/if}}
-  {{else}}
-    {{#if data.isCurrentPlayer}}
-      {{#if playerTurn}}
-        <div class="action-buttons btn-group btn-group-justified btn-group-sm" role="group">
-          <a href="#" class="btn btn-default" id="resign-game">Resign</a>
-          <a href="#" class="btn btn-default" id="pass-game">Pass <i class="fa fa-arrow-circle-o-right"></i></a>
-        </div>
-      {{else}}
-        {{#if markingDead}}
-          <div class="action-buttons btn-group btn-group-justified btn-group-sm" role="group">
-            {{#if mdDisabled}}
-              <a href="#" class="btn btn-default" disabled>Waiting for opponent...</a>
-            {{else}}
-              <a href="#" class="btn btn-danger" id="md-decline"><i class="fa fa-times"></i> Decline</a>
-              <a href="#" class="btn btn-success" id="md-accept"><i class="fa fa-check"></i> Accept </a>
-            {{/if}}
-          </div>
-        {{/if}}
-      {{/if}}
-    {{/if}}
-
-  {{/if}}
+  {{> actionButtons}}
 </template>
