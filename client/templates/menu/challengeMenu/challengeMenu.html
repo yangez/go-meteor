@@ -1,23 +1,22 @@
 <template name="challengeMenu">
 
   {{#if showChallenges}}
-  <li class="dropdown" id="challenges-dropdown">
+  <li class="dropdown" id="challengeMenu">
     <a href="#" class="dropdown-toggle" id="challenges-menu" data-toggle="dropdown">
       {{#if receivedChallenges.count}}
-        <span class="label label-danger">{{receivedChallenges.count}}</span>
+        <span class="received">{{receivedChallenges.count}}</span>
       {{else}}
         <i class="fa fa-bullhorn"></i>
       {{/if}}
       Challenges
     </a>
 
-    <div class="challenges dropdown-menu" aria-labelledby="challenges-menu">
-
-      <button class="btn btn-xs btn-default" id="new-challenge"><i class="fa fa-plus"></i> New</button>
+    <div class="dropdown-menu" aria-labelledby="challenges-menu">
+      <button id="new-challenge"><i class="fa fa-plus"></i> New</button>
 
       {{#if sentChallenges.count}}
       <label>Sent</label>
-      <table class="table table-striped">
+      <table>
         <tbody>
           {{#each sentChallenges}}
             {{> sentChallengeRow}}
@@ -29,7 +28,7 @@
 
       {{#if receivedChallenges.count}}
       <label>Received</label>
-      <table class="table table-striped">
+      <table>
         <tbody>
           {{#each receivedChallenges}}
             {{> receivedChallengeRow}}
