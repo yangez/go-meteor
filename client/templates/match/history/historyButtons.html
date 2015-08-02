@@ -1,12 +1,12 @@
 <template name="historyButtons">
-  <div class="history-buttons btn-group btn-group-justified btn-group-sm" role="group">
-    <a href="#" class="btn btn-default" id="history-move" data-content='
+  <div class="history-buttons" role="group">
+    <a href="#" id="history-move" data-content='
       <form id="history-jump-form"><input class="form-control" type="text" value="{{currentMoveNumber}}"/></form>
     '>{{currentMoveNumber}} / {{gameLength}}</a>
-    <a href="#" class="btn btn-default" id="history-begin"><i class="fa fa-angle-double-left"></i></a>
-    <a href="#" class="btn btn-default" id="history-back"><i class="fa fa-angle-left"></i></a>
-    <a href="#" class="btn btn-default" id="history-forward"><i class="fa fa-angle-right"></i></a>
-    <a href="#" class="btn btn-default" id="history-end"><i class="fa fa-angle-double-right"></i></a>
+    <a href="#" id="history-begin"><i class="fa fa-angle-double-left"></i></a>
+    <a href="#" id="history-back"><i class="fa fa-angle-left"></i></a>
+    <a href="#" id="history-forward"><i class="fa fa-angle-right"></i></a>
+    <a href="#" id="history-end"><i class="fa fa-angle-double-right"></i></a>
   </div>
   {{historyUpdate}}
 </template>

@@ -1,9 +1,9 @@
 <template name="messageHistoryButtons">
-  <div class="message-history-buttons btn-group btn-group-xs" role="group" data-toggle="buttons">
-    <label id="chat-live" class="btn btn-default {{#if buttonLiveActive}} active{{/if}}">
+  <div class="message-history-buttons" role="group" data-toggle="buttons">
+    <label id="chat-live" class="{{#if buttonLiveActive}} active{{/if}}">
       <input type="radio" name="chat-mode" autocomplete="off"> Live Chat
     </label>
-    <label id="chat-ingame" class="btn btn-default {{#if buttonInGameActive}} active{{/if}}">
+    <label id="chat-ingame" class="{{#if buttonInGameActive}} active{{/if}}">
       <input type="radio" name="chat-mode" autocomplete="off"> In-Game History</label>
   </div>
 </template>

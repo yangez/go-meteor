@@ -1,6 +1,150 @@
+/*
+ * Match page
+ */
+#match {
 
-#notify-permissions {
-  text-align: center;
-  font-size: 12px;
-  padding: 12px;
+
+  /*
+   * Permissions notification
+   */
+  #notify-permissions { @extend .alert, .alert-info;
+    text-align: center;
+    font-size: 12px;
+    padding: 12px;
+  }
+
+  /*
+   * Left side (board)
+   */
+  .left { @extend .col-md-8;
+    // board stuff is in helpers/board.scss
+  }
+
+  /*
+   * Right side (boxes)
+   */
+  .right { @extend .col-md-4;
+    margin-top: 31px;
+
+    /*
+    * playerbox
+    */
+    .player-box {
+      border: 1px solid #ccc;
+      padding: 0 20px;
+      position: relative;
+      height: 66px;
+      .user {
+        width: 50%;
+        float: left;
+        line-height: 1.2;
+        position:relative;
+        top: 50%;
+        transform: translateY(-50%);
+        small {
+          color: rgba(0, 0, 0, 0.5);
+          strong {
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.8);
+          }
+        }
+        .fa-user {
+          color: #a30000;
+          &.in-game { color: #000000; }
+        }
+        .join-game { @extend .btn, .btn-primary; }
+      }
+      .timer {
+        margin-right: 10px;
+        text-align: right;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 1;
+        position:relative;
+        top: 50%;
+        transform: translateY(-50%);
+        small {
+          color: rgba(0, 0, 0, 0.5);
+          font-size: 80%;
+          font-weight: 400;
+          line-height: 1.2;
+        }
+      }
+      .color {
+        width: 24px;
+        height: 24px;
+        float: right;
+        text-align: right;
+        margin-left: 8px;
+        position:relative;
+        top: 50%;
+        transform: translateY(-50%);
+
+        &::after {
+          content: ' ';
+          float: right;
+          width: 24px;
+          height: 24px;
+          border-radius: 12px;
+          box-shadow: 1px 1px 1px 1px rgba(127, 127, 127, 0.3);
+        }
+        &.white::after {
+          background: linear-gradient(-45deg, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+        }
+        &.black::after {
+          background: linear-gradient(135deg, rgba(35,36,39,1) 0%,rgba(0,0,0,1) 100%);
+        }
+      }
+      &.player-turn {
+        background: #d1eaff;
+        border-color: #8997AF;
+        .timer { color: green; }
+      }
+    }
+
+    /*
+     * Action buttons
+     */
+
+    // MD buttons
+    .action-buttons { @extend .btn-group, .btn-group-justified, .btn-group-sm;
+      > a { @extend .btn, .btn-default;
+        border-radius: 0;
+        border-top: 0;
+
+        &#md-decline { @extend .btn-danger; }
+        &#md-accept { @extend .btn-success; }
+      }
+      :first-child { border-right: 0; }
+    }
+
+    // history buttons
+    .history-buttons { @extend .btn-group, .btn-group-justified, .btn-group-sm;
+      > a { @extend .btn, .btn-default;
+        border-radius: 0;
+        border-top: 0;
+        border-right-width: 0;
+        &:last-child { border-right-width: 1px; }
+      }
+    }
+
+    // message group buttons (the two up top)
+    .message-history-buttons { @extend .btn-group, .btn-group-xs;
+      position: absolute;
+      top: 0; right: -1px;
+      z-index: 5;
+      background: transparent;
+
+      > label { @extend .btn, .btn-default;
+        border-radius: 0;
+        border-top: 0;
+        border-right-width: 0;
+        &:last-child { border-right-width: 1px; }
+      }
+      :first-child { border-right: 0; }
+
+    }
+
+  }
+
 }
