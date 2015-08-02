@@ -1,17 +1,17 @@
 <template name="match">
-  <div id="game-page">
+  <div id="match">
 
     {{#if defaultNotify}}
-      <div id="notify-permissions" class="alert alert-info"><a href="#" class="alert-link">Click to enable desktop notifications</a> so you know when it's your turn, without needing to watch this window.</div>
+      <div id="notify-permissions"><a href="#" class="alert-link">Click to enable desktop notifications</a> so you know when it's your turn, without needing to watch this window.</div>
     {{/if}}
 
     <div class="row">
 
-      <div class="col-md-8 left">
+      <div class="left">
         {{ > board}}
       </div>
 
-      <div class="col-md-4 right">
+      <div class="right">
         {{ > playerBox position="top" game=this }}
         {{ > messageContainer}}
         {{ > playerBox position="bottom" game=this }}

@@ -1,8 +1,8 @@
 <template name="gameTable">
-  <div class="games-panel panel panel-default {{style}}">
+  <div class="gameTable games-panel panel panel-default {{style}}">
     <div class="panel-heading">{{heading}}</div>
     {{#if games.count}}
-    <table class="table table-hover">
+    <table>
       <tbody>
         {{#each games}}
           {{> gameRow }}

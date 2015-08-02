@@ -1,0 +1,5 @@
+.userItem {
+  .join-game {
+    @extend .btn, .btn-primary, .btn-xs;
+  }
+}

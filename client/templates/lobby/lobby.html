@@ -1,38 +1,41 @@
 <template name="lobby">
-  <div class="row">
-    <div class="col-md-9 global-chat">
-      {{!-- {{> globalChat }} --}}
-      {{> Template.dynamic template="globalChat" data=globalChatRoom}}
-    </div>
-    <div class="col-md-3 online-users">
-      {{> onlineUsers}}
-    </div>
-  </div>
-
-  <hr />
-  <div class="row">
-    <div class="col-md-6">
-      {{> gameTable games=openGames heading="Open games" style="panel-info" }}
-    </div>
-
-
-    {{#if latestGame}}
-      <div class="col-md-6">
-        {{#with latestGame}}
-          {{> showGame }}
-        {{/with}}
+  <div id="lobby">
+    <div class="chat-row">
+      <div class="global-chat">
+        {{!-- {{> globalChat }} --}}
+        {{> Template.dynamic template="globalChat" data=globalChatRoom}}
       </div>
-    {{/if}}
-  </div>
-
-  <hr />
-  <div class="row">
-    <div class="col-md-6">
-      {{> gameTable games=gamesInProgress heading="In progress"}}
+      <div class="online-users">
+        {{> onlineUsers}}
+      </div>
     </div>
-    <div class="col-md-6">
-      {{> gameTable games=completedGames heading="Completed"}}
-    </div>
-  </div>
 
+    <hr />
+
+    <div class="row">
+      <div class="open-games">
+        {{> gameTable games=openGames heading="Open games" style="panel-info" }}
+      </div>
+
+      {{#if latestGame}}
+        <div class="latest-game">
+          {{#with latestGame}}
+            {{> showGame }}
+          {{/with}}
+        </div>
+      {{/if}}
+    </div>
+
+    <hr />
+
+    <div class="row">
+      <div class="games-in-progress">
+        {{> gameTable games=gamesInProgress heading="In progress"}}
+      </div>
+      <div class="completed-games">
+        {{> gameTable games=completedGames heading="Completed"}}
+      </div>
+    </div>
+
+  </div>
 </template>

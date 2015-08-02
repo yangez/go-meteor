@@ -1,0 +1,64 @@
+#profile-form {
+  .input-group { width: 100%; }
+  .input-group-addon { width: 100px;}
+  input {
+    width: 100%;
+  }
+  .profile-form-buttons {
+    margin-top: 10px;
+  }
+
+  .right{
+    text-align:right;
+  }
+}
+
+#user-profile-view{
+  .bold {
+    font-weight: bold;
+  }
+  #profile-edit{
+    margin-top: 0px;
+    width: 100%;
+  }
+}
+
+.filtering{
+  .row{
+    padding: 5px;
+  }
+  .input-group-addon{
+    border-right: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .form-control {
+    padding: 5px;
+    background-color: white;
+    color: black;
+    border: none;
+  }
+  .filter-seperator {
+    margin: 0px;
+  }
+  #user-filter{
+    margin: 0px;
+  }
+}
+
+.stat-panel{
+  .win{
+    text-align: center;
+    float: center;
+    color: lightgreen;
+  }
+  .lost{
+    text-align: center;
+    float: center;
+    color: red;
+  }
+  .finished{
+    text-align: center;
+    float: center;
+    color: blue;
+  }
+}

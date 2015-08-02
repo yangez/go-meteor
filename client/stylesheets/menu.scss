@@ -1,0 +1,153 @@
+/*
+ * Top-level navmenu
+ */
+#navMenu {
+  @extend .navbar, .navbar-default;
+
+  /*
+   * Create Game menu
+   */
+  #createGame {
+    > .navbar-btn { margin-right: 15px; margin-left: 15px; }
+
+    #create-game-menu { @extend .btn, .btn-primary; }
+
+    #create-game-form {
+      @extend .form;
+      width: 220px;
+      padding: 20px;
+
+      select, input[type=text] { @extend .form-control; }
+
+      /* Time controls */
+      .timer-settings {
+        @extend .form-group;
+        label { font-weight: 400; }
+
+        .input-group {
+          input { text-align: center; }
+          .input-group-addon {
+            width: 50%;
+            &:hover { color: #000; }
+          }
+        }
+
+        #by-periods { width: 38px; }
+        #by-group { td:empty { width: 5px; } }
+      }
+
+      .challenge-settings {
+        @extend .form-group;
+        label { font-weight: 400; }
+      }
+
+      input[type=submit] { @extend .btn; }
+    }
+  }
+
+
+  /*
+   * Your Games menu
+   */
+  #yourGamesMenu {
+
+    #your-games-menu {
+      .your-turn-count {
+        @extend .label, .label-success;
+      }
+    }
+
+    #your-games-dropdown {
+      width: 400px;
+      padding: 0;
+
+      .games-panel {
+        @extend .panel, .panel-success;
+        border-radius: 0; margin-bottom: 0;
+
+        .panel-heading {
+          border-radius: 0;
+
+          label.filter {
+            font-size: 12px;
+            font-weight: 400;
+            margin-left: 10px;
+            input { margin-left: 2px;}
+          }
+        }
+
+        .games-table {
+          @extend .table, .table-hover;
+
+          i.stone {
+            &::after {
+              content: ' ';
+              float: left;
+              margin-right: 8px;
+              margin-left: -2px;
+              width: 20px;
+              height: 20px;
+              border-radius: 10px;
+              box-shadow: 1px 1px 1px 1px rgba(127, 127, 127, 0.3);
+            }
+            &.white::after {
+              background: linear-gradient(-45deg, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+            }
+            &.black::after {
+              background: linear-gradient(135deg, rgba(35,36,39,1) 0%,rgba(0,0,0,1) 100%);
+            }
+          }
+
+        }
+
+      }
+
+    }
+  }
+
+  /* Challenges menu */
+  #challengeMenu {
+
+    #challenges-menu {
+
+      span.received { @extend .label, .label-danger; }
+      span.accepted { @extend .label, .label-success; }
+
+    }
+
+    .dropdown-menu {
+      width: 400px;
+      padding: 20px;
+
+      #new-challenge {
+        @extend .btn, .btn-xs, .btn-default;
+        position: absolute;
+        top: 16px; right: 20px;
+      }
+
+      table {
+        @extend .table, .table-striped;
+        border: 1px solid #ddd;
+
+        &:last-child { margin-bottom: 6px; }
+
+        > tbody > tr {
+          color: rgba(0, 0, 0, 0.5);
+          strong { color: rgba(0, 0, 0, 1); }
+
+          > td { vertical-align: middle; }
+
+          button {
+            @extend .btn, .btn-xs;
+            &.challenge-acknowledge { @extend .btn-success; }
+            &.challenge-cancel { @extend .btn-danger; }
+            &.challenge-accept { @extend .btn-success; }
+            &.challenge-decline { @extend .btn-danger; }
+          }
+
+        }
+      }
+    }
+  }
+
+}

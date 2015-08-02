@@ -1,0 +1,214 @@
+/*
+ * Match page
+ */
+#match {
+
+
+  /*
+   * Permissions notification
+   */
+  #notify-permissions { @extend .alert, .alert-info;
+    text-align: center;
+    font-size: 12px;
+    padding: 12px;
+  }
+
+  /*
+   * Left side (board)
+   */
+  .left { @extend .col-md-8;
+    // board stuff is in helpers/board.scss
+  }
+
+  /*
+   * Right side (boxes)
+   */
+  .right { @extend .col-md-4;
+    margin-top: 31px;
+
+    /*
+    * playerbox
+    */
+    .player-box {
+      border: 1px solid #ccc;
+      padding: 0 20px;
+      position: relative;
+      height: 66px;
+      .user {
+        width: 50%;
+        float: left;
+        line-height: 1.2;
+        position:relative;
+        top: 50%;
+        transform: translateY(-50%);
+        small {
+          color: rgba(0, 0, 0, 0.5);
+          strong {
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.8);
+          }
+        }
+        .fa-user {
+          color: #a30000;
+          &.in-game { color: #000000; }
+        }
+        .join-game { @extend .btn, .btn-primary; }
+      }
+      .timer {
+        margin-right: 10px;
+        text-align: right;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 1;
+        position:relative;
+        top: 50%;
+        transform: translateY(-50%);
+        small {
+          color: rgba(0, 0, 0, 0.5);
+          font-size: 80%;
+          font-weight: 400;
+          line-height: 1.2;
+        }
+      }
+      .color {
+        width: 24px;
+        height: 24px;
+        float: right;
+        text-align: right;
+        margin-left: 8px;
+        position:relative;
+        top: 50%;
+        transform: translateY(-50%);
+
+        &::after {
+          content: ' ';
+          float: right;
+          width: 24px;
+          height: 24px;
+          border-radius: 12px;
+          box-shadow: 1px 1px 1px 1px rgba(127, 127, 127, 0.3);
+        }
+        &.white::after {
+          background: linear-gradient(-45deg, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+        }
+        &.black::after {
+          background: linear-gradient(135deg, rgba(35,36,39,1) 0%,rgba(0,0,0,1) 100%);
+        }
+      }
+      &.player-turn {
+        background: #d1eaff;
+        border-color: #8997AF;
+        .timer { color: green; }
+      }
+    }
+
+    /*
+     * Action buttons
+     */
+
+    // MD buttons
+    .action-buttons { @extend .btn-group, .btn-group-justified, .btn-group-sm;
+      > a { @extend .btn, .btn-default;
+        border-radius: 0;
+        border-top: 0;
+
+        &#md-decline { @extend .btn-danger; }
+        &#md-accept { @extend .btn-success; }
+      }
+      :first-child { border-right: 0; }
+    }
+
+    // history buttons
+    .history-buttons { @extend .btn-group, .btn-group-justified, .btn-group-sm;
+      > a { @extend .btn, .btn-default;
+        border-radius: 0;
+        border-top: 0;
+        border-right-width: 0;
+        &:last-child { border-right-width: 1px; }
+      }
+    }
+
+    // message group buttons (the two up top)
+    .message-history-buttons { @extend .btn-group, .btn-group-xs;
+      position: absolute;
+      top: 0; right: -1px;
+      z-index: 5;
+      background: transparent;
+
+      > label { @extend .btn, .btn-default;
+        border-radius: 0;
+        border-top: 0;
+        border-right-width: 0;
+        &:last-child { border-right-width: 1px; }
+      }
+      :first-child { border-right: 0; }
+    }
+
+  }
+
+  // popover for "jump" history button
+  .popover.left{
+    width: 60px;
+    .popover-content { padding: 2px; }
+    .form-control { text-align: center; }
+  }
+
+
+  /*
+   * Messages
+   */
+
+  .messages-container {
+    height: 356px;
+    position: relative;
+    margin: 10px 0;
+    background: #eee;
+    border: 1px solid #ccc;
+    .input-group {
+      position: absolute;
+      bottom: 0px;
+      * { border-radius: 0; margin-bottom: -1px; }
+      input[type=text] { margin-left: -1px; z-index: 2}
+      span { z-index: 1; }
+      input[type=submit] { margin-right: -2px; margin-left: -2px; }
+    }
+    ul.messages {
+      padding: 8px 20px 10px;
+      list-style: none outside none;
+      height: 321px;
+      background: #eee;
+      overflow: auto;
+      position: absolute;
+      width: 100%;
+
+      &::-webkit-scrollbar { -webkit-appearance: none; }
+      &::-webkit-scrollbar:vertical { width: 11px; }
+      &::-webkit-scrollbar:horizontal { height: 11px; }
+      &::-webkit-scrollbar-thumb { border-radius: 8px; border: 2px solid #eee; /* should match background, can't be transparent */ background-color: rgba(0, 0, 0, .5); }
+      &::-webkit-scrollbar-track { background-color: #eee; border-radius: 8px; }
+
+      .author {
+        font-weight: 600;
+        color: rgba(0, 0, 0, 0.3);
+      }
+      .game-message{ font-weight: 600; }
+      em { color: rgba(0, 0, 0, 0.5); }
+
+
+      &#game-ingame-messages {
+        background-color: #d1eaff;
+        z-index: 3;
+        &.background { z-index: 1; }
+
+        &::-webkit-scrollbar-thumb { border-radius: 8px; border: 2px solid #d1eaff; /* should match background, can't be transparent */ background-color: rgba(0, 0, 0, .5); }
+        &::-webkit-scrollbar-track { background-color: #d1eaff; border-radius: 8px; }
+      }
+      &#game-live-messages{
+        z-index: 2;
+        position: absolute;
+        width: 100%;
+      }
+    }
+  }
+
+}
