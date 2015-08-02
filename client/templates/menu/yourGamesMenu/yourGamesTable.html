@@ -1,5 +1,5 @@
 <template name="yourGamesTable">
-  <div class="games-panel">
+  <div class="games-panel panel">
     <div class="panel-heading">
       Your Games
 
@@ -14,7 +14,7 @@
 
     </div>
     {{#if games.count}}
-    <table class="games-table">
+    <table class="games-table table">
       <tbody>
         {{#each games}}
         {{> yourGameRow }}

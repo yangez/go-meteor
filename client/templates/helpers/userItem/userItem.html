@@ -1,5 +1,5 @@
 <template name="userItem">
-  <div class="userItem">
+  <span class="userItem">
     {{#if username color}}
       <span class="{{currentUserColor color}}">
         {{#if userIsOnline color}}<i class="fa fa-user"></i>{{/if}}
@@ -16,5 +16,5 @@
         <small>Waiting...</small>
       {{/if}}
     {{/if}}
-  </div>
+  </span>
 </template>
