@@ -4,7 +4,8 @@ Template.messageContainer.onRendered(function(){
 
 Template.messageContainer.helpers({
   messageScroller: function() {
-    if (this.getMessages()) scrollMessages();
+    if (this.messages && this.messages.count) scrollMessages();
+    else if (this.getMessages() && this.getMessages().count()) scrollMessages();
   },
   messages: function(){
     return this.getMessages();
