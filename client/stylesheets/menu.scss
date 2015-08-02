@@ -62,13 +62,22 @@
       padding: 0;
 
       .games-panel {
-        @extend .panel-success;
+        @extend .panel, .panel-success;
         border-radius: 0; margin-bottom: 0;
 
-        .panel-heading { border-radius: 0; }
+        .panel-heading {
+          border-radius: 0;
+
+          label.filter {
+            font-size: 12px;
+            font-weight: 400;
+            margin-left: 10px;
+            input { margin-left: 2px;}
+          }
+        }
 
         .games-table {
-          @extend .table-hover;
+          @extend .table, .table-hover;
 
           i.stone {
             &::after {
