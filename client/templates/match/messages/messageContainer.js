@@ -7,7 +7,8 @@ Template.messageContainer.helpers({
     if (this.messages) scrollMessages();
   },
   messages: function(){
-    return this.messages;
+    if (this.roomId) return Messages.find({roomId: this.roomID});
+    else return this.messages;
   },
   gameEnded: function() {
     return this.archived;
