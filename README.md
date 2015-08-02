@@ -10,7 +10,7 @@ To contribute:
 
 To deploy live:
 
-1. Set up your SSH key in ~/.ssh
+1. [Set up your SSH key](https://help.github.com/articles/generating-ssh-keys/) in ~/.ssh
 2. Send Eric your public key and get `mup.json` from him to add to your working directory
 3. `npm install -g mup` on your computer
 4. Go to our directory and make your changes.
