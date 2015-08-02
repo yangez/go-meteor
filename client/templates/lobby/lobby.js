@@ -38,8 +38,5 @@ Template.lobby.helpers({
       {blackPlayerId: {$exists: true}},
       {whitePlayerId: {$exists: true}},
     ]}, {sort: { endedAt : -1 } } );
-  },
-  globalChatRoom: function(){
-  	return Chatrooms.findOne({name : 'Global'});
-  },
+  }
 });
