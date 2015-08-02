@@ -142,9 +142,73 @@
         &:last-child { border-right-width: 1px; }
       }
       :first-child { border-right: 0; }
-
     }
 
+  }
+
+  // popover for "jump" history button
+  .popover.left{
+    width: 60px;
+    .popover-content { padding: 2px; }
+    .form-control { text-align: center; }
+  }
+
+
+  /*
+   * Messages
+   */
+
+  .messages-container {
+    height: 356px;
+    position: relative;
+    margin: 10px 0;
+    background: #eee;
+    border: 1px solid #ccc;
+    .input-group {
+      position: absolute;
+      bottom: 0px;
+      * { border-radius: 0; margin-bottom: -1px; }
+      input[type=text] { margin-left: -1px; z-index: 2}
+      span { z-index: 1; }
+      input[type=submit] { margin-right: -2px; margin-left: -2px; }
+    }
+    ul.messages {
+      padding: 8px 20px 10px;
+      list-style: none outside none;
+      height: 321px;
+      background: #eee;
+      overflow: auto;
+      position: absolute;
+      width: 100%;
+
+      &::-webkit-scrollbar { -webkit-appearance: none; }
+      &::-webkit-scrollbar:vertical { width: 11px; }
+      &::-webkit-scrollbar:horizontal { height: 11px; }
+      &::-webkit-scrollbar-thumb { border-radius: 8px; border: 2px solid #eee; /* should match background, can't be transparent */ background-color: rgba(0, 0, 0, .5); }
+      &::-webkit-scrollbar-track { background-color: #eee; border-radius: 8px; }
+
+      .author {
+        font-weight: 600;
+        color: rgba(0, 0, 0, 0.3);
+      }
+      .game-message{ font-weight: 600; }
+      em { color: rgba(0, 0, 0, 0.5); }
+
+
+      &#game-ingame-messages {
+        background-color: #d1eaff;
+        z-index: 3;
+        &.background { z-index: 1; }
+
+        &::-webkit-scrollbar-thumb { border-radius: 8px; border: 2px solid #d1eaff; /* should match background, can't be transparent */ background-color: rgba(0, 0, 0, .5); }
+        &::-webkit-scrollbar-track { background-color: #d1eaff; border-radius: 8px; }
+      }
+      &#game-live-messages{
+        z-index: 2;
+        position: absolute;
+        width: 100%;
+      }
+    }
   }
 
 }
