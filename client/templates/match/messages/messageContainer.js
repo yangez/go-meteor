@@ -4,10 +4,11 @@ Template.messageContainer.onRendered(function(){
 
 Template.messageContainer.helpers({
   messageScroller: function() {
-    if (this.messages) scrollMessages();
+    if (this.messages && this.messages.count) scrollMessages();
+    else if (this.getMessages() && this.getMessages().count()) scrollMessages();
   },
   messages: function(){
-    return this.messages;
+    return this.getMessages();
   },
   gameEnded: function() {
     return this.archived;
