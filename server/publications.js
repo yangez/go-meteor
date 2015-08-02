@@ -16,9 +16,13 @@ Meteor.publish('userPresence', function() {
   });
 });
 
-Meteor.publish('chatroom', function(){
-  return Chatrooms.find();
+Meteor.publish('rooms', function(){
+  return Rooms.find();
 })
+
+Meteor.publish('messages', function(){
+  return Messages.find();
+});
 
 Meteor.publish('challenges', function() {
   return Challenges.find({ $and: [

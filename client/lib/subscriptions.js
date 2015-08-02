@@ -1,4 +1,5 @@
 Meteor.subscribe('allUsers');
 Meteor.subscribe('userPresence');
-Meteor.subscribe('chatroom');
+Meteor.subscribe('rooms');
 Meteor.subscribe('challenges');
+Meteor.subscribe('messages');

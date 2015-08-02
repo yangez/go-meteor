@@ -4,15 +4,20 @@ Template.globalChat.onRendered(function(){
 
 Template.globalChat.helpers({
 	messages : function(){
-		$('.chat-messages').animate({scrollTop : 10000});
-		var returnMessages = [];
-		var length = this.messages.length;
-		if(length > 100){
-			var difference = length - 100;
-			returnMessages = this.messages.slice(difference);
-		}
+		var room = Rooms.findOne({name: 'Global'});
+		messages = Messages.find({roomId: room._id}, {limit: 100});
 
-		return length > 100 ? returnMessages : this.messages;
+		return messages;
+	},
+	time: function() {
+		return moment(this.createdAt).format("hh:mm:ss");
+	},
+	user: function() {
+		var user = Meteor.users.findOne(this.senderId);
+		return user.username;
+	},
+	text: function() {
+		return this.content;
 	}
 });
 
@@ -24,17 +29,11 @@ Template.globalChat.events({
 			return;
 		}
 
-		var globalChatId = Chatrooms.find({name: 'Global'})._id;
-		var timestamp = moment().format("hh:mm");
+		var globalChatId = Rooms.findOne({name: 'Global'})._id;
 		var text = $("#enter-message-text").val();
 
 		if (text.trim().length) {
-			var msgData = {
-				user : Meteor.user().username,
-				time : timestamp,
-				text : text.trim()
-			}
-			Meteor.call('postToGlobalChat', msgData);
+			Meteor.call('rooms/addMessage', globalChatId, text);
 			$("#enter-message-text").val('');
 		}
 	}
