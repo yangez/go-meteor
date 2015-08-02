@@ -1,0 +1,9 @@
+<template name="gameMessage">
+  <li class="message">
+    {{#if isSystem}}
+      <span class="game-message">{{content}}</span>
+    {{else}}
+      <span class="author">[{{username}}]</span> {{content}}
+    {{/if}}
+  </li>
+</template>
