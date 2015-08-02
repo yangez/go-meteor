@@ -1,0 +1,59 @@
+@import '.meteor/local/build/programs/server/assets/packages/reywood_bootstrap3-sass/bootstrap';
+
+/*
+ * Main lobby
+ */
+#lobby {
+
+  /*
+   * Chat section
+   */
+  .chat-row { @extend .row;
+
+    .global-chat { @extend .col-md-9;
+      hr { margin-top: 0px; margin-bottom: 0px; }
+      .enter-message { padding : 10px; }
+
+      .chat-body {
+        padding: 5px;
+        .separator { margin-top: 10px; }
+        .chat-messages {
+          max-height: 350px;
+          min-height: 350px;
+          overflow: auto;
+          padding: 5px;
+          .global-msg-username { font-weight: bold; }
+        }
+      }
+    }
+
+    .online-users { @extend .col-md-3;
+      .panel-body {
+        padding: 0px;
+        overflow: auto;
+        max-height: 350px;
+      }
+      .online-user { padding: 5px; }
+      .list-group { margin : 0px; }
+    }
+  }
+
+  /*
+   * Games tables
+   */
+
+  .open-games { @extend .col-md-6; }
+  .latest-game { @extend .col-md-6;
+    .game td { border-top: 0; }
+  }
+  .games-in-progress { @extend .col-md-6; }
+  .completed-games { @extend .col-md-6; }
+
+  .gameTable {
+    @extend .panel, .panel-default;
+
+    table { @extend .table, .table-hover; }
+
+    // game rows are in helpers/gameRow.scss
+  }
+}

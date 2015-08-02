@@ -1,9 +1,3 @@
-/* top progress bar */
-#iron-router-progress {
-  // background-color : #d1eaff;
-  // box-shadow       : 0 0 5px #d1eaff;
-}
-
 /* match page */
 .right {
   margin-top: 31px;
@@ -163,50 +157,13 @@
 
 
 
-/* board-related stuff */
-#board { width: 100%; }
-.show-game #board { cursor: pointer; }
 /* --- */
-
-
 
 label.filter {
   font-size: 12px;
   font-weight: 400;
   margin-left: 10px;
   input { margin-left: 2px;}
-}
-.game {
-  &.your-turn {
-    border-left: 5px #d6e9c6 solid;
-    .time-left { color: green;}
-  }
-  .time-left {
-    color: rgba(0, 0, 0, 0.5);
-    transition: color 200ms;
-  }
-  span {
-    color: rgba(0, 0, 0, 0.7);
-    &.faded { color: rgba(0, 0, 0, 0.5); }
-    &.current-user {
-      color: #69769F;
-    }
-    small.score {
-      font-size: 11px;
-      color: rgba(0, 0, 0, 0.5);
-      margin-left: 5px;
-    }
-
-  }
-  td{
-    &:first-child { padding-left: 15px; }
-    &:last-child { padding-right: 15px; text-align: right; }
-  }
-}
-.table.latest {
-  .game{
-    td { border-top: 0;}
-  }
 }
 i.stone {
   &::after {
@@ -274,53 +231,7 @@ i.stone {
   }
 }
 
-.online-users{
-  .panel-body{
-    padding: 0px;
-    overflow: auto;
-    max-height: 350px;
-  }
-  .online-user{
-    padding: 5px;
-  }
-  .list-group{
-    margin : 0px;
-  }
-}
 
-.global-chat{
-  hr {
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
-  .chat-body{
-    padding : 5px;
-    .separator{
-      margin-top: 10px;
-    }
-
-    .chat-messages{
-      max-height: 350px;
-      min-height: 350px;
-      overflow: auto;
-      // padding: 7px;
-      padding: 5px;
-      .global-msg-username {
-        font-weight: bold;
-      }
-    }
-
-  }
-  .enter-message{
-    padding : 10px;
-  }
-}
-
-tr.game {
-  .glyphicon{
-    font-size: 1em;
-  }
-}
 
 .stat-panel{
   .win{

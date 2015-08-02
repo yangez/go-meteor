@@ -1,0 +1,30 @@
+.game {
+  &.your-turn {
+    border-left: 5px #d6e9c6 solid;
+    .time-left { color: green;}
+  }
+
+  .time-left {
+    color: rgba(0, 0, 0, 0.5);
+    transition: color 200ms;
+  }
+  span {
+    color: rgba(0, 0, 0, 0.7);
+    &.faded { color: rgba(0, 0, 0, 0.5); }
+    &.current-user {
+      color: #69769f;
+    }
+    small.score {
+      font-size: 11px;
+      color: rgba(0, 0, 0, 0.5);
+      margin-left: 5px;
+    }
+
+  }
+  td {
+    &:first-child { padding-left: 15px !important; }
+    &:last-child { padding-right: 15px !important; text-align: right; }
+  }
+
+  .glyphicon { font-size: 1em; }
+}
