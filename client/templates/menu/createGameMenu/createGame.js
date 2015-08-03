@@ -5,6 +5,9 @@ Template.createGame.helpers({
     { text: "Challenge", class: "btn-danger"} :
     { text: "Create Game", class: "btn-primary"} ;
   },
+  loading: function() {
+    return Session.get("createGameLoading") ? "loading" : false;
+  }
 })
 
 Template.createGame.events({
@@ -12,8 +15,8 @@ Template.createGame.events({
   'submit form': function(e) {
     e.preventDefault();
 
-    // close menu
-    $('#create-game-menu').dropdown("toggle");
+    // loading indicator
+    Session.set("createGameLoading", true);
 
     // figure out all game parameters
     var timeEntered = parseInt( $(e.target).find('[name=time-control]').val() );
@@ -64,6 +67,10 @@ Template.createGame.events({
       Meteor.call('challenge/create', game, challengeUsername, function(error, result) {
         if (error) return console.log(error.message);
 
+        // close menu
+        $('#create-game-menu').dropdown("toggle");
+
+        // open challenges
         $('#challenges-menu').dropdown("toggle");
 
         showMessage("Challenge successfully sent to "+result.recipient+".");
@@ -72,8 +79,14 @@ Template.createGame.events({
 
     // if this is merely a new game
     else {
+
       Meteor.call('game/insert', game, Meteor.userId(), function(error, result) {
         if (error) return console.log(error.message);
+
+        // close menu
+        $('#create-game-menu').dropdown("toggle");
+        Session.set("createGameLoading", undefined);
+
         Router.go('match', { _id: result._id });
       });
     }
