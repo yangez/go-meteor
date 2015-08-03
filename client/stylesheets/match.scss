@@ -211,4 +211,10 @@
     }
   }
 
+  .spectators-container {
+    position: absolute;
+    top: 75px; right: -5px;
+    z-index: 5;
+  }
+
 }

@@ -1,4 +1,4 @@
-Template.spectatorsContainer.onRendered(function(){
+Template.spectatorContainer.onRendered(function(){
   $('[data-toggle="tooltip"]').tooltip();
 });
 
@@ -19,10 +19,5 @@ Template.spectatorContainer.helpers({
 });
 
 Template.spectatorContainer.events({
-  'mouseenter .spectators-container': function(e) {
 
-  },
-  'mouseleave .spectators-container': function(e) {
-    console.log('mouseleave');
-  }
 });
