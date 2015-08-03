@@ -1,23 +1,13 @@
 Template.spectatorContainer.onRendered(function(){
-  $('[data-toggle="tooltip"]').tooltip();
+  $('.spectators-container').popover({
+    placement: 'right',
+    trigger: 'click',
+    content: Blaze.toHTMLWithData(Template.spectator, {gameData: Template.currentData()}),
+    container: 'body',
+    html: true
+  });
 });
 
 Template.spectatorContainer.helpers({
-  spectators: function() {
-    var game = this.game._id;
-    var presences = Presences.find({"state.currentGameId": gameId}).fetch();
-    var uniqueUserIds = [];
-
-    presences.forEach(function (p) {
-      if (uniqueUserIds.indexOf(p.userId) > -1) {
-        uniqueUserIds.push(p.userId);
-      }
-    });
-
-    return uniqueUserIds;
-  }
-});
-
-Template.spectatorContainer.events({
 
 });
