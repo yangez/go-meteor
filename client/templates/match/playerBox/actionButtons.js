@@ -36,15 +36,21 @@ Template.playerBox.events({
     $("html, body").animate({ scrollTop: 0 }, 200);
     $("#login-dropdown-list .dropdown-toggle").dropdown('toggle');
   },
-  'click #pass-game': function(e) {
-    e.preventDefault();
-    Meteor.call('game/action', this.game._id, "pass", function(error, result) {
-      if (error) return showMessage(error.message);
-    });
-  },
   'click #cancel-game': function(e) {
     e.preventDefault();
     Meteor.call('game/action', this.game._id, "cancel", function(error, result) {
+      if (error) return showMessage(error.message);
+    });
+  },
+  'click #undo-game': function(e) {
+    e.preventDefault();
+    Meteor.call('game/undo', this.game._id, "undo", function(error, result) {
+      if (error) return showMessage(error.message);
+    });
+  },
+  'click #pass-game': function(e) {
+    e.preventDefault();
+    Meteor.call('game/action', this.game._id, "pass", function(error, result) {
       if (error) return showMessage(error.message);
     });
   },
