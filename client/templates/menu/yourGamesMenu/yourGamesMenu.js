@@ -2,7 +2,7 @@ Template.yourGamesMenu.helpers({
   yourTurnCount: function() {
 
     var games = Games.find({ $and: [
-        {archived: {$ne: true}}, // not archived
+        {archived: {$exists: false}}, // not archived
 
         // game has no open slot
         {blackPlayerId: {$exists: true}},

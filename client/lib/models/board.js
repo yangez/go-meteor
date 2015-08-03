@@ -46,7 +46,7 @@ _.extend(Board.prototype, {
     var game = Games.findOne(this.gameId)
     if ( // if we're currently marking dead in this game, and this is a player
       game &&
-      game.hasPlayer(Meteor.user()) &&
+      game.hasPlayerId(Meteor.userId()) &&
       game.markingDead()
     ) {
       var board = this.board;
@@ -73,7 +73,7 @@ _.extend(Board.prototype, {
     var game = Games.findOne(this.gameId);
     if (
       game &&
-      game.hasPlayer(Meteor.user()) &&
+      game.hasPlayerId(Meteor.userId()) &&
       game.isReady()
     ) {
       var board = this.board;
