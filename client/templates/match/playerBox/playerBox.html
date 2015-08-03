@@ -26,7 +26,15 @@
     {{#if undoRequested}}
       <!-- buttons here -->
       <td>
-        <div class="undo-box"></div>
+        <div class="undo-note">requests undo</div>
+      </td>
+      <td>
+        <div class="undo-box">
+          <div class="vertical-buttons" role="group">
+            <a href="#" id="undo-accept"><i class="fa fa-check"></i> Accept</a>
+            <a href="#" id="undo-deny"><i class="fa fa-times"></i> Deny</a>
+          </div>
+        </div>
       </td>
     {{else}}
       <td>{{> gameTimer}}</td>
