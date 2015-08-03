@@ -25,7 +25,7 @@ Template.yourGamesTable.helpers({
   games: function() {
     if (!Meteor.userId()) return false;
     var and = [
-      {archived: {$ne: true}}, // not archived
+      {archived: {$exists: false}}, // not archived
 
       // game has no open slot
       {blackPlayerId: {$exists: true}},

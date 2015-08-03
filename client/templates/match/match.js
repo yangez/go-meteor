@@ -3,7 +3,7 @@ Template.match.helpers({
     if (
       this.isReady() &&
       !Session.get("requestedNotification") &&
-      this.hasPlayer(Meteor.user())
+      this.hasPlayerId(Meteor.userId())
     ) return notify.permissionLevel() === notify.PERMISSION_DEFAULT;
 
   }
@@ -13,7 +13,7 @@ Template.match.events({
   'click #notify-permissions': function(e) {
     e.preventDefault();
 
-    if (this.hasPlayer(Meteor.user())) {
+    if (this.hasPlayerId(Meteor.userId())) {
       if (notify.permissionLevel() === notify.PERMISSION_DEFAULT) {
         notify.requestPermission(function(){
           Session.set("requestedNotification", true);
