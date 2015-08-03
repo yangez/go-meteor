@@ -16,35 +16,29 @@ Template.actionButtons.helpers({
   },
   cancelable: function() {
     return !this.game.isPlaying();
-  }
+  },
+  undoRequested: function() {
+    return this.game.undoRequested;
+  },
 });
 
 
-Template.playerBox.events({
-  'click .join-game': function(e) {
+Template.actionButtons.events({
+  'click #cancel-game': function(e) {
     e.preventDefault();
-
-    var color = e.target.getAttribute('data-color');
-
-    Meteor.call("game/join", this.game._id, color, function(error, result) {
+    Meteor.call('game/action', this.game._id, "cancel", function(error, result) {
       if (error) return showMessage(error.message);
     });
   },
-  'click .login-prompt': function(e) {
+  'click #undo-game': function(e) {
     e.preventDefault();
-    e.stopPropagation();
-    $("html, body").animate({ scrollTop: 0 }, 200);
-    $("#login-dropdown-list .dropdown-toggle").dropdown('toggle');
+    Meteor.call('game/action', this.game._id, "requestUndo", function(error, result) {
+      if (error) return showMessage(error.message);
+    });
   },
   'click #pass-game': function(e) {
     e.preventDefault();
     Meteor.call('game/action', this.game._id, "pass", function(error, result) {
-      if (error) return showMessage(error.message);
-    });
-  },
-  'click #cancel-game': function(e) {
-    e.preventDefault();
-    Meteor.call('game/action', this.game._id, "cancel", function(error, result) {
       if (error) return showMessage(error.message);
     });
   },

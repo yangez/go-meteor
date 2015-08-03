@@ -34,14 +34,26 @@
       padding: 0 20px;
       position: relative;
       height: 66px;
+      width: 100%;
+      td:first-child {
+        padding-left: 20px;
+        width: 99%;
+      }
+
+      &.player-turn {
+        background: #d1eaff;
+        border-color: #8997AF;
+        .timer { color: green; }
+      }
+      &.undo-requested {
+        background: #fff1d1;
+        border-color: #afaa89;
+      }
+
       .user {
         z-index: 2;
-        width: 50%;
         float: left;
         line-height: 1.2;
-        position:relative;
-        top: 50%;
-        transform: translateY(-50%);
         small {
           color: rgba(0, 0, 0, 0.5);
           strong {
@@ -56,15 +68,13 @@
         .join-game { @extend .btn, .btn-primary; }
       }
       .timer {
+        white-space: nowrap;
         z-index: 1;
-        margin-right: 10px;
+        margin-right: 10px; margin-left: 10px;
         text-align: right;
         font-weight: 600;
         font-size: 20px;
         line-height: 1;
-        position:relative;
-        top: 50%;
-        transform: translateY(-50%);
         small {
           color: rgba(0, 0, 0, 0.5);
           font-size: 80%;
@@ -75,12 +85,8 @@
       .color {
         width: 24px;
         height: 24px;
-        float: right;
         text-align: right;
-        margin-left: 8px;
-        position:relative;
-        top: 50%;
-        transform: translateY(-50%);
+        margin-right: 20px;
 
         &::after {
           content: ' ';
@@ -97,11 +103,34 @@
           background: linear-gradient(135deg, rgba(35,36,39,1) 0%,rgba(0,0,0,1) 100%);
         }
       }
-      &.player-turn {
-        background: #d1eaff;
-        border-color: #8997AF;
-        .timer { color: green; }
+
+      .undo-note {
+        text-align: right;
+        margin-right: 20px;
+        font-style: italic;
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.5);
       }
+      // 'accept undo' box
+      .undo-box {
+        margin: 0;
+        margin-right: -1px;
+        margin-bottom: -1px;
+        height: 65px;
+        width: 76px;
+        .vertical-buttons { @extend .btn-group-vertical, .btn-group-sm;
+          border-radius: 0;
+          > a { @extend .btn;
+            height: 34px; padding-top: 6px;
+            border-radius: 0 !important;
+
+            &#undo-accept { @extend .btn-success; }
+            &#undo-deny { @extend .btn-danger; height: 32px; }
+
+          }
+        }
+      }
+
     }
 
     /*
@@ -117,10 +146,8 @@
         &#md-decline { @extend .btn-danger; }
         &#md-accept { @extend .btn-success; }
 
-        &#resign-game { @extend .btn-default; }
-        &#pass-game { @extend .btn-default; }
-
-        &#cancel-game { @extend .btn-default; border-right-width: 1px; }
+        &#cancel-game { border-right-width: 1px; }
+        &#undo-game { border-right-width: 1px; }
       }
       :first-child { border-right-width: 0; }
     }

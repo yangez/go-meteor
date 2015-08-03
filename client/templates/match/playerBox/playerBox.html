@@ -1,6 +1,6 @@
 <template name="playerBox">
-  <div class="player-box {{playerTurn}}">
-    <div class="user">
+  <table class="player-box {{playerTurn}} {{undoRequested}}"><tr>
+    <td> <div class="user">
       {{#if playerData.user}}
         {{#if userIsOnline}}
           <i class="fa fa-user {{userPresent}}"></i>
@@ -22,11 +22,25 @@
           {{/if}}
         {{/if}}
       {{/if}}
-    </div>
-    <div class="color {{playerData.color}}"></div>
-    {{> gameTimer}}
-    <div class="clearfix"></div>
-  </div>
+    </div> </td>
+    {{#if undoRequested}}
+      <!-- buttons here -->
+      <td>
+        <div class="undo-note">takeback request</div>
+      </td>
+      <td>
+        <div class="undo-box">
+          <div class="vertical-buttons" role="group">
+            <a href="#" id="undo-accept"><i class="fa fa-check"></i> Accept</a>
+            <a href="#" id="undo-deny"><i class="fa fa-times"></i> Deny</a>
+          </div>
+        </div>
+      </td>
+    {{else}}
+      <td>{{> gameTimer}}</td>
+      <td> <div class="color {{playerData.color}}"></div> </td>
+    {{/if}}
+  </tr></table>
 
   {{> actionButtons}}
 </template>
