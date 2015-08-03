@@ -35,3 +35,18 @@ Template.playerBox.helpers({
   }
 
 });
+
+Template.playerBox.events({
+  'click #undo-accept': function(e) {
+    e.preventDefault();
+    Meteor.call('game/action', this.game._id, "acceptUndo", function(error, result) {
+      if (error) return showMessage(error.message);
+    });
+  },
+  'click #undo-deny': function(e) {
+    e.preventDefault();
+    Meteor.call('game/action', this.game._id, "denyUndo", function(error, result) {
+      if (error) return showMessage(error.message);
+    });
+  },
+})

@@ -68,6 +68,7 @@
         .join-game { @extend .btn, .btn-primary; }
       }
       .timer {
+        white-space: nowrap;
         z-index: 1;
         margin-right: 10px; margin-left: 10px;
         text-align: right;
