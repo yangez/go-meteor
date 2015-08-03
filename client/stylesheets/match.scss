@@ -117,10 +117,8 @@
         &#md-decline { @extend .btn-danger; }
         &#md-accept { @extend .btn-success; }
 
-        &#resign-game { @extend .btn-default; }
-        &#pass-game { @extend .btn-default; }
-
-        &#cancel-game { @extend .btn-default; border-right-width: 1px; }
+        &#cancel-game { border-right-width: 1px; }
+        &#undo-game { border-right-width: 1px; }
       }
       :first-child { border-right-width: 0; }
     }

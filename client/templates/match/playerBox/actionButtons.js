@@ -16,11 +16,14 @@ Template.actionButtons.helpers({
   },
   cancelable: function() {
     return !this.game.isPlaying();
-  }
+  },
+  undoRequested: function() {
+    return this.game.undoRequested;
+  },
 });
 
 
-Template.playerBox.events({
+Template.actionButtons.events({
   'click .join-game': function(e) {
     e.preventDefault();
 
@@ -44,7 +47,7 @@ Template.playerBox.events({
   },
   'click #undo-game': function(e) {
     e.preventDefault();
-    Meteor.call('game/undo', this.game._id, "undo", function(error, result) {
+    Meteor.call('game/action', this.game._id, "undo", function(error, result) {
       if (error) return showMessage(error.message);
     });
   },

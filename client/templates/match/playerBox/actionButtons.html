@@ -17,7 +17,6 @@
 
       {{#if playerTurn}}
         <div class="action-buttons" role="group">
-          <a href="#" id="undo-game">Undo <i class="fa fa-undo"></i></a>
           <a href="#" id="pass-game">Pass <i class="fa fa-arrow-circle-o-right"></i></a>
           <a href="#" id="resign-game">Resign</a>
         </div>
@@ -29,6 +28,14 @@
             {{else}}
               <a href="#" id="md-decline"><i class="fa fa-times"></i> Decline</a>
               <a href="#" id="md-accept"><i class="fa fa-check"></i> Accept </a>
+            {{/if}}
+          </div>
+        {{else}}
+          <div class="action-buttons" role="group">
+            {{#if undoRequested}}
+              <a href="#" id="undo-game" disabled>Requesting undo...</a>
+            {{else}}
+              <a href="#" id="undo-game">Resign</a>
             {{/if}}
           </div>
         {{/if}} <!-- markingDead -->
