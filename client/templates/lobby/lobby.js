@@ -12,7 +12,7 @@ Template.lobby.helpers({
   openGames: function() {
     return Games.find({ $and: [
       // game is not archived
-      {archived: {$ne: true}},
+      {archived: {$exists: false}},
 
       // game has an open slot
       {$or: [
@@ -24,7 +24,7 @@ Template.lobby.helpers({
   gamesInProgress: function() {
     return Games.find({ $and: [
       // not archived
-      { archived: {$ne: true} },
+      { archived: {$exists: false} },
 
       // both players exist but are not current player
       {blackPlayerId: {$exists: true, $ne: Meteor.userId()}},
@@ -34,7 +34,9 @@ Template.lobby.helpers({
   },
   completedGames: function() {
     return Games.find({ $and: [
-      { archived: true },
+      { archived: {$exists: true }},
+      {archived: {$ne: "canceled"} },
+      
       {blackPlayerId: {$exists: true}},
       {whitePlayerId: {$exists: true}},
     ]}, {sort: { endedAt : -1 } } );

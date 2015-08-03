@@ -1,21 +1,21 @@
 <template name="playerBox">
-  <div class="player-box {{playerBox_playerTurn}}">
+  <div class="player-box {{playerTurn}}">
     <div class="user">
-      {{#if playerBox_data.user}}
+      {{#if playerData.user}}
         {{#if userIsOnline}}
           <i class="fa fa-user {{userPresent}}"></i>
         {{/if}}
-        {{playerBox_data.user.username}}
-        {{#if playerBox_data.isCurrentPlayer}} <em>(you)</em> {{/if}}
+        {{playerData.user.username}}
+        {{#if playerData.isCurrentPlayer}} <em>(you)</em> {{/if}}
         {{#if score}}<small class="score">{{score}}</small>{{/if}}
         {{#if captureCount}}
           <br/><small>Captured: <strong>{{captureCount}}</strong></small>
         {{/if}}
       {{else}}
-        {{#if playerBox_data.joinButton}}
-          <a href="#" class="join-game" data-color="{{playerBox_data.color}}">Join as {{playerBox_data.color}}</a>
+        {{#if playerData.joinButton}}
+          <a href="#" class="join-game" data-color="{{playerData.color}}">Join as {{playerData.color}}</a>
         {{else}}
-          {{#if playerBox_data.joinPrompt}}
+          {{#if playerData.joinPrompt}}
             <small><em><a href="#" class="login-prompt">Log in or register</a> to play</em></small>
           {{else}}
             <small><em>Waiting for opponent...</em></small>
@@ -23,7 +23,7 @@
         {{/if}}
       {{/if}}
     </div>
-    <div class="color {{playerBox_data.color}}"></div>
+    <div class="color {{playerData.color}}"></div>
     {{> gameTimer}}
     <div class="clearfix"></div>
   </div>

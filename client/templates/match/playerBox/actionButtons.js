@@ -14,7 +14,69 @@ Template.actionButtons.helpers({
     var game = Games.findOne(this.game._id); // refresh
     return (game.userAcceptedMD === Meteor.userId()) ? "disabled" : "";
   },
-  isCurrentPlayer: function() {
-    
+  cancelable: function() {
+    return !this.game.isPlaying();
   }
+});
+
+
+Template.playerBox.events({
+  'click .join-game': function(e) {
+    e.preventDefault();
+
+    var color = e.target.getAttribute('data-color');
+
+    Meteor.call("game/join", this.game._id, color, function(error, result) {
+      if (error) return showMessage(error.message);
+    });
+  },
+  'click .login-prompt': function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $("html, body").animate({ scrollTop: 0 }, 200);
+    $("#login-dropdown-list .dropdown-toggle").dropdown('toggle');
+  },
+  'click #pass-game': function(e) {
+    e.preventDefault();
+    Meteor.call('game/action', this.game._id, "pass", function(error, result) {
+      if (error) return showMessage(error.message);
+    });
+  },
+  'click #cancel-game': function(e) {
+    e.preventDefault();
+    Meteor.call('game/action', this.game._id, "cancel", function(error, result) {
+      if (error) return showMessage(error.message);
+    });
+  },
+  'click #resign-game': function(e) {
+    e.preventDefault();
+    var game = this.game;
+
+    $.confirm({
+      title: 'Really resign?',
+      content: 'Are you sure you want to resign? (This action is irreversible.)',
+      confirmButton: "Yes",
+      confirmButtonClass: "btn-danger",
+      cancelButton: "No",
+      theme: "supervan",
+      confirm: function(){
+        Meteor.call('game/action', game._id, "resign", function(error, result) {
+          if (error) return console.log(error.message);
+        });
+      }
+    });
+  },
+  'click #md-decline': function(e) {
+    e.preventDefault();
+    Meteor.call('game/action', this.game._id, "declineMD", function(error, result) {
+      if (error) return console.log(error.message);
+    });
+  },
+  'click #md-accept': function(e) {
+    e.preventDefault();
+    Meteor.call('game/action', this.game._id, "acceptMD", function(error, result) {
+      if (error) return console.log(error.message);
+    });
+  },
+
 });

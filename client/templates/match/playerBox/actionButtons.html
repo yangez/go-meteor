@@ -4,25 +4,39 @@
     {{> historyButtons}}
   {{/if}}
 {{else}}
-  {{#if playerBox_data.isCurrentPlayer}}
-    {{#if playerBox_playerTurn}}
+
+  {{#if cancelable}}
+    {{#if isBottom}}
       <div class="action-buttons" role="group">
-        <a href="#" class="btn btn-default" id="resign-game">Resign</a>
-        <a href="#" class="btn btn-default" id="pass-game">Pass <i class="fa fa-arrow-circle-o-right"></i></a>
+        <a href="#" id="cancel-game">Cancel Game <i class="fa fa-ban"></i></a>
       </div>
-    {{else}}
-      {{#if markingDead}}
-        <div class="action-buttons" role="group">
-          {{#if mdDisabled}}
-            <a href="#" disabled>Waiting for opponent...</a>
-          {{else}}
-            <a href="#" id="md-decline"><i class="fa fa-times"></i> Decline</a>
-            <a href="#" id="md-accept"><i class="fa fa-check"></i> Accept </a>
-          {{/if}}
-        </div>
-      {{/if}}
     {{/if}}
-  {{/if}}
+  {{else}}
+
+    {{#if playerData.isCurrentPlayer}}
+
+      {{#if playerTurn}}
+        <div class="action-buttons" role="group">
+          <a href="#" id="resign-game">Resign</a>
+          <a href="#" id="pass-game">Pass <i class="fa fa-arrow-circle-o-right"></i></a>
+        </div>
+      {{else}}
+        {{#if markingDead}}
+          <div class="action-buttons" role="group">
+            {{#if mdDisabled}}
+              <a href="#" disabled>Waiting for opponent...</a>
+            {{else}}
+              <a href="#" id="md-decline"><i class="fa fa-times"></i> Decline</a>
+              <a href="#" id="md-accept"><i class="fa fa-check"></i> Accept </a>
+            {{/if}}
+          </div>
+        {{/if}} <!-- markingDead -->
+      {{/if}} <!-- playerTurn -->
+
+
+    {{/if}} <!-- playerData.isCurrentPlayer -->
+
+  {{/if}}<!-- cancelable -->
 
 {{/if}}
 </template>

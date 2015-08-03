@@ -73,7 +73,10 @@ function usernameFilter(gamesArr){
 
 function findArchivedGames(user){
   return Games.find({ $and: [
-        {archived: true},
+        // archived but not canceled
+        {archived: {$exists: true} },
+        {archived: {$ne: "canceled"} },
+
         {$or: [ // player is in game
           {blackPlayerId: user._id},
           {whitePlayerId: user._id}
@@ -162,7 +165,9 @@ function applyGameFilters(user){
       return Games.find(
           { $and:
             [
-              {archived: true},
+              {archived: {$exists: true}},
+              {archived: {$ne: "canceled"} },
+
               {$or: colorFilter},
               {$or: winLossFilter},
               {$or : sizeFilter},
