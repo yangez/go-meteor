@@ -14,7 +14,7 @@ Template.actionButtons.helpers({
     var game = Games.findOne(this.game._id); // refresh
     return (game.userAcceptedMD === Meteor.userId()) ? "disabled" : "";
   },
-  isCurrentPlayer: function() {
-    
+  cancelable: function() {
+    return !this.game.isPlaying();
   }
 });

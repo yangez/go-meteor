@@ -1,5 +1,5 @@
 // if it's this player's turn
-Template.registerHelper('playerBox_playerTurn', function(){
+Template.registerHelper('playerTurn', function(){
     // if game is actually playing
     if (this.game.isReady()) {
       var color = this.game.getColorOfPosition(this.position);
@@ -37,7 +37,7 @@ Template.registerHelper('playerBox_playerTurn', function(){
     return false;
 })
 
-Template.registerHelper('playerBox_data', function(){
+Template.registerHelper('playerData', function(){
 
   var currentUserColor = this.game.getColorOfPlayerId(Meteor.userId());
 

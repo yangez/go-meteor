@@ -65,13 +65,12 @@ Template.createGame.events({
       if (!user) return showMessage("The user '"+challengeUsername+"' doesn't exist.");
 
       Meteor.call('challenge/create', game, challengeUsername, function(error, result) {
-        if (error) return console.log(error.message);
+        Session.set("createGameLoading", undefined);
 
-        // close menu
         $('#create-game-menu').dropdown("toggle");
-
-        // open challenges
         $('#challenges-menu').dropdown("toggle");
+
+        if (error) return showMessage(error.message);
 
         showMessage("Challenge successfully sent to "+result.recipient+".");
       });
@@ -81,11 +80,11 @@ Template.createGame.events({
     else {
 
       Meteor.call('game/insert', game, Meteor.userId(), function(error, result) {
-        if (error) return console.log(error.message);
-
-        // close menu
-        $('#create-game-menu').dropdown("toggle");
         Session.set("createGameLoading", undefined);
+
+        $('#create-game-menu').dropdown("toggle");
+
+        if (error) return showMessage(error.message);
 
         Router.go('match', { _id: result._id });
       });
