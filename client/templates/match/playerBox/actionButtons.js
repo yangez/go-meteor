@@ -24,21 +24,6 @@ Template.actionButtons.helpers({
 
 
 Template.actionButtons.events({
-  'click .join-game': function(e) {
-    e.preventDefault();
-
-    var color = e.target.getAttribute('data-color');
-
-    Meteor.call("game/join", this.game._id, color, function(error, result) {
-      if (error) return showMessage(error.message);
-    });
-  },
-  'click .login-prompt': function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    $("html, body").animate({ scrollTop: 0 }, 200);
-    $("#login-dropdown-list .dropdown-toggle").dropdown('toggle');
-  },
   'click #cancel-game': function(e) {
     e.preventDefault();
     Meteor.call('game/action', this.game._id, "cancel", function(error, result) {
