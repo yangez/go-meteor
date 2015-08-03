@@ -3,6 +3,25 @@ Template.globalChat.onRendered(function(){
 })
 
 Template.globalChat.helpers({
+	privateMessages: function(){
+		// want to find the pms that the current logged-in user is in
+		var usersPrivateChats = Rooms.find({ 
+      $and: [
+        { users : {$in : [Meteor.userId()]} },
+        { type : 'pm' }
+      ]
+    }).fetch();
+    
+		console.log(usersPrivateChats);
+		usersPrivateChats.forEach(function(room) {
+			var newName = room.name.split(',').filter(function(username) {
+				return username !== Meteor.user().username;
+			}).join('');
+			room.name = newName;
+		})
+
+    return usersPrivateChats;
+	},
 	messages : function(){
 		var room = Rooms.findOne({name: 'Global'});
 		messages = Messages.find({roomId: room._id}, {limit: 100});
