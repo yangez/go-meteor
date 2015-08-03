@@ -47,7 +47,7 @@ Template.actionButtons.events({
   },
   'click #undo-game': function(e) {
     e.preventDefault();
-    Meteor.call('game/action', this.game._id, "undo", function(error, result) {
+    Meteor.call('game/action', this.game._id, "requestUndo", function(error, result) {
       if (error) return showMessage(error.message);
     });
   },

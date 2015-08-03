@@ -25,6 +25,13 @@ Template.playerBox.helpers({
       var positionColor = game.getColorOfPosition(this.position);
       if (color === positionColor) return game.score;
     }
+  },
+  undoRequested: function() {
+    var game = this.game;
+    if (this.position !== "top" || !game.undoRequested) return false;
+    var color = this.game.getColorOfPosition(this.position);
+    var user = this.game.getPlayerAtColor(color);
+    return (user._id === game.undoRequested) ? "undo-requested" : false;
   }
 
 });
