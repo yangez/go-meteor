@@ -2,9 +2,9 @@
   <div class="panel panel-danger">
     <div class="panel-heading">
       <h3 class="panel-title">
-        Global Chat
-        {{#each privateMessages}}
-          {{name}}
+        <span id="global-chat">Global Chat</span>
+        {{#each privateRooms}}
+          | <span class="pm">{{name}}</span>
         {{/each}}
       </h3>
     </div>

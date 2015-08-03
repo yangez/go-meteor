@@ -1,9 +1,10 @@
 Template.globalChat.onRendered(function(){
 	$('.chat-messages').animate({scrollTop : 10000});
+	Session.set('pm', false);
 })
 
 Template.globalChat.helpers({
-	privateMessages: function(){
+	privateRooms: function(){
 		// want to find the pms that the current logged-in user is in
 		var usersPrivateChats = Rooms.find({ 
       $and: [
@@ -12,7 +13,6 @@ Template.globalChat.helpers({
       ]
     }).fetch();
     
-		console.log(usersPrivateChats);
 		usersPrivateChats.forEach(function(room) {
 			var newName = room.name.split(',').filter(function(username) {
 				return username !== Meteor.user().username;
@@ -23,11 +23,15 @@ Template.globalChat.helpers({
     return usersPrivateChats;
 	},
 	messages : function(){
-		var room = Rooms.findOne({name: 'Global'});
-		messages = Messages.find({roomId: room._id}, {limit: 100});
-
+		if(Session.get('pm')){
+			var messages = Messages.find({ roomId: Session.get('pm')});
+		}else{
+			var room = Rooms.findOne({name: 'Global'});
+			var messages = Messages.find({roomId: room._id}, {limit: 100});
+		}
 		return messages;
 	},
+	
 	time: function() {
 		return moment(this.createdAt).format("hh:mm:ss");
 	},
@@ -41,6 +45,16 @@ Template.globalChat.helpers({
 });
 
 Template.globalChat.events({
+	'click #global-chat': function(e){
+		e.preventDefault();
+		Session.set('pm', false);
+	},
+
+	'click .pm': function(e){
+		e.preventDefault();
+		Session.set('pm', this._id);
+	},
+
 	'submit #chat-form-submit' : function(e){
 		var input = $(e.target).find('[name=message]')
 		e.preventDefault();
@@ -81,6 +95,7 @@ Template.globalChat.events({
 		    } else {
 		    	var roomId = privateRoom._id;
 		    	Meteor.call('rooms/addMessage', roomId, message);
+		    	input.val('');
 		    }
 			}
 		} else {
