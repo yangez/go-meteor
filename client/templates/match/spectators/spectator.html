@@ -1,0 +1,13 @@
+<template name="spectator">
+  <li class="spectator">
+    {{#if this.author}}
+      <span class="spectator">[{{this.author}}]</span> {{this.content}}
+    {{else}}
+      {{#if this.class}}
+        <span class="{{this.class}}">{{this.content}}</span>
+      {{else}}
+        <em>{{this.content}}</em>
+      {{/if}}
+    {{/if}}
+  </li>
+</template>
