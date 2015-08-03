@@ -28,7 +28,11 @@ Template.playerBox.helpers({
   },
   undoRequested: function() {
     var game = this.game;
-    if (this.position !== "top" || !game.undoRequested) return false;
+    if (
+      this.position !== "top" ||
+      !game.undoRequested ||
+      !game.hasPlayerId(Meteor.userId())
+    ) return false;
     var color = this.game.getColorOfPosition(this.position);
     var user = this.game.getPlayerAtColor(color);
     return (user._id === game.undoRequested) ? "undo-requested" : false;
