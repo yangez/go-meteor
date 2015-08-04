@@ -1,7 +1,7 @@
 <template name="spectator">
-  {{#each spectators}}
-    <ol class="spectator">
-      <li>{{user.username}}</li>
-    </ol>
-  {{/each}}
+  <ul class="list-unstyled">
+    {{#each spectators}}
+        <li>{{user.username}}</li>
+    {{/each}}
+  </ul>
 </template>
