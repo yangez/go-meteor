@@ -33,10 +33,6 @@ var updateBoard = function(game) {
 
   if (!game) return;
 
-  var lastMoveIndex = Session.get("boardLastMoveIndex"+game._id);
-  var currentMoveIndex = game.wgoGame.stack.length-1;
-  Session.set("boardLastMoveIndex"+game._id, currentMoveIndex);
-
   // if there's currently no board, or it's equal to another game,
   if (gameBoard === undefined || gameBoard.gameId != game._id) {
     var size = parseInt( $("#board").css("width"));
@@ -51,8 +47,13 @@ var updateBoard = function(game) {
     // notify them that it's their turn
     game.notifyCurrentPlayer();
 
-    // update from previous move to latest
-    gameBoard.update(game.wgoGame.stack[lastMoveIndex], game.wgoGame.getPosition())
+    // update from previous move to latest. 'else' is here for compatibility with older games
+    var lastMoveIndex = Session.get("boardLastMoveIndex"+game._id);
+    var currentMoveIndex = game.wgoGame.stack.length-1;
+    Session.set("boardLastMoveIndex"+game._id, currentMoveIndex);
+
+    if (game.previousPosition) gameBoard.update(game.previousPosition, game.wgoGame.getPosition())
+    else gameBoard.update(game.wgoGame.stack[lastMoveIndex], game.wgoGame.getPosition())
   }
 
   // update markers

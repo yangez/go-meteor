@@ -1,5 +1,5 @@
 if (Rooms.find().count() === 0) {
-  Room.create({
+  createRoom({
     name: 'Global',
     type: 'chatroom'
   })

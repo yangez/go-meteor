@@ -2,6 +2,24 @@
 {{#if gameEnded}}
   {{#if isBottom}}
     {{> historyButtons}}
+  {{else}}
+    {{#if rematchGame}}
+      <div class="action-buttons" role="group">
+        {{#with rematchGame}}
+          <a href="{{pathFor route='match'}}" id="to-rematch">Go to rematch &rarr;</a>
+        {{/with}}
+      </div>
+    {{else}}
+      {{#if canRematch}}
+        <div class="action-buttons" role="group">
+          {{#if rematchActive}}
+            <a href="#" disabled>Rematch requested...</a>
+          {{else}}
+            <a href="#" id="rematch-game">Rematch <i class="fa fa-repeat"></i></a>
+          {{/if}}
+        </div>
+      {{/if}}
+    {{/if}}
   {{/if}}
 {{else}}
 
@@ -17,8 +35,8 @@
 
       {{#if playerTurn}}
         <div class="action-buttons" role="group">
-          <a href="#" id="resign-game">Resign</a>
           <a href="#" id="pass-game">Pass <i class="fa fa-arrow-circle-o-right"></i></a>
+          <a href="#" id="resign-game">Resign</a>
         </div>
       {{else}}
         {{#if markingDead}}
@@ -28,6 +46,14 @@
             {{else}}
               <a href="#" id="md-decline"><i class="fa fa-times"></i> Decline</a>
               <a href="#" id="md-accept"><i class="fa fa-check"></i> Accept </a>
+            {{/if}}
+          </div>
+        {{else}}
+          <div class="action-buttons" role="group">
+            {{#if undoRequested}}
+              <a href="#" id="undo-game" disabled>Requesting undo...</a>
+            {{else}}
+              <a href="#" id="undo-game">Undo <i class="fa fa-undo"></i></a>
             {{/if}}
           </div>
         {{/if}} <!-- markingDead -->

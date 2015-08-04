@@ -25,6 +25,52 @@ Template.playerBox.helpers({
       var positionColor = game.getColorOfPosition(this.position);
       if (color === positionColor) return game.score;
     }
+  },
+  undoRequested: function() {
+    var game = this.game;
+    if (
+      this.position !== "top" ||
+      !game.undoRequested ||
+      !game.hasPlayerId(Meteor.userId())
+    ) return false;
+    var color = this.game.getColorOfPosition(this.position);
+    var user = this.game.getPlayerAtColor(color);
+    return (user._id === game.undoRequested) ? "undo-requested" : false;
   }
 
 });
+
+Template.playerBox.events({
+  'click .user': function(e) {
+    var color = this.game.getColorOfPosition(this.position);
+    var user = this.game.getPlayerAtColor(color);
+    Router.go('userProfile', { username : user.username });
+  },
+  'click .join-game': function(e) {
+    e.preventDefault();
+
+    var color = e.target.getAttribute('data-color');
+
+    Meteor.call("game/join", this.game._id, color, function(error, result) {
+      if (error) return showMessage(error.message);
+    });
+  },
+  'click .login-prompt': function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $("html, body").animate({ scrollTop: 0 }, 200);
+    $("#login-dropdown-list .dropdown-toggle").dropdown('toggle');
+  },
+  'click #undo-accept': function(e) {
+    e.preventDefault();
+    Meteor.call('game/action', this.game._id, "acceptUndo", function(error, result) {
+      if (error) return showMessage(error.message);
+    });
+  },
+  'click #undo-deny': function(e) {
+    e.preventDefault();
+    Meteor.call('game/action', this.game._id, "denyUndo", function(error, result) {
+      if (error) return showMessage(error.message);
+    });
+  },
+})
