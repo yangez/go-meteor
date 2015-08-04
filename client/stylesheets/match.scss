@@ -24,7 +24,7 @@
    * Right side (boxes)
    */
   .right { @extend .col-md-4;
-    margin-top: 31px;
+    margin-top: 26px;
 
     /*
     * playerbox
@@ -149,6 +149,7 @@
 
         &#cancel-game { border-right-width: 1px; }
         &#undo-game { border-right-width: 1px; }
+        &#rematch-game { @extend .btn-info; border-right-width: 1px; }
       }
       :first-child { border-right-width: 0; }
     }

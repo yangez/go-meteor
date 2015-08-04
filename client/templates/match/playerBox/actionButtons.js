@@ -20,6 +20,10 @@ Template.actionButtons.helpers({
   undoRequested: function() {
     return this.game.undoRequested;
   },
+  userInGame: function() {
+    return this.game.hasPlayerId(Meteor.userId());
+  }
+
 });
 
 

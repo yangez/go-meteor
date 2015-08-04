@@ -2,6 +2,14 @@
 {{#if gameEnded}}
   {{#if isBottom}}
     {{> historyButtons}}
+
+  {{else}}
+    {{#if userInGame}}
+      <div class="action-buttons" role="group">
+        <a href="#" id="rematch-game">Rematch <i class="fa fa-repeat"></i></a>
+      </div>
+    {{/if}}
+
   {{/if}}
 {{else}}
 
