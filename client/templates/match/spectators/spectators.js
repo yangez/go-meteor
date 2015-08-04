@@ -5,7 +5,7 @@ Template.spectator.helpers({
 	spectators: function() {
 		var game = this.gameData;
 		var presences = Presences.find({"state.currentGameId": game._id}).fetch();
-	  var players = [game.whitePlayerId];
+	  var players = [game.whitePlayerId, game.blackPlayerId];
 	  var userIds = [];
 	  return presences.filter(function(user) {
 	    if (userIds.indexOf(user.userId) >= 0 || players.indexOf(user.userId) >= 0) {
