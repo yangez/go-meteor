@@ -21,8 +21,10 @@ Template.actionButtons.helpers({
     return this.game.undoRequested;
   },
   canRematch: function() {
-    var rematched = Games.findOne({rematchOf: this.game._id});
-    return this.game.hasPlayerId(Meteor.userId()) && !rematched;
+    return this.game.hasPlayerId(Meteor.userId());
+  },
+  rematchGame: function() {
+    return Games.findOne({rematchOf: this.game._id});
   },
   rematchActive: function() {
     var rematchChallenge = Challenges.findOne({"gameAttributes.rematchOf": this.game._id});

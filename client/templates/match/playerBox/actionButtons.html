@@ -2,18 +2,24 @@
 {{#if gameEnded}}
   {{#if isBottom}}
     {{> historyButtons}}
-
   {{else}}
-    {{#if canRematch}}
+    {{#if rematchGame}}
       <div class="action-buttons" role="group">
-        {{#if rematchActive}}
-          <a href="#" disabled>Rematch requested...</a>
-        {{else}}
-          <a href="#" id="rematch-game">Rematch <i class="fa fa-repeat"></i></a>
-        {{/if}}
+        {{#with rematchGame}}
+          <a href="{{pathFor route='match'}}" id="to-rematch">Go to rematch &rarr;</a>
+        {{/with}}
       </div>
+    {{else}}
+      {{#if canRematch}}
+        <div class="action-buttons" role="group">
+          {{#if rematchActive}}
+            <a href="#" disabled>Rematch requested...</a>
+          {{else}}
+            <a href="#" id="rematch-game">Rematch <i class="fa fa-repeat"></i></a>
+          {{/if}}
+        </div>
+      {{/if}}
     {{/if}}
-
   {{/if}}
 {{else}}
 
