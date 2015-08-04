@@ -41,6 +41,11 @@ Template.playerBox.helpers({
 });
 
 Template.playerBox.events({
+  'click .user': function(e) {
+    var color = this.game.getColorOfPosition(this.position);
+    var user = this.game.getPlayerAtColor(color);
+    Router.go('userProfile', { username : user.username });
+  },
   'click .join-game': function(e) {
     e.preventDefault();
 
