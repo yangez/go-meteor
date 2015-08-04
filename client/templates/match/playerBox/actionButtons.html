@@ -4,9 +4,13 @@
     {{> historyButtons}}
 
   {{else}}
-    {{#if userInGame}}
+    {{#if canRematch}}
       <div class="action-buttons" role="group">
-        <a href="#" id="rematch-game">Rematch <i class="fa fa-repeat"></i></a>
+        {{#if rematchActive}}
+          <a href="#" disabled>Rematch requested...</a>
+        {{else}}
+          <a href="#" id="rematch-game">Rematch <i class="fa fa-repeat"></i></a>
+        {{/if}}
       </div>
     {{/if}}
 

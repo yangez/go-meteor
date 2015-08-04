@@ -147,11 +147,10 @@
         &#md-decline { @extend .btn-danger; }
         &#md-accept { @extend .btn-success; }
 
-        &#cancel-game { border-right-width: 1px; }
-        &#undo-game { border-right-width: 1px; }
-        &#rematch-game { @extend .btn-info; border-right-width: 1px; }
+        &#rematch-game { @extend .btn-info;  }
       }
       :first-child { border-right-width: 0; }
+      :last-child { border-right-width: 1px; }
     }
 
     // history buttons

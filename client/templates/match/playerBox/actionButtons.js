@@ -20,8 +20,13 @@ Template.actionButtons.helpers({
   undoRequested: function() {
     return this.game.undoRequested;
   },
-  userInGame: function() {
-    return this.game.hasPlayerId(Meteor.userId());
+  canRematch: function() {
+    var rematched = Games.findOne({rematchOf: this.game._id});
+    return this.game.hasPlayerId(Meteor.userId()) && !rematched;
+  },
+  rematchActive: function() {
+    var rematchChallenge = Challenges.findOne({"gameAttributes.rematchOf": this.game._id});
+    return rematchChallenge ? true : false;
   },
 
 });
@@ -76,5 +81,18 @@ Template.actionButtons.events({
       if (error) return console.log(error.message);
     });
   },
+
+  'click #rematch-game': function(e) {
+    e.preventDefault();
+    Session.set("rematchSent"+this.game._id, true);
+
+    Meteor.call('game/rematch', this.game._id, function(error, result) {
+      if (error) return console.log(error.message);
+
+      showMessage("Rematch challenge successfully sent.");
+
+      $('#challenges-menu').dropdown("toggle");
+    });
+  }
 
 });
