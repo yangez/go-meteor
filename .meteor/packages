@@ -21,3 +21,4 @@ momentjs:moment
 email
 sergeyt:typeahead
 reywood:bootstrap3-sass
+dburles:collection-helpers
