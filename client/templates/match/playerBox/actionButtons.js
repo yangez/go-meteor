@@ -22,7 +22,7 @@ Template.actionButtons.helpers({
   },
   userInGame: function() {
     return this.game.hasPlayerId(Meteor.userId());
-  }
+  },
 
 });
 
