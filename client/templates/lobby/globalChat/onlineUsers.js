@@ -15,4 +15,3 @@ Template.onlineUsers.helpers({
 Template.onlineUsers.events({
 
 })
-

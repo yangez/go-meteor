@@ -1,0 +1,9 @@
+<template name="spectatorContainer">
+  <div class="spectators-container">
+    {{#if hasSpectators}}
+      {{> spectatorsIcon}}
+    {{else}}
+      <i id="eye" class="fa fa-eye-slash"></i>
+    {{/if}}
+  </div>
+</template>

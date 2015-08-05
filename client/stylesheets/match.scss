@@ -246,4 +246,19 @@
     }
   }
 
+  .spectators-container {
+    position: absolute;
+    top: 75px; right: -5px;
+    z-index: 5;
+  }
+}
+
+.popover.right {
+  .arrow {
+    top: 12px !important;
+  }
+  .popover-content {
+    max-height: 320px;
+    overflow-y: scroll;
+  }
 }
