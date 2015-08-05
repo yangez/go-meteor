@@ -6,13 +6,13 @@ Template.globalChat.onRendered(function(){
 Template.globalChat.helpers({
 	privateRooms: function(){
 		// want to find the pms that the current logged-in user is in
-		var usersPrivateChats = Rooms.find({ 
+		var usersPrivateChats = Rooms.find({
       $and: [
         { users : {$in : [Meteor.userId()]} },
         { type : 'pm' }
       ]
     }).fetch();
-    
+
 		usersPrivateChats.forEach(function(room) {
 			var newName = room.name.split(',').filter(function(username) {
 				return username !== Meteor.user().username;
@@ -31,7 +31,7 @@ Template.globalChat.helpers({
 		}
 		return messages;
 	},
-	
+
 	time: function() {
 		return moment(this.createdAt).format("hh:mm:ss");
 	},
@@ -41,7 +41,21 @@ Template.globalChat.helpers({
 	},
 	text: function() {
 		return this.content;
-	}
+	},
+	settings: function() {
+    return {
+      position: Session.get("position"),
+      limit: 3,
+      rules: [
+        {
+          token: '@',
+          collection: Meteor.users,
+          field: 'username',
+          template: Template.globalChatAutoComplete
+        }
+      ]
+    };
+  }
 });
 
 Template.globalChat.events({
@@ -73,14 +87,14 @@ Template.globalChat.events({
 			if(!sendee) {
 				console.log("Invalid username");
 			} else {
-				var privateRoom = Rooms.findOne({ 
+				var privateRoom = Rooms.findOne({
 		      $and: [
 		        { users : {$in : [Meteor.userId()]} },
 		        { users : {$in : [sendee._id]} },
 		        { type : 'pm' }
 		      ]
 		    });
-		    
+
 
 		    if(!privateRoom) {
 		    	var roomName = [Meteor.user().username, sendee.username].sort().join(',');
@@ -90,7 +104,7 @@ Template.globalChat.events({
 		    		type : 'pm'
 		    	}, function(err, newRoomId) {
 		    		console.log(newRoomId);
-		    		Meteor.call('rooms/addMessage', newRoomId, message);		
+		    		Meteor.call('rooms/addMessage', newRoomId, message);
 		    	});
 		    } else {
 		    	var roomId = privateRoom._id;
