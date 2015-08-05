@@ -43,6 +43,17 @@ Template.globalChat.helpers({
 		return this.content;
 	},
 	settings: function() {
+		var presences = Presences.find().fetch();
+		var onlineUsers = [];
+		presences.filter(function(user) {
+			if(onlineUsers.indexOf(user.userId) === -1){
+				onlineUsers.push(user.userId);
+				return true;
+			} else {
+				return false;
+			}
+		});
+
     return {
       position: Session.get("position"),
       limit: 3,
@@ -50,6 +61,7 @@ Template.globalChat.helpers({
         {
           token: '@',
           collection: Meteor.users,
+					filter: {_id: {$in: onlineUsers}},
           field: 'username',
           template: Template.globalChatAutoComplete
         }
