@@ -153,11 +153,10 @@
       }
 
       .mark-read {
-        @extend .btn, .btn-default;
-        height: 100%; width: 100%;
-        display: block;
-        border: 0;
-        border-radius: 0;
+        &:hover {
+          background-color: #e6e6e6;
+          cursor: pointer;
+        }
       }
 
       table {
@@ -166,19 +165,13 @@
         margin: 0;
 
         > thead > tr {
-          height: 50px;
           background-color: #F8F8F8;
 
-          td:first-child {
-            font-weight: 600;
+          > td {
+            height: 50px;
+            &:first-child { font-weight: 600; }
           }
-          td:last-child {
-            .mark-read {
-              background-color: transparent;
-              &:hover { background-color: #E6E6E6; }
-              i { transform: none; top: 10px;}
-            }
-          }
+
         }
 
         td {
@@ -195,11 +188,6 @@
             text-align: center;
             padding: 0;
 
-            i {
-              position: relative;
-              top: 50%;
-              transform: translateY(-50%);
-            }
           }
         }
 
