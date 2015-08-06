@@ -142,21 +142,13 @@
   #notificationsMenu {
 
     #notifications-menu {
-
       span.received { @extend .label, .label-danger; }
-      span.accepted { @extend .label, .label-success; }
-
+      // span.accepted { @extend .label, .label-success; }
     }
 
     .dropdown-menu {
       width: 320px;
       padding: 0;
-
-      #hide-all {
-        @extend .btn, .btn-xs, .btn-default;
-        position: absolute;
-        top: 16px; right: 20px;
-      }
 
       .mark-read {
         &:hover {
@@ -193,7 +185,6 @@
             min-height: 50px;
             text-align: center;
             padding: 0;
-
           }
         }
 
@@ -221,19 +212,41 @@
 
           }
 
+          &.challengeNewItem {
 
-          button {
-            @extend .btn, .btn-xs;
-            &.challenge-acknowledge { @extend .btn-success; }
-            &.challenge-cancel { @extend .btn-danger; }
-            &.challenge-accept { @extend .btn-success; }
-            &.challenge-decline { @extend .btn-danger; }
-          }
+            .mark-read {
+              height: 100%; position: relative;
+              > a { @extend .btn;
+                width: 100%;
+                height: 50%;
+                border-radius: 0;
+                display: block;
 
-        }
-      }
-    }
-  }
+                &.challenge-accept { @extend .btn-success;
+                  position: absolute;
+                  top: 0; left: 0;
+                }
+                &.challenge-decline { @extend .btn-danger;
+                  position: absolute;
+                  top: 50%; left: 0;
+                }
+
+                i {
+                  display: block;
+                  position: relative;
+                  top: 50%;
+                  transform: translateY(-50%);
+                }
+
+              }
+            }
+
+          } // end .challengeNewItem
+
+        } // end tr
+      } // end table
+    } // end .dropdown-menu
+  } // end #notifications-menu
 
   // stone for Your Games and Notifications menu
   i.stone {
