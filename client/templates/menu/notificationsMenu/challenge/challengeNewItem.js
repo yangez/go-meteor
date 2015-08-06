@@ -27,5 +27,7 @@ Template.challengeNewItem.helpers({
 });
 
 Template.challengeNewItem.events({
-
+  'click .challenge-decline': function() {
+    
+  }
 });
