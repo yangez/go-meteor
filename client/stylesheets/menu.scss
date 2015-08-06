@@ -79,24 +79,6 @@
         .games-table {
           @extend .table, .table-hover;
 
-          i.stone {
-            &::after {
-              content: ' ';
-              float: left;
-              margin-right: 8px;
-              margin-left: -2px;
-              width: 20px;
-              height: 20px;
-              border-radius: 10px;
-              box-shadow: 1px 1px 1px 1px rgba(127, 127, 127, 0.3);
-            }
-            &.white::after {
-              background: linear-gradient(-45deg, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
-            }
-            &.black::after {
-              background: linear-gradient(135deg, rgba(35,36,39,1) 0%,rgba(0,0,0,1) 100%);
-            }
-          }
 
         }
 
@@ -161,7 +143,7 @@
     }
 
     .dropdown-menu {
-      width: 360px;
+      width: 320px;
       padding: 0;
       // padding: 20px;
 
@@ -172,15 +154,49 @@
       }
 
       table {
-        @extend .table, .table-striped;
+        @extend .table;
         border: 1px solid #ddd;
         margin: 0;
 
-        > tbody > tr {
-          color: rgba(0, 0, 0, 0.5);
-          strong { color: rgba(0, 0, 0, 1); }
+        > thead > tr {
+          height: 50px;
+          background-color: #F8F8F8;
 
-          > td { vertical-align: middle; }
+          td:first-child {
+            font-weight: 600;
+          }
+        }
+
+        td {
+          vertical-align: middle !important;
+
+          &:first-child {
+            padding-left: 16px;
+          }
+
+          &:last-child {
+            width: 50px;
+            min-height: 50px;
+            text-align: center;
+          }
+        }
+
+        > tbody > tr {
+          color: rgba(0, 0, 0, 1);
+
+          > td {
+            padding-top: 16px; padding-bottom: 16px;
+
+            p { margin: 0; }
+            .main {
+              margin-bottom: 3px;
+              color: rgba(0, 0, 0, 1);
+            }
+            .sub {
+              color: rgba(0, 0, 0, 0.5);
+            }
+
+          }
 
           button {
             @extend .btn, .btn-xs;
@@ -192,6 +208,26 @@
 
         }
       }
+    }
+  }
+
+  // stone for Your Games and Notifications menu
+  i.stone {
+    &::after {
+      content: ' ';
+      float: left;
+      margin-right: 8px;
+      margin-left: -2px;
+      width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      box-shadow: 1px 1px 1px 1px rgba(127, 127, 127, 0.3);
+    }
+    &.white::after {
+      background: linear-gradient(-45deg, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+    }
+    &.black::after {
+      background: linear-gradient(135deg, rgba(35,36,39,1) 0%,rgba(0,0,0,1) 100%);
     }
   }
 

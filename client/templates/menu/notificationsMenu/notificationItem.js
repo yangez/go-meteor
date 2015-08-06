@@ -1,6 +1,13 @@
+Template.notificationItem.helpers({
+  templateName: function() {
+    if (this.courier === "yourTurn") return "yourTurnItem";
+  }
+});
+
 Template.notificationItem.events({
-  'click tr': function() {
-    var user = Meteor.user();
-    user.readNotification(this._id);
+
+  'click tr': function(e) {
+    e.stopPropagation();
+
   }
 });
