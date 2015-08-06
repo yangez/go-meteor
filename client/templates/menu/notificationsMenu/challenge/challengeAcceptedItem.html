@@ -1,0 +1,17 @@
+<template name="challengeAcceptedItem">
+
+  <tr class="yourTurnItem">
+
+    {{#with game}}
+    <td>
+      <p class="main"><i class="stone {{color}}"></i> <span>vs.</span> {{ > userItem color=opponentColor noTurnIndicator=true }} ({{size}}x{{size}})</p>
+      <p class="sub">Challenge accepted.</p>
+    </td>
+    {{/with}}
+
+    <td class="mark-read">
+      <i class="fa fa-check"></i>
+    </td>
+  </tr>
+
+</template>
