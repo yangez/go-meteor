@@ -64,7 +64,9 @@ Template.createGame.events({
       var user = Meteor.users.findOne({"username": challengeUsername})
       if (!user) return showMessage("The user '"+challengeUsername+"' doesn't exist.");
 
-      Meteor.call('challenge/create', game, challengeUsername, function(error, result) {
+
+      Meteor.call('user/challenge', user._id, game, function(error, result){
+
         Session.set("createGameLoading", undefined);
 
         $('#create-game-menu').dropdown("toggle");
@@ -73,7 +75,9 @@ Template.createGame.events({
         if (error) return showMessage(error.message);
 
         showMessage("Challenge successfully sent to "+result.recipient+".");
-      });
+
+      })
+
     }
 
     // if this is merely a new game
