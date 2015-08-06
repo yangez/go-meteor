@@ -1,0 +1,29 @@
+<template name='notificationsMenu'>
+  {{#if notifications.count}}
+  <li class="dropdown" id="notificationsMenu">
+    <a href="#" class="dropdown-toggle" id="notifications-menu" data-toggle="dropdown">
+      <span class="received">{{notifications.count}}</span>
+      <i class="fa fa-bell"></i>
+    </a>
+
+    <div class="dropdown-menu" aria-labelledby="notifications-menu">
+      <table>
+        <thead>
+          <tr>
+            <td>Notifications</td>
+            <td class="mark-read">
+              <i class="fa fa-check"></i>
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each notifications}}
+            {{> notificationItem}}
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+
+  </li>
+  {{/if}}
+</template>

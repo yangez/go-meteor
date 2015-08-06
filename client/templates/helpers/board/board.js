@@ -44,9 +44,7 @@ var updateBoard = function(game) {
 
   // if board already exists
   else {
-    // notify them that it's their turn
-    game.notifyCurrentPlayer();
-
+    
     // update from previous move to latest. 'else' is here for compatibility with older games
     var lastMoveIndex = Session.get("boardLastMoveIndex"+game._id);
     var currentMoveIndex = game.wgoGame.stack.length-1;

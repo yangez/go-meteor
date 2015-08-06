@@ -1,0 +1,25 @@
+<template name="yourTurnItem">
+
+  <tr class="yourTurnItem">
+
+    {{#with game}}
+    <td>
+      <p class="main"><i class="stone {{color}}"></i> <span>vs.</span> {{ > userItem color=opponentColor noTurnIndicator=true }} ({{size}}x{{size}})</p>
+      <p class="sub">Your turn to move.</p>
+    </td>
+    {{/with}}
+
+    <td class="mark-read">
+      <i class="fa fa-check"></i>
+    </td>
+    <!--
+    <td>
+      <div class="pull-right">
+        <button class="challenge-decline"><i class="fa fa-times"></i></button>
+        <button class="challenge-accept"><i class="fa fa-check"></i></button>
+      </div>
+    </td>
+  -->
+  </tr>
+
+</template>

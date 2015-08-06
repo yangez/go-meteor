@@ -10,7 +10,6 @@ iron:router
 ian:accounts-ui-bootstrap-3
 accounts-password
 sacha:spin
-reactive-var
 fortawesome:fontawesome
 tmeasday:presence
 oaf:html5-desktop-notifications
@@ -23,3 +22,4 @@ sergeyt:typeahead
 reywood:bootstrap3-sass
 dburles:collection-helpers
 mizzao:autocomplete
+kestanous:herald
