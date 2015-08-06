@@ -27,7 +27,8 @@ Template.challengeNewItem.helpers({
 });
 
 Template.challengeNewItem.events({
-  'click .challenge-decline': function() {
-    
+  'click .challenge-decline': function(e) {
+    Meteor.call("user/declineChallenge", this._id);
+    e.stopPropagation();
   }
 });
