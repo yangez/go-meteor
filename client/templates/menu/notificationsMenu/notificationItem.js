@@ -7,7 +7,7 @@ Template.notificationItem.helpers({
 Template.notificationItem.events({
 
   'click tr': function(e) {
-    e.stopPropagation();
+    // e.stopPropagation();
 
   }
 });

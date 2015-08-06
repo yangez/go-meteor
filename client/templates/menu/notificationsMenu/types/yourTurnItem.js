@@ -14,10 +14,13 @@ Template.yourTurnItem.helpers({
 });
 
 Template.yourTurnItem.events({
-
-  'click tr': function(e) {
+  'click .mark-read': function(e) {
+    e.stopPropagation();
     var user = Meteor.user();
     user.readNotification(this._id);
-  }
+  },
+  'click tr': function(e) {
+    Router.go("match", {_id: this.data.gameId});
+  },
 
 })
