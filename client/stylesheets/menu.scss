@@ -145,12 +145,19 @@
     .dropdown-menu {
       width: 320px;
       padding: 0;
-      // padding: 20px;
 
       #hide-all {
         @extend .btn, .btn-xs, .btn-default;
         position: absolute;
         top: 16px; right: 20px;
+      }
+
+      .mark-read {
+        @extend .btn, .btn-default;
+        height: 100%; width: 100%;
+        display: block;
+        border: 0;
+        border-radius: 0;
       }
 
       table {
@@ -165,10 +172,19 @@
           td:first-child {
             font-weight: 600;
           }
+          td:last-child {
+            .mark-read {
+              background-color: transparent;
+              &:hover {
+                background-color: #E6E6E6;
+              }
+            }
+          }
         }
 
         td {
           vertical-align: middle !important;
+          height: 100%;
 
           &:first-child {
             padding-left: 16px;
@@ -178,6 +194,13 @@
             width: 50px;
             min-height: 50px;
             text-align: center;
+            padding: 0;
+
+            i {
+              position: relative;
+              top: 46%;
+              transform: translateY(-46%);
+            }
           }
         }
 
