@@ -15,14 +15,16 @@
         {{#if routeIsNot 'lobby'}}
           <li> <a href="{{pathFor 'lobby'}}"><i class="fa fa-list-ul"></i> Game List</a> </li>
         {{/if}}
+        {{#if currentUser}}
+          {{> yourGamesMenu}}
+          {{> createGame}}
+        {{/if}}
 
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {{#if currentUser}}
-          {{> createGame}}
           {{> pmMenu}}
           {{> challengeMenu}}
-          {{> yourGamesMenu}}
           {{> notificationsMenu}}
         {{/if}}
         {{> loginButtons}}
