@@ -161,8 +161,9 @@
     }
 
     .dropdown-menu {
-      width: 400px;
-      padding: 20px;
+      width: 360px;
+      padding: 0;
+      // padding: 20px;
 
       #hide-all {
         @extend .btn, .btn-xs, .btn-default;
@@ -173,8 +174,7 @@
       table {
         @extend .table, .table-striped;
         border: 1px solid #ddd;
-
-        &:last-child { margin-bottom: 6px; }
+        margin: 0;
 
         > tbody > tr {
           color: rgba(0, 0, 0, 0.5);

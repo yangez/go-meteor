@@ -1,5 +1,5 @@
-Template.notifications.helpers({
+Template.notificationsMenu.helpers({
   notifications: function() {
-    Herald.getNotifications({medium: 'onsite'});
+    return Herald.getNotifications({medium: 'onsite'});
   },
 });
