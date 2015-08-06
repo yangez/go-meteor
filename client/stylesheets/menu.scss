@@ -175,9 +175,8 @@
           td:last-child {
             .mark-read {
               background-color: transparent;
-              &:hover {
-                background-color: #E6E6E6;
-              }
+              &:hover { background-color: #E6E6E6; }
+              i { transform: none; top: 10px;}
             }
           }
         }
@@ -198,8 +197,8 @@
 
             i {
               position: relative;
-              top: 46%;
-              transform: translateY(-46%);
+              top: 50%;
+              transform: translateY(-50%);
             }
           }
         }
