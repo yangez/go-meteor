@@ -1,3 +1,24 @@
+Template.yourTurnItem.onRendered(function() {
+
+  var notification = this.data;
+
+  this.autorun(function() {
+
+    // mark game notifications as read if we're looking at the game
+    var routeName = Router.current().route.getName();
+    if (routeName === "match") {
+
+      var currentGameId = Router.current().params._id;
+      if (currentGameId === notification.data.gameId) {
+        var user = Meteor.user();
+        user.readNotification(notification._id);
+      }
+    }
+
+  });
+
+});
+
 Template.yourTurnItem.helpers({
   game: function() {
     return Games.findOne(this.data.gameId);
