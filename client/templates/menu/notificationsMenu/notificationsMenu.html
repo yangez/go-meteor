@@ -1,0 +1,23 @@
+<template name='notificationsMenu'>
+  {{#if notifications}}
+  <li class="dropdown" id="challengeMenu">
+    <a href="#" class="dropdown-toggle" id="challenges-menu" data-toggle="dropdown">
+      <span class="received">{{notifications.count}}</span>
+      Notifications
+    </a>
+
+    <div class="dropdown-menu" aria-labelledby="challenges-menu">
+
+      <label>Sent</label>
+      <table>
+        <tbody>
+          {{#each notifications}}
+            {{> notificationItem}}
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+
+  </li>
+  {{/if}}
+</template>
