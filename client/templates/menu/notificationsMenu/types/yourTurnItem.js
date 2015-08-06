@@ -4,9 +4,11 @@ Template.yourTurnItem.onRendered(function() {
 
   this.autorun(function() {
 
+
     // mark game notifications as read if we're looking at the game
     var routeName = Router.current().route.getName();
     if (routeName === "match") {
+
 
       var currentGameId = Router.current().params._id;
       if (currentGameId === notification.data.gameId) {
