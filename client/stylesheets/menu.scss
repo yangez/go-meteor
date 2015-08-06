@@ -8,7 +8,11 @@
    * Create Game menu
    */
   #createGame {
-    > .navbar-btn { margin-right: 15px; margin-left: 15px; }
+    > .navbar-btn {
+      margin-right: 15px; margin-left: 15px;
+      position: relative;
+      top: 2px;
+    }
 
     #create-game-menu { @extend .btn, .btn-primary; }
 
@@ -54,7 +58,10 @@
     #your-games-menu {
       .your-turn-count {
         @extend .label, .label-success;
+        padding-right: 4px; padding-left: 4px;
+        margin-right: 2px;
       }
+
     }
 
     #your-games-dropdown {
@@ -78,7 +85,6 @@
 
         .games-table {
           @extend .table, .table-hover;
-
 
         }
 

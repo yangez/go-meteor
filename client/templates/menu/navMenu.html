@@ -13,7 +13,7 @@
     <div class="collapse navbar-collapse" id="navigation">
       <ul class="nav navbar-nav">
         {{#if routeIsNot 'lobby'}}
-          <li> <a href="{{pathFor 'lobby'}}"><i class="fa fa-list-ul"></i> Game List</a> </li>
+          <li> <a href="{{pathFor 'lobby'}}"><i class="fa fa-home"></i> Lobby</a> </li>
         {{/if}}
         {{#if currentUser}}
           {{> yourGamesMenu}}
