@@ -1,5 +1,5 @@
 Template.globalChat.onRendered(function(){
-	$('.chat-messages').animate({scrollTop : 10000});
+	$('.chat-messages').animate({scrollTop : 2040});
 	Session.set('pm', false);
 })
 
@@ -27,7 +27,11 @@ Template.globalChat.helpers({
 			var messages = Messages.find({ roomId: Session.get('pm')});
 		}else{
 			var room = Rooms.findOne({name: 'Global'});
-			var messages = Messages.find({roomId: room._id}, {limit: 100});
+			var offset = Messages.find().count() - 100;
+			if (offset < 0) {
+				var offset = 0;
+			}
+			var messages = Messages.find({roomId: room._id}, {limit: 100, skip: offset});
 		}
 		return messages;
 	},
@@ -134,6 +138,6 @@ Template.globalChat.events({
 			}
 		}
 
-		$('.chat-messages').animate({scrollTop : 10000});
+		$('.chat-messages').animate({scrollTop : $('.chat-messages')[0].scrollHeight - $('.chat-messages').height()});
 	}
 });
