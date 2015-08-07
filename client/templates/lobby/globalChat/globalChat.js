@@ -133,5 +133,7 @@ Template.globalChat.events({
 				input.val('');
 			}
 		}
+
+		$('.chat-messages').animate({scrollTop : 10000});
 	}
 });
