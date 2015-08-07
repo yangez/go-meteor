@@ -1,6 +1,6 @@
 Template.challengeNewItem.helpers({
   opponent: function() {
-    var user = Meteor.users.findOne(this.data.challengerId);
+    var user = Meteor.users.findOne(this.data.senderId);
     return user.username;
   },
   size: function() {
@@ -23,6 +23,9 @@ Template.challengeNewItem.helpers({
 
     return string;
   },
+  type: function() {
+   return this.data.gameData.rematchOf ? "Rematch request" : "New challenge"
+  }
 
 });
 
@@ -37,7 +40,7 @@ Template.challengeNewItem.events({
   'click .challenge-accept': function(e) {
     Meteor.call("user/acceptChallenge", this._id, function(error, result){
       if (error) return showMessage(error.message);
-      
+
       Router.go("match", {_id: result._id});
     });
   },

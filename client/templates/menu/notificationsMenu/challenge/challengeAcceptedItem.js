@@ -31,6 +31,9 @@ Template.challengeAcceptedItem.helpers({
   color: function() {
     return this.getColorOfPlayerId(Meteor.userId());
   },
+  type: function() {
+    return this.data.gameData.rematchOf ? "Rematch" : "Challenge"
+  },
 });
 
 Template.challengeAcceptedItem.events({

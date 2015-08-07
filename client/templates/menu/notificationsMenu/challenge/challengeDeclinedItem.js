@@ -10,6 +10,9 @@ Template.challengeDeclinedItem.helpers({
   size: function() {
     return this.data.gameData.size;
   },
+  type: function() {
+    return this.data.gameData.rematchOf ? "Rematch" : "Challenge";
+  }
 });
 
 Template.challengeDeclinedItem.events({
