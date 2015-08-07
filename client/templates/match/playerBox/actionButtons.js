@@ -27,7 +27,11 @@ Template.actionButtons.helpers({
     return Games.findOne({rematchOf: this.game._id});
   },
   rematchActive: function() {
-    var rematchChallenge = Challenges.findOne({"gameAttributes.rematchOf": this.game._id});
+    debugger;
+    var rematchChallenge = Herald.collection.findOne({ $and: [
+      { courier: "challengeNew" },
+      { "data.gameData.rematchOf": this.game._id },
+    ] });
     return rematchChallenge ? true : false;
   },
 
@@ -92,8 +96,6 @@ Template.actionButtons.events({
       if (error) return console.log(error.message);
 
       showMessage("Rematch challenge successfully sent.");
-
-      $('#challenges-menu').dropdown("toggle");
     });
   }
 

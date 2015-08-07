@@ -1,0 +1,32 @@
+<template name="challengeNewItem">
+  <tr class="challengeNewItem">
+
+    <td>
+      <p class="main">{{type}}</p>
+      <p class="sub">
+        <i class="stone {{color}}"></i> <span>vs.</span> {{opponent}} ({{size}})
+      </p>
+      {{#if timeString}}
+      <p class="sub">Time: {{timeString}}</p>
+      {{/if}}
+
+    </td>
+
+    <td class="mark-read">
+      <a href="#" class="challenge-accept">
+        <i class="fa fa-check"></i>
+      </a>
+      <a href="#" class="challenge-decline">
+        <i class="fa fa-times"></i>
+      </a>
+    </td>
+    <!--
+    <td>
+      <div class="pull-right">
+        <button class="challenge-decline"><i class="fa fa-times"></i></button>
+        <button class="challenge-accept"><i class="fa fa-check"></i></button>
+      </div>
+    </td>
+  -->
+  </tr>
+</template>
