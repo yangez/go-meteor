@@ -27,8 +27,18 @@ Template.challengeNewItem.helpers({
 });
 
 Template.challengeNewItem.events({
+  'click .mark-read': function(e) {
+    e.stopPropagation();
+  },
   'click .challenge-decline': function(e) {
     Meteor.call("user/declineChallenge", this._id);
     e.stopPropagation();
-  }
+  },
+  'click .challenge-accept': function(e) {
+    Meteor.call("user/acceptChallenge", this._id, function(error, result){
+      if (error) return showMessage(error.message);
+      
+      Router.go("match", {_id: result._id});
+    });
+  },
 });
