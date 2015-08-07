@@ -1,36 +1,14 @@
-Template.challengeDeclinedItem.onRendered(function() {
-
-  var notification = this.data;
-
-  this.autorun(function() {
-
-    // mark game notifications as read if we're looking at the game
-    var routeName = Router.current().route.getName();
-    if (routeName === "match") {
-
-      var currentGameId = Router.current().params._id;
-      if (currentGameId === notification.data.gameId) {
-        var user = Meteor.user();
-        user.readNotification(notification._id);
-      }
-    }
-
-  });
-
-});
-
 Template.challengeDeclinedItem.helpers({
-  game: function() {
-    return Games.findOne(this.data.gameId);
-  },
-
-  // in game context
-  opponentColor: function() {
-    var thisColor = this.getColorOfPlayerId(Meteor.userId());
-    return getOppositeColor(thisColor);
+  opponent: function() {
+    var opponentId = this.data.recipientId;
+    var opponent = Meteor.users.findOne(opponentId);
+    return opponent.username;
   },
   color: function() {
-    return this.getColorOfPlayerId(Meteor.userId());
+    return this.data.gameData.color;
+  },
+  size: function() {
+    return this.data.gameData.size;
   },
 });
 
@@ -41,7 +19,7 @@ Template.challengeDeclinedItem.events({
     user.readNotification(this._id);
   },
   'click tr': function(e) {
-    Router.go("match", {_id: this.data.gameId});
+    e.stopPropagation();
   },
 
 })

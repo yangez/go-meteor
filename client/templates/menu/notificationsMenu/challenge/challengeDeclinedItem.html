@@ -1,13 +1,13 @@
 <template name="challengeDeclinedItem">
 
-  <tr class="yourTurnItem">
+  <tr class="challengeDeclinedItem">
 
-    {{#with game}}
     <td>
-      <p class="main"><i class="stone {{color}}"></i> <span>vs.</span> {{ > userItem color=opponentColor noTurnIndicator=true }} ({{size}}x{{size}})</p>
-      <p class="sub">Challenge declined.</p>
+      <p class="main"> Challenge declined. </p>
+      <p class="sub">
+        <i class="stone {{color}}"></i> <span>vs.</span> {{opponent}} ({{size}}x{{size}})
+      </p>
     </td>
-    {{/with}}
 
     <td class="mark-read">
       <i class="fa fa-check"></i>
