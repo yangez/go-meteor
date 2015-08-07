@@ -24,17 +24,16 @@ Meteor.publish('messages', function(){
   return Messages.find();
 });
 
+// add challenge Herald publications
+// this adds on to default Herald publication here:
+// https://github.com/Meteor-Reaction/Herald/blob/d057a2b1f7e92603f89066cd2880f9edf652b86b/server/publish.js
 Meteor.publish('challenges', function() {
-  return Challenges.find({ $and: [
-    // current user is either sender or recipient
+  return Herald.collection.find({ $and: [
+    // current user is either sender or recipient of this challenge
+    { courier: "challengeNew" },
     { $or: [
-      { senderId: this.userId },
-      { recipientId: this.userId },
+      { "data.senderId": this.userId },
+      { "data.recipientId": this.userId },
     ] },
-
-    // challenge is pending
-    { acknowledged: {$exists: false} },
-    { declined: {$exists: false} },
-    { canceled: {$exists: false} },
   ] });
 });
