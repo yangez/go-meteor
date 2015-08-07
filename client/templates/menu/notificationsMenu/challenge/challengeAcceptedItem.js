@@ -1,6 +1,5 @@
 Template.challengeAcceptedItem.onRendered(function() {
-
-  var notification = this.data;
+  var challenge = this.data;
 
   this.autorun(function() {
 
@@ -9,9 +8,9 @@ Template.challengeAcceptedItem.onRendered(function() {
     if (routeName === "match") {
 
       var currentGameId = Router.current().params._id;
-      if (currentGameId === notification.data.gameId) {
+      if (currentGameId === challenge.data.gameId) {
         var user = Meteor.user();
-        user.readNotification(notification._id);
+        user.readNotification(challenge._id);
       }
     }
 
