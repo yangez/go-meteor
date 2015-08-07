@@ -27,7 +27,6 @@ Template.actionButtons.helpers({
     return Games.findOne({rematchOf: this.game._id});
   },
   rematchActive: function() {
-    debugger;
     var rematchChallenge = Herald.collection.findOne({ $and: [
       { courier: "challengeNew" },
       { "data.gameData.rematchOf": this.game._id },
