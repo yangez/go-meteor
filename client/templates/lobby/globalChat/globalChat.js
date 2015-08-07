@@ -27,7 +27,7 @@ Template.globalChat.helpers({
 			var messages = Messages.find({ roomId: Session.get('pm')});
 		}else{
 			var room = Rooms.findOne({name: 'Global'});
-			var offset = Messages.find().count() - 100;
+			var offset = Messages.find({roomId: room._id}).count() - 100;
 			if (offset < 0) {
 				var offset = 0;
 			}
