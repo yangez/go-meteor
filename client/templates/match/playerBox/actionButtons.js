@@ -96,8 +96,6 @@ Template.actionButtons.events({
       if (error) return console.log(error.message);
 
       showMessage("Rematch challenge successfully sent.");
-
-      $('#challenges-menu').dropdown("toggle");
     });
   }
 

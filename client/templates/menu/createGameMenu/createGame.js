@@ -70,7 +70,6 @@ Template.createGame.events({
         Session.set("createGameLoading", undefined);
 
         $('#create-game-menu').dropdown("toggle");
-        $('#challenges-menu').dropdown("toggle");
 
         if (error) return showMessage(error.message);
 
