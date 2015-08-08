@@ -54,7 +54,6 @@ momentjs:moment@2.10.6
 mongo@1.1.0
 multiply:iron-router-progress@1.0.1
 npm-bcrypt@0.7.8_2
-oaf:html5-desktop-notifications@1.0.0
 observe-sequence@1.0.6
 ordered-dict@1.0.3
 random@1.0.3

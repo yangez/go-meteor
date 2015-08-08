@@ -4,7 +4,7 @@ Template.match.helpers({
       this.isReady() &&
       !Session.get("requestedNotification") &&
       this.hasPlayerId(Meteor.userId())
-    ) return notify.permissionLevel() === notify.PERMISSION_DEFAULT;
+    ) return Notification.permission === "default";
 
   }
 });
@@ -14,8 +14,8 @@ Template.match.events({
     e.preventDefault();
 
     if (this.hasPlayerId(Meteor.userId())) {
-      if (notify.permissionLevel() === notify.PERMISSION_DEFAULT) {
-        notify.requestPermission(function(){
+      if (Notification.permission === "default") {
+        Notification.requestPermission(function(){
           Session.set("requestedNotification", true);
         });
       }
