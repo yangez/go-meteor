@@ -121,6 +121,7 @@ Template.globalChat.events({
 		    	}, function(err, newRoomId) {
 		    		console.log(newRoomId);
 		    		Meteor.call('rooms/addMessage', newRoomId, message);
+		    		input.val('');
 		    	});
 		    } else {
 		    	var roomId = privateRoom._id;
