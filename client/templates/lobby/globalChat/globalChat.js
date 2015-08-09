@@ -94,50 +94,9 @@ Template.globalChat.events({
 		}
 
 		var text = input.val();
-		if(text.slice(0,2) === '/w') {
-			var splitted = text.split(' ');
-			var sendeeName = splitted[1];
-			var message = splitted.slice(2).join(' ');
-
-			var sendee = Meteor.users.findOne({username : sendeeName});
-			if(!sendee) {
-				console.log("Invalid username");
-			} else {
-				var privateRoom = Rooms.findOne({
-		      $and: [
-		        { users : {$in : [Meteor.userId()]} },
-		        { users : {$in : [sendee._id]} },
-		        { type : 'pm' }
-		      ]
-		    });
-
-
-		    if(!privateRoom) {
-		    	var roomName = [Meteor.user().username, sendee.username].sort().join(',');
-		    	var roomId = Meteor.call('rooms/create', {
-		    		name : roomName,
-		    		users : [Meteor.userId(), sendee._id],
-		    		type : 'pm'
-		    	}, function(err, newRoomId) {
-		    		console.log(newRoomId);
-		    		Meteor.call('rooms/addMessage', newRoomId, message);
-		    		input.val('');
-		    	});
-		    } else {
-		    	var roomId = privateRoom._id;
-		    	Meteor.call('rooms/addMessage', roomId, message);
-		    	input.val('');
-		    }
-			}
-		} else {
-			var globalChatId = Rooms.findOne({name: 'Global'})._id;
-			var text = input.val();
-
-			if (text.trim().length) {
-				Meteor.call('rooms/addMessage', globalChatId, text);
-				input.val('');
-			}
-		}
+		Meteor.call('user/msg', text, Session.get('pm'), function(err, result){
+			if(!err) input.val('');
+		});
 
 		$('.chat-messages').animate({scrollTop : $('.chat-messages')[0].scrollHeight - $('.chat-messages').height()});
 	}
