@@ -39,7 +39,7 @@ var updateBoard = function(game) {
     Board.clearBoards();
     gameBoard = new Board(game, size);
     // restore game state from scratch onto new board
-    gameBoard.update(game.wgoGame.stack[0], game.wgoGame.position())
+    gameBoard.update(game.positionAt(1), game.position())
   }
 
   // if board already exists
@@ -47,11 +47,11 @@ var updateBoard = function(game) {
 
     // update from previous move to latest. 'else' is here for compatibility with older games
     var lastMoveIndex = Session.get("boardLastMoveIndex"+game._id);
-    var currentMoveIndex = game.wgoGame.stack.length-1;
+    var currentMoveIndex = game.currentMove()-1;
     Session.set("boardLastMoveIndex"+game._id, currentMoveIndex);
 
     if (game.previousPosition) gameBoard.update(game.previousPosition, game.position())
-    else gameBoard.update(game.wgoGame.stack[lastMoveIndex], game.position(0))
+    else gameBoard.update(game.positionAt(lastMoveIndex+1), game.position())
   }
 
   // update markers

@@ -22,11 +22,11 @@ Template.yourGamesMenu.helpers({
         {$or: [
           {$and:[
             {blackPlayerId: Meteor.userId()},
-            {"wgoGame.turn": 1 }
+            {turn: 1 }
           ]},
           {$and:[
             {whitePlayerId: Meteor.userId()},
-            {"wgoGame.turn": -1 }
+            {turn: -1 }
           ]},
         ]},
 

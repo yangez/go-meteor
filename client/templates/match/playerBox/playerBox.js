@@ -11,11 +11,10 @@ Template.playerBox.helpers({
     return this.game.userIdPresent(user._id) ? "in-game" : "";
   },
   captureCount: function() {
-    if (!this.game.wgoGame) return false;
     var color = this.game.getColorOfPosition(this.position);
     if (color === "white") var wgoColor = WGo.W;
     else if (color === "black") var wgoColor = WGo.B;
-    if (wgoColor) var theCount = this.game.wgoGame.getCaptureCount(wgoColor);
+    if (wgoColor) var theCount = this.game.getCaptureCount(wgoColor);
     if (theCount > 0) return theCount;
   },
   score: function() {

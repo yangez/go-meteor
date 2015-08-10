@@ -90,9 +90,9 @@ _.extend(Board.prototype, {
           if (oldObj) board.removeObject(oldObj);
 
           // if it's on the board and it's a valid move (no existing piece)
-          if (game.wgoGame.isOnBoard(x, y) && game.wgoGame.isValid(x,y)) {
+          if (game.isOnBoard(x, y) && game.isValid(x,y)) {
             // add new object
-            if (game.wgoGame.turn === WGo.B) {
+            if (game.turn === WGo.B) {
               var newObj = { x: x, y: y, type: "BLACK_HOVER" };
             } else {
               var newObj = { x: x, y: y, type: "WHITE_HOVER" };

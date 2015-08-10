@@ -5,7 +5,7 @@ Template.historyButtons.onRendered(function() {
 
     // if we don't have a current index, set it to current move
     if (!Session.get("historyMoveIndex")) {
-      var lastMoveIndex = game.wgoGame.stack.length-1;
+      var lastMoveIndex = game.currentMove()-1;
       Session.set("historyMoveIndex", {
         current: lastMoveIndex,
         previous: undefined
@@ -98,10 +98,10 @@ Template.historyButtons.events({
 Template.historyButtons.helpers({
   currentMoveNumber: function() {
     var historySession = Session.get("historyMoveIndex");
-    return historySession ? historySession.current : this.game.wgoGame.stack.length-1;
+    return historySession ? historySession.current : this.game.currentMove()-1;
   },
   gameLength: function() {
-    return this.game.wgoGame.stack.length-1;
+    return this.game.currentMove()-1;
   },
   historyUpdate: function() {
     var game = this.game;
@@ -111,9 +111,8 @@ Template.historyButtons.helpers({
     var previousIndex = Session.get("historyMoveIndex").previous
     if (gameBoard) {
       var board = gameBoard.board;
-      var oldPosition = game.wgoGame.stack[previousIndex];
-      var newPosition = game.wgoGame.stack[currentIndex];
-
+      var oldPosition = game.positionAt[previousIndex];
+      var newPosition = game.positionAt[currentIndex];
 
       if (oldPosition && newPosition)  {
         // update to new position
@@ -123,7 +122,7 @@ Template.historyButtons.helpers({
         board.removeObjectsOfType("CR");
 
         // get the previous move
-        var previousMove = game.wgoGame.stack[currentIndex-1];
+        var previousMove = game.positionAt[currentIndex-1];
         if (previousMove) {
 
           // calculate turn marker
@@ -149,7 +148,7 @@ var historyMove = function(game, direction, jumpNumber) {
     $("#chat-ingame input").blur();
   }
 
-  var lastMoveIndex = game.wgoGame.stack.length-1;
+  var lastMoveIndex = game.currentMove()-1;
   var currentMoveIndex = Session.get("historyMoveIndex").current;
 
   if (direction === "begin") {
