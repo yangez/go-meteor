@@ -3,7 +3,11 @@
     <td>{{ > userItem color="black" }}</td>
     <td>{{ > userItem color="white" }}</td>
     <td>{{timeString}}</td>
-    <td><span class="glyphicon glyphicon-pawn" aria-hidden="true"></span> {{turn}}</td>
+    <td>
+      {{#if turn}}
+      <span class="glyphicon glyphicon-pawn" aria-hidden="true"></span> {{turn}}
+      {{/if}}
+    </td>
     <td>{{size}}x{{size}}</td>
   </tr>
 </template>

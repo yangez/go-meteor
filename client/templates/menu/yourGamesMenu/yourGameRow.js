@@ -20,7 +20,7 @@ Template.yourGameRow.helpers({
     return this.getColorOfPlayerId(Meteor.userId());
   },
   moveNumber: function() {
-    return this.currentMove();
+    return this.currentMove() > 0 ? this.currentMove() : 0;
   },
   yourTurn: function() {
     return (

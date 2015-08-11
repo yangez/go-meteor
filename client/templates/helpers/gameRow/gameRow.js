@@ -23,7 +23,7 @@ Template.gameRow.events({
 
 Template.gameRow.helpers({
   turn: function() {
-    return this.currentMove();
+    return this.currentMove() > 0 ? this.currentMove() : 0;
   },
 
   timeString: function() {
