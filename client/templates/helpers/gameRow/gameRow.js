@@ -22,6 +22,10 @@ Template.gameRow.events({
 });
 
 Template.gameRow.helpers({
+  turn: function() {
+    return this.currentMove() > 0 ? this.currentMove() : 0;
+  },
+
   timeString: function() {
     if (!this.isTimed()) return false;
 

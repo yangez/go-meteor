@@ -33,26 +33,15 @@ var updateBoard = function(game) {
 
   if (!game) return;
 
-  // if there's currently no board, or it's equal to another game,
+  // if there's currently no board, or it's equal to another game, create it
   if (gameBoard === undefined || gameBoard.gameId != game._id) {
-    var size = parseInt( $("#board").css("width"));
+    var width = parseInt( $("#board").css("width"));
     Board.clearBoards();
-    gameBoard = new Board(game, size);
-    // restore game state from scratch onto new board
-    gameBoard.update(game.wgoGame.stack[0], game.wgoGame.getPosition())
+    gameBoard = new Board(game, width);
   }
 
-  // if board already exists
-  else {
-    
-    // update from previous move to latest. 'else' is here for compatibility with older games
-    var lastMoveIndex = Session.get("boardLastMoveIndex"+game._id);
-    var currentMoveIndex = game.wgoGame.stack.length-1;
-    Session.set("boardLastMoveIndex"+game._id, currentMoveIndex);
-
-    if (game.previousPosition) gameBoard.update(game.previousPosition, game.wgoGame.getPosition())
-    else gameBoard.update(game.wgoGame.stack[lastMoveIndex], game.wgoGame.getPosition())
-  }
+  // set new position of the board
+  gameBoard.setPosition(game.position());
 
   // update markers
   game.updateMDMarkers(gameBoard);

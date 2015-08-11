@@ -4,13 +4,14 @@ Template.messageHistory.onRendered(function(){
 
 Template.messageHistory.helpers({
   messages: function(){
-    if (Session.get("historyMoveIndex")) {
-      var moveNumber = Session.get("historyMoveIndex").current+1;
+    var currentMove = Session.get("currentMove");
+    if (currentMove !== undefined) {
+      var moveNumber = currentMove + 1;
       return this.getMessagesBeforeMove(moveNumber);
     }
   },
   inGameMessageScroller: function() {
-    if (Session.get("historyMoveIndex")) scrollInGameMessages();
+    if (Session.get("currentMove")) scrollInGameMessages();
   },
   inGameMessagesVisible: function() {
     return Session.get("messageHistoryState") === "ingame" ? "" : "background";

@@ -15,9 +15,6 @@ Template.createGame.events({
   'submit form': function(e) {
     e.preventDefault();
 
-    // loading indicator
-    Session.set("createGameLoading", true);
-
     // figure out all game parameters
     var timeEntered = parseInt( $(e.target).find('[name=time-control]').val() );
 
@@ -64,6 +61,8 @@ Template.createGame.events({
       var user = Meteor.users.findOne({"username": challengeUsername})
       if (!user) return showMessage("The user '"+challengeUsername+"' doesn't exist.");
 
+      // loading indicator
+      Session.set("createGameLoading", true);
 
       Meteor.call('user/challenge', user._id, game, function(error, result){
 

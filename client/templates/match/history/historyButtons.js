@@ -4,12 +4,8 @@ Template.historyButtons.onRendered(function() {
     if (!game) return;
 
     // if we don't have a current index, set it to current move
-    if (!Session.get("historyMoveIndex")) {
-      var lastMoveIndex = game.wgoGame.stack.length-1;
-      Session.set("historyMoveIndex", {
-        current: lastMoveIndex,
-        previous: undefined
-      });
+    if (!Session.get("currentMove")) {
+      Session.set("currentMove", game.positionCount()-1);
     }
 
     // make popover
@@ -42,7 +38,7 @@ Template.historyButtons.onRendered(function() {
     // arrow events
     $(document).on('keyup', function(e){
       if (
-        Session.get("historyMoveIndex") &&
+        Session.get("currentMove") !== undefined &&
         [37, 38, 39, 40].indexOf(e.keyCode) > -1
       ) {
         if (e.keyCode === 37) historyMove(game, "back");
@@ -59,7 +55,7 @@ Template.historyButtons.onRendered(function() {
 });
 
 Template.historyButtons.onDestroyed(function(){
-  Session.set("historyMoveIndex", undefined);
+  Session.set("currentMove", undefined);
 
   // remove arrow events
   $(document).off('keyup');
@@ -97,44 +93,37 @@ Template.historyButtons.events({
 
 Template.historyButtons.helpers({
   currentMoveNumber: function() {
-    var historySession = Session.get("historyMoveIndex");
-    return historySession ? historySession.current : this.game.wgoGame.stack.length-1;
+    var currentMove = Session.get("currentMove");
+    return currentMove !== undefined ? currentMove : this.game.positionCount()-1;
   },
   gameLength: function() {
-    return this.game.wgoGame.stack.length-1;
+    return this.game.positionCount()-1;
   },
   historyUpdate: function() {
     var game = this.game;
-    if (!Session.get("historyMoveIndex")) return false;
 
-    var currentIndex = Session.get("historyMoveIndex").current
-    var previousIndex = Session.get("historyMoveIndex").previous
-    if (gameBoard) {
+    var currentMove = Session.get("currentMove");
+
+    if (gameBoard && currentMove !== undefined) {
+      var newPosition = game.positionAt(currentMove+1);
+      gameBoard.setPosition(newPosition);
+
+      // remove all other turn markers
       var board = gameBoard.board;
-      var oldPosition = game.wgoGame.stack[previousIndex];
-      var newPosition = game.wgoGame.stack[currentIndex];
+      board.removeObjectsOfType("CR");
 
+      // get the previous move
+      var previousMove = game.positionAt(currentMove);
+      if (previousMove) {
 
-      if (oldPosition && newPosition)  {
-        // update to new position
-        gameBoard.update(oldPosition, newPosition);
-
-        // remove all other turn markers
-        board.removeObjectsOfType("CR");
-
-        // get the previous move
-        var previousMove = game.wgoGame.stack[currentIndex-1];
-        if (previousMove) {
-
-          // calculate turn marker
-          var boardDifference = getPositionDifference( previousMove, newPosition );
-          boardDifference.add.forEach(function(object) {
-            var turnMarker = { x: object.x, y: object.y, type: "CR" }
-            board.addObject(turnMarker);
-          });
-        }
-
+        // calculate turn marker
+        var boardDifference = getPositionDifference( previousMove, newPosition );
+        boardDifference.add.forEach(function(object) {
+          var turnMarker = { x: object.x, y: object.y, type: "CR" }
+          board.addObject(turnMarker);
+        });
       }
+
     }
   },
 });
@@ -149,41 +138,26 @@ var historyMove = function(game, direction, jumpNumber) {
     $("#chat-ingame input").blur();
   }
 
-  var lastMoveIndex = game.wgoGame.stack.length-1;
-  var currentMoveIndex = Session.get("historyMoveIndex").current;
+  var lastMove = game.positionCount()-1;
+  var currentMove = Session.get("currentMove");
 
   if (direction === "begin") {
-    Session.set("historyMoveIndex", {
-      current: 0,
-      previous: currentMoveIndex
-    });
+    Session.set("currentMove", 0);
   }
   else if (direction === "back") {
-    if (currentMoveIndex === 0) return false;
-    Session.set("historyMoveIndex", {
-      current: currentMoveIndex-1,
-      previous: currentMoveIndex
-    });
+    if (currentMove === 0) return false;
+    Session.set("currentMove", currentMove-1);
   }
   else if (direction === "forward") {
-    if (currentMoveIndex === lastMoveIndex) return false;
-    Session.set("historyMoveIndex", {
-      current: currentMoveIndex+1,
-      previous: currentMoveIndex
-    });
+    if (currentMove === lastMove) return false;
+    Session.set("currentMove", currentMove+1);
   }
   else if (direction === "end") {
-    Session.set("historyMoveIndex", {
-      current: lastMoveIndex,
-      previous: currentMoveIndex
-    });
+    Session.set("currentMove", lastMove);
   }
   else if (direction === "jump") {
-    if (jumpNumber >= 0 && jumpNumber <= lastMoveIndex) {
-      Session.set("historyMoveIndex", {
-        current: jumpNumber,
-        previous: currentMoveIndex
-      });
+    if (jumpNumber >= 0 && jumpNumber <= lastMove) {
+      Session.set("currentMove", jumpNumber);
     }
   }
 

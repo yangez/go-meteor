@@ -4,27 +4,24 @@ Template.registerHelper('playerTurn', function(){
     if (this.game.isReady()) {
       var color = this.game.getColorOfPosition(this.position);
       if (
-        (this.game.wgoGame.turn === -1 && color === "white") ||
-        (this.game.wgoGame.turn === 1 && color === "black")
+        (this.game.turn === -1 && color === "white") ||
+        (this.game.turn === 1 && color === "black")
       ) return "player-turn";
     }
     // if game is completed (and we're viewing history)
     else if (this.game.archived) {
-      var historySession = Session.get("historyMoveIndex");
+      var currentMove = Session.get("currentMove");
 
       if (
-        historySession &&
-        historySession.current !== undefined &&
-        historySession.current < this.game.wgoGame.stack.length-1
+        currentMove !== undefined &&
+        currentMove < this.game.currentMove()
       ) {
-
         var color = this.game.getColorOfPosition(this.position);
 
-        var boardPosition = this.game.wgoGame.stack[historySession.current];
-
+        var boardPosition = this.game.positionAt(currentMove+1);
 
         if (
-          historySession.current === 0 &&
+          currentMove === 0 &&
           color === "black"
         ) return "player-turn"
         else if (

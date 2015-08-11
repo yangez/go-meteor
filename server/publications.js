@@ -24,6 +24,10 @@ Meteor.publish('messages', function(){
   return Messages.find();
 });
 
+Meteor.publish('positions', function(){
+  return Positions.find();
+});
+
 // add challenge Herald publications
 // this adds on to default Herald publication here:
 // https://github.com/Meteor-Reaction/Herald/blob/d057a2b1f7e92603f89066cd2880f9edf652b86b/server/publish.js

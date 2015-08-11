@@ -7,6 +7,11 @@ Board = function(game, width){
       width: width,
       size: game.size,
       background: ""
+    }),
+    // create new blank position on the board
+    position: Positions.new(game._id, {
+      capCount: { black: 0, white: 0 },
+      turn: WGo.B
     })
   });
 
@@ -23,6 +28,16 @@ Board.clearBoards = function() {
 var MDClickHandler, boardMouseMoveHandler, boardMouseOutHandler, boardClickHandler;
 
 _.extend(Board.prototype, {
+
+
+  // set a new position for the board. Updates appropriately
+  setPosition: function(position) {
+    // 1. update the board from old position to new position
+    this.update(this.position, position);
+
+    // set current board position as the new position
+    this.position = position;
+  },
 
   // update board from oldPosition to newPosition
   update: function(oldPosition, newPosition) {
@@ -90,9 +105,9 @@ _.extend(Board.prototype, {
           if (oldObj) board.removeObject(oldObj);
 
           // if it's on the board and it's a valid move (no existing piece)
-          if (game.wgoGame.isOnBoard(x, y) && game.wgoGame.isValid(x,y)) {
+          if (game.isOnBoard(x, y) && game.isValid(x,y)) {
             // add new object
-            if (game.wgoGame.turn === WGo.B) {
+            if (game.turn === WGo.B) {
               var newObj = { x: x, y: y, type: "BLACK_HOVER" };
             } else {
               var newObj = { x: x, y: y, type: "WHITE_HOVER" };
