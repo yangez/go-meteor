@@ -50,7 +50,7 @@ var updateBoard = function(game) {
     var currentMoveIndex = game.currentMove()-1;
     Session.set("boardLastMoveIndex"+game._id, currentMoveIndex);
 
-    if (game.previousPosition) gameBoard.update(game.previousPosition, game.position())
+    if (game.previousPositionId) gameBoard.update(Positions.findOne(game.previousPositionId), game.position())
     else gameBoard.update(game.positionAt(lastMoveIndex+1), game.position())
   }
 
