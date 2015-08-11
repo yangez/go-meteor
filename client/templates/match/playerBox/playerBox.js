@@ -1,3 +1,5 @@
+captured = 0;
+
 Template.playerBox.helpers({
   userIsOnline: function() {
     var color = this.game.getColorOfPosition(this.position);
@@ -11,11 +13,13 @@ Template.playerBox.helpers({
     return this.game.userIdPresent(user._id) ? "in-game" : "";
   },
   captureCount: function() {
+    debugger;
     var color = this.game.getColorOfPosition(this.position);
     if (color === "white") var wgoColor = WGo.W;
     else if (color === "black") var wgoColor = WGo.B;
-    if (wgoColor) var theCount = this.game.getCaptureCount(wgoColor);
-    if (theCount > 0) return theCount;
+    newCapture = _.clone(this.game.getCaptureCount(wgoColor));
+    if (newCapture) captured = newCapture;
+    if (captured > 0) return captured;
   },
   score: function() {
     var game = this.game;
