@@ -15,7 +15,7 @@ Template.registerHelper('playerTurn', function(){
       if (
         historySession &&
         historySession.current !== undefined &&
-        historySession.current < this.game.moveNumber()-1
+        historySession.current < this.game.currentMove()-1
       ) {
 
         var color = this.game.getColorOfPosition(this.position);
