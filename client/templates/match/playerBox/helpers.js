@@ -10,20 +10,18 @@ Template.registerHelper('playerTurn', function(){
     }
     // if game is completed (and we're viewing history)
     else if (this.game.archived) {
-      var historySession = Session.get("historyMoveIndex");
+      var currentMove = Session.get("currentMove");
 
       if (
-        historySession &&
-        historySession.current !== undefined &&
-        historySession.current < this.game.currentMove()
+        currentMove !== undefined &&
+        currentMove < this.game.currentMove()
       ) {
-
         var color = this.game.getColorOfPosition(this.position);
 
-        var boardPosition = this.game.positionAt[historySession.current];
+        var boardPosition = this.game.positionAt(currentMove+1);
 
         if (
-          historySession.current === 0 &&
+          currentMove === 0 &&
           color === "black"
         ) return "player-turn"
         else if (
