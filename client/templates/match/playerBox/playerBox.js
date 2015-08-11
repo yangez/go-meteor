@@ -13,7 +13,6 @@ Template.playerBox.helpers({
     return this.game.userIdPresent(user._id) ? "in-game" : "";
   },
   captureCount: function() {
-    debugger;
     var color = this.game.getColorOfPosition(this.position);
     if (color === "white") var wgoColor = WGo.W;
     else if (color === "black") var wgoColor = WGo.B;
