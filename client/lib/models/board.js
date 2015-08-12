@@ -39,6 +39,42 @@ _.extend(Board.prototype, {
     this.position = position;
   },
 
+  // Remove all md markers, then add md markers to board
+  updateMDMarkers: function() {
+    var game = Games.findOne(this.gameId);
+    var board = this.board;
+    board.removeObjectsOfType("DEAD");
+    if (game.deadMarkers && game.deadMarkers.length > 0) {
+      board.addObject(game.deadMarkers);
+    }
+  },
+
+  // Update the 'last turn' marker on the board
+  updateTurnMarker: function() {
+    var game = Games.findOne(this.gameId);
+    var board = this.board;
+    board.removeObjectsOfType("CR");
+    if (game.turnMarker && game.turnMarker.type && game.turnMarker.x != "pass") {
+      board.addObject(game.turnMarker) ;
+    }
+  },
+
+  // add a hovering stone over x, y
+  addHover: function(x, y) {
+    var game = Games.findOne(this.gameId)
+    if (game.isOnBoard(x, y) && game.isValid(x,y)) {
+      var type = game.turn === WGo.B ? "BLACK_HOVER" : "WHITE_HOVER";
+      this.board.addObject({ x: x, y: y, type: type });
+    }
+  },
+
+  // clear all hovering stones
+  clearHover: function() {
+    var board = this.board;
+    board.removeObjectsOfType("BLACK_HOVER");
+    board.removeObjectsOfType("WHITE_HOVER");
+  },
+
   // update board from oldPosition to newPosition
   update: function(oldPosition, newPosition) {
     var board = this.board;
@@ -91,54 +127,33 @@ _.extend(Board.prototype, {
       game.hasPlayerId(Meteor.userId()) &&
       game.isReady()
     ) {
-      var board = this.board;
+      var _this = this;
+
       // add hover piece event listener
-      board.addEventListener("mousemove", boardMouseMoveHandler = function(x, y){
-        // refresh game data
-        game = Games.findOne(game._id);
-
-        // only if it's your turn
+      this.board.addEventListener("mousemove", boardMouseMoveHandler = function(x, y){
         if (game.isCurrentPlayerMove()) {
-          // remove old hoverstone
-          var oldObj = Session.get("hoverStone"+game._id);
-          Session.set("hoverStone"+game._id, undefined);
-          if (oldObj) board.removeObject(oldObj);
-
-          // if it's on the board and it's a valid move (no existing piece)
-          if (game.isOnBoard(x, y) && game.isValid(x,y)) {
-            // add new object
-            if (game.turn === WGo.B) {
-              var newObj = { x: x, y: y, type: "BLACK_HOVER" };
-            } else {
-              var newObj = { x: x, y: y, type: "WHITE_HOVER" };
-            }
-            board.addObject(newObj);
-            Session.set("hoverStone"+game._id, newObj);
-          }
+          _this.clearHover();
+          _this.addHover(x, y);
         }
       });
 
-      board.addEventListener("mouseout", boardMouseOutHandler = function(x, y) {
+      // remove hover piece
+      this.board.addEventListener("mouseout", boardMouseOutHandler = function(x, y) {
         game = Games.findOne(game._id);
 
-        if (game.isCurrentPlayerMove()) {
-          var oldObj = Session.get("hoverStone"+game._id);
-          Session.set("hoverStone"+game._id, undefined);
-          if (oldObj) board.removeObject(oldObj);
-        }
+        if (game.isCurrentPlayerMove()) _this.clearHover();
       });
 
-      board.addEventListener("click", boardClickHandler = function(x, y) {
+      // "play" logic
+      this.board.addEventListener("click", boardClickHandler = function(x, y) {
         game = Games.findOne(game._id);
 
-        // invalidate hover piece
-        var oldObj = Session.get("hoverStone"+game._id);
-        Session.set("hoverStone"+game._id, undefined);
-        if (oldObj) board.removeObject(oldObj);
 
         // play move
         Meteor.call('game/action', game._id, "playMove", {x: x, y: y}, function(error, result) {
-          if (error) console.log(error.message);
+          if (error) return console.log(error.message);
+
+          _this.clearHover();
         });
       });
 

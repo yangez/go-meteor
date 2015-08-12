@@ -44,13 +44,13 @@ var updateBoard = function(game) {
   gameBoard.setPosition(game.position());
 
   // update markers
-  game.updateMDMarkers(gameBoard);
-  game.updateTurnMarker(gameBoard);
+  gameBoard.updateMDMarkers();
+  gameBoard.updateTurnMarker();
 
   var currentRouteName = Router.current().route.getName();
   if (currentRouteName === "match") {
 
-    game.clearHover(gameBoard);
+    gameBoard.clearHover();
 
     // remove any event handlers
     gameBoard.removeEventHandlers();
