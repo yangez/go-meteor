@@ -1,3 +1,6 @@
 /* board-related stuff */
-#board { width: 100%; }
+#board {
+  width: 100%;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.5);
+}
 .show-game #board { cursor: pointer; }
