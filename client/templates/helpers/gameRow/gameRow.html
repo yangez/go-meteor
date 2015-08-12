@@ -1,7 +1,7 @@
 <template name="gameRow">
   <tr class="game">
-    <td>{{ > userItem color="black" }}</td>
-    <td>{{ > userItem color="white" }}</td>
+    <td>{{ > userItem color="black" game=this turnIndicator=true}}</td>
+    <td>{{ > userItem color="white" game=this turnIndicator=true}}</td>
     <td>{{timeString}}</td>
     <td>
       {{#if turn}}

@@ -16,6 +16,17 @@ Accounts.onCreateUser(function(options, user) {
     user.profile.location = "";
     user.profile.description = "";
   }
+
+  // implement default user ratings
+  user.ratings = {
+    normal: {
+      average: -400,
+      best: -400,
+      worst: -400,
+      rank: "25k"
+    }
+  }
+
   return user;
 });
 

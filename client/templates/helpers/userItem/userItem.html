@@ -1,13 +1,16 @@
 <template name="userItem">
   <span class="userItem">
-    {{#if username color}}
-      <span class="{{currentUserColor color}}">
-        {{#if userIsOnline color}}<i class="fa fa-user"></i>{{/if}}
-        {{username color}}
-        {{#if noTurnIndicator}}{{else}}
-          {{#if currentMove color}}<i class="fa fa-dot-circle-o move-indicator"></i>{{/if}}
+    {{#if user}}
+      <span class="{{currentUser}}">
+        {{#with user}}
+          {{#if userIsOnline}}<i class="fa fa-user"></i>{{/if}}
+          {{username}}
+          <small class="rating">{{rank}}</small>
+        {{/with}}
+        {{#if turnIndicator}}
+          {{#if currentMove}}<i class="fa fa-dot-circle-o move-indicator"></i>{{/if}}
         {{/if}}
-        {{#if isWinner color}}<small class="score">{{score}}</small>{{/if}}
+        {{#if isWinner}}<small class="score">{{score}}</small>{{/if}}
       </span>
     {{else}}
       {{#if joinable}}
