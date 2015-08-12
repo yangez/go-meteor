@@ -6,7 +6,16 @@ Board = function(game, width){
     board: new WGo.Board(document.getElementById("board"), {
       width: width,
       size: game.size,
-      background: ""
+      // background: "/wood1.jpg",
+      // background: "#e5c07e",
+      background: "#dbae69",
+    	stoneHandler: WGo.Board.drawHandlers.NORMAL,
+      section: {
+        top: -0.75,
+        left: -0.75,
+        right: -0.75,
+        bottom: -0.75
+      }
     }),
     // create new blank position on the board
     position: Positions.new(game._id, {
@@ -14,6 +23,8 @@ Board = function(game, width){
       turn: WGo.B
     })
   });
+
+  board.addCoordinates();
 
   return board;
 };
@@ -158,5 +169,42 @@ _.extend(Board.prototype, {
     }
   },
 
+
+  addCoordinates: function() {
+    var coordinates = {
+      // draw on grid layer
+      grid: {
+        draw: function(args, board) {
+          var ch, t, xright, xleft, ytop, ybottom;
+
+          this.fillStyle = "rgba(0,0,0,0.7)";
+          this.textBaseline="middle";
+          this.textAlign="center";
+          this.font = board.stoneRadius+"px "+(board.font || "");
+
+          xright = board.getX(-0.75);
+          xleft = board.getX(board.size-0.25);
+          ytop = board.getY(-0.75);
+          ybottom = board.getY(board.size-0.25);
+
+          for(var i = 0; i < board.size; i++) {
+            ch = i+"A".charCodeAt(0);
+            if(ch >= "I".charCodeAt(0)) ch++;
+
+            t = board.getY(i);
+            this.fillText(board.size-i, xright, t);
+            this.fillText(board.size-i, xleft, t);
+
+            t = board.getX(i);
+            this.fillText(String.fromCharCode(ch), t, ytop);
+            this.fillText(String.fromCharCode(ch), t, ybottom);
+          }
+
+          this.fillStyle = "black";
+        }
+      }
+    }
+    this.board.addCustomObject(coordinates);
+  }
 
 });
