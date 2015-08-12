@@ -24,11 +24,9 @@ Board.clearBoards = function() {
   return true;
 };
 
-
 var MDClickHandler, boardMouseMoveHandler, boardMouseOutHandler, boardClickHandler;
 
 _.extend(Board.prototype, {
-
 
   // set a new position for the board. Updates appropriately
   setPosition: function(position) {
