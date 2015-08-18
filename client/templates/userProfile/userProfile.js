@@ -18,6 +18,9 @@ Template.userProfile.helpers({
 
   isUser : function(){
     return this._id === Meteor.userId();
+  },
+  rating: function() {
+    return this.rating();
   }
 });
 
