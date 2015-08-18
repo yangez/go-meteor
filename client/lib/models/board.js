@@ -8,7 +8,8 @@ Board = function(game, width){
       size: game.size,
       // background: "/wood1.jpg",
       // background: "#e5c07e",
-      background: "#dbae69",
+      // background: "#dbae69",
+      background: "#dcb35c",
     	stoneHandler: WGo.Board.drawHandlers.NORMAL,
       section: {
         top: -0.75,
