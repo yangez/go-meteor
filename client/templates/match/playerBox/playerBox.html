@@ -6,8 +6,9 @@
           <i class="fa fa-user {{userPresent}}"></i>
         {{/if}}
         {{playerData.user.username}}
+        <small class="rating">{{playerData.user.rank}}</small>
         {{#if playerData.isCurrentPlayer}} <em>(you)</em> {{/if}}
-        {{#if score}}<small class="score">{{score}}</small>{{/if}}
+        {{#if score}}<small class="score"><strong>{{score}}</strong></small>{{/if}}
         {{#if captureCount}}
           <br/><small>Captured: <strong>{{captureCount}}</strong></small>
         {{/if}}

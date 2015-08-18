@@ -1,37 +1,34 @@
 Template.userItem.helpers({
-  isWinner: function(color) {
-    var game = Template.parentData(1);
-    if (color === "black") return game.winnerId === game.blackPlayerId;
-    if (color === "white") return game.winnerId === game.whitePlayerId;
+  isWinner: function() {
+    var game = this.game;
+    if (this.color === "black") return game.winnerId === game.blackPlayerId;
+    if (this.color === "white") return game.winnerId === game.whitePlayerId;
   },
   score: function() {
-    var game = Template.parentData(1);
-    return game.score;
+    return this.game.score;
   },
   joinable: function() {
-    var game = Template.parentData(1);
+    var game = this.game;
     return (game.blackPlayerId != Meteor.userId() && game.whitePlayerId != Meteor.userId());
   },
-  currentUserColor: function(color) {
-    var game = Template.parentData(1);
-    if (game.getColorOfPlayerId(Meteor.userId()) === color)
+  currentUser: function() {
+    var game = this.game;
+    if (game.getColorOfPlayerId(Meteor.userId()) === this.color)
       return "current-user"
   },
-  username: function(color) {
-    var game = Template.parentData(1);
-    user = game.getPlayerAtColor(color);
-    if (user) return user.username;
-    else return false;
-  },
-  currentMove: function(color) {
-    var game = Template.parentData(1);
+  currentMove: function() {
+    var game = this.game;
     moveColor = game.getColorOfCurrentMove();
-    return moveColor === color;
+    return moveColor === this.color;
   },
-  userIsOnline: function(color) {
-    var game = Template.parentData(1);
-    var user = game.getPlayerAtColor(color);
-    var object = Presences.findOne({userId: user._id});
+
+  // user context
+  user: function() {
+    var game = this.game;
+    return game.getPlayerAtColor(this.color);
+  },
+  userIsOnline: function() {
+    var object = Presences.findOne({userId: this._id});
     return (object && object.state);
   },
 

@@ -4,7 +4,7 @@ Meteor.publish('games', function() {
 
 Meteor.publish("allUsers", function () {
   return Meteor.users.find({}, {
-    fields: { meta: 1, profile: 1, username: 1, _id: 1}
+    fields: { meta: 1, profile: 1, username: 1, _id: 1, ratings: 1}
   });
 });
 

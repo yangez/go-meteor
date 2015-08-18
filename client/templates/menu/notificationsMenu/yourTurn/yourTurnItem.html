@@ -4,7 +4,7 @@
 
     {{#with game}}
     <td>
-      <p class="main"><i class="stone {{color}}"></i> <span>vs.</span> {{ > userItem color=opponentColor noTurnIndicator=true }} ({{size}}x{{size}})</p>
+      <p class="main"><i class="stone {{color}}"></i> <span>vs.</span> {{ > userItem color=opponentColor game=this }} ({{size}}x{{size}})</p>
       <p class="sub">Your turn to move.</p>
     </td>
     {{/with}}
