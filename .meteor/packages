@@ -18,10 +18,11 @@ mizzao:timesync
 momentjs:moment
 email
 sergeyt:typeahead
-reywood:bootstrap3-sass
 dburles:collection-helpers
 mizzao:autocomplete
 kestanous:herald
 kestanous:herald-web-notifications
 kestanous:herald-email
 mizzao:user-status
+poetic:materialize-scss
+reywood:bootstrap3-sass
