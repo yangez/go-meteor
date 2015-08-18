@@ -20,7 +20,7 @@ Accounts.onCreateUser(function(options, user) {
   // implement default user ratings
   user.ratings = {
     normal: {
-      average: -320,
+      current: -320,
       best: -320,
       worst: -320,
       rank: "25k"
