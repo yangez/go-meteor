@@ -1,3 +1,11 @@
 #layout {
-  #main { @extend .container; }
+  header, main, footer {
+    margin-left: 240px;
+  }
+
+  main {
+    .container {
+      width: 85%;
+    }
+  }
 }

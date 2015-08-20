@@ -1,12 +1,17 @@
 <template name="layout">
   <div id="layout">
 
-    {{> navMenu}}
-
     {{> errors}}
 
-    <div id="main">
-      {{> yield}}
-    </div>
+    <header>
+      {{> navMenu}}
+    </header>
+
+    <main>
+      <div class="container">
+        {{> yield}}
+      </div>
+    </main>
+
   </div>
 </template>
