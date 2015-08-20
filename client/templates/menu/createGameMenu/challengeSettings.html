@@ -1,11 +1,15 @@
 <template name="challengeSettings">
-  <div class="challenge-settings">
-    <label for="enable-challenge" id="enable-challenge-label">
-      <input type="checkbox" name="enable-challenge" id="enable-challenge" checked="{{challengeEnabled}}"/> Challenge another user
-    </label>
+  
+  <div id="challenge-settings" class="row">
+    <p class="col s12">
+      <input type="checkbox" name="enable-challenge" value="black" id="enable-challenge" checked="{{challengeEnabled}}" />
+      <label for="enable-challenge">Challenge another user</label>
 
-    {{#if challengeEnabled}}
-      {{> typeahead}}
-    {{/if}}
+      {{#if challengeEnabled}}
+        {{> typeahead}}
+      {{/if}}
+    </p>
   </div>
+
+
 </template>

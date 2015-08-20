@@ -1,4 +1,3 @@
-
 Template.createGame.helpers({
   button: function() {
     return Session.get("challengeEnabled") ?

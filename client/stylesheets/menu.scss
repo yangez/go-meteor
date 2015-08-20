@@ -1,7 +1,8 @@
 /*
  * Top-level navmenu
  */
-#navMenu {
+header #navMenu {
+
   li {
     a {
       line-height: 44px;
@@ -9,7 +10,7 @@
       font-size: 0.9rem;
     }
 
-    // &:hover, &:active { background-color: rgba(0, 0, 0, 0.05) }
+    &:hover, .active { background-color: #f3f3f3; }
 
     &.logo {
       text-align: center;
@@ -17,7 +18,7 @@
       margin-bottom: 12px;
       border-bottom: 1px solid #ddd;
       height: 70px;
-      &:hover, &:active { background: none; }
+      &:hover { background: none; }
 
       a {
         color: rgba(0, 0, 0, 0.5);
@@ -28,6 +29,8 @@
 
     }
 
+    &.no-padding { &:hover, &.active {background: none; } }
+
     &.bold > a { font-weight: bold; }
 
   }
@@ -37,36 +40,21 @@
    */
   #createGame {
 
+    .container { width: 85%; }
+
     #create-game-form {
-      @extend .form;
-      width: 220px;
-      padding: 20px;
 
-      select, input[type=text] { @extend .form-control; }
+      padding-top:18px;
 
-      /* Time controls */
-      .timer-settings {
-        @extend .form-group;
-        label { font-weight: 400; }
+      .input-field:first-child { margin-top: 0; }
 
-        .input-group {
-          input { text-align: center; }
-          .input-group-addon {
-            width: 50%;
-            &:hover { color: #000; }
-          }
-        }
+      .twitter-typeahead { width: 100%; }
 
-        #by-periods { width: 38px; }
-        #by-group { td:empty { width: 5px; } }
+      #challenge-settings {
+        .input-field { margin-top: 4px; }
       }
 
-      .challenge-settings {
-        @extend .form-group;
-        label { font-weight: 400; }
-      }
 
-      input[type=submit] { @extend .btn; }
     }
   }
 

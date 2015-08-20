@@ -1,4 +1,11 @@
-hr { clear: both; }
+hr {
+  clear: both;
+  height: 0;
+  margin: 20px 0;
+  border: 0;
+  border-top: 1px solid #eeeeee;
+  box-sizing: content-box;
+}
 
 .overlay {
   position: absolute;

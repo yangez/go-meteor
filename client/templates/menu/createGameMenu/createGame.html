@@ -1,41 +1,59 @@
 <template name="createGame">
-  <li id="createGame">
-    <a href="#" class="dropdown-button btn" data-activates="create-game-form"><i class="fa fa-plus"></i> New Game</a>
+  <li id="createGame" class="bold">
+    <a href="#" class="collapsible-header waves-effect waves-teal">Create Game</a>
 
-    <form id="create-game-form" class="dropdown-menu" aria-labelledby="create-game-menu">
-      <div class="form-group">
-        <label class="control-label" for="title">Size</label>
-        <div class="controls">
-          <select name="size" id="size">
-            <option value="9">9x9</option>
-            <option value="13">13x13</option>
-            <option value="19" selected>19x19</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label" for="title">Your Color</label>
-        <div class="controls">
-          <label class="radio-inline">
-            <input type="radio" name="color" value="black" checked />
-            Black
-          </label>
-          <label class="radio-inline">
-            <input type="radio" name="color" value="white" />
-            White
-          </label>
-        </div>
-      </div>
-      {{> timerSettings }}
-      <hr />
-      {{> challengeSettings}}
+    <div class="collapsible-body">
+      <div class="container">
 
-      {{#if loading}}
-      <input type="submit" value="Creating game..." disabled class="{{button.class}}"/> {{> spinner}}
-      <div class="overlay"></div>
-      {{else}}
-      <input type="submit" value="{{button.text}} &rarr;" class="{{button.class}}"/>
-      {{/if}}
-    </form>
+        <form id="create-game-form">
+
+          <div class="row">
+            <div class="col s12">
+              <select name="size" class="browser-default">
+                <option value="9">9x9</option>
+                <option value="13">13x13</option>
+                <option value="19" selected>19x19</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <p class="col s6">
+              <input type="radio" name="color" value="black" class="with-gap" id="radio-black" checked />
+              <label for="radio-black">Black</label>
+            </p>
+            <p class="col s6">
+              <input type="radio" name="color" value="white" class="with-gap" id="radio-white" />
+              <label for="radio-white">White</label>
+            </p>
+          </div>
+
+          <!--
+
+          {{> timerSettings }}
+        -->
+
+          <hr />
+
+          {{> challengeSettings}}
+
+<!--
+          {{#if loading}}
+          <input type="submit" value="Creating game..." disabled class="{{button.class}}"/> {{> spinner}}
+          <div class="overlay"></div>
+          {{else}}
+          <input type="submit" value="{{button.text}} &rarr;" class="{{button.class}}"/>
+          {{/if}}
+
+          -->
+
+
+        </form>
+
+      </div>
+
+    </div>
+
   </li>
 </template>
