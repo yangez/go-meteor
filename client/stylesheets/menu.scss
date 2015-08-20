@@ -2,19 +2,34 @@
  * Top-level navmenu
  */
 #navMenu {
-  @extend .navbar, .navbar-default;
+  li {
+    a {
+      line-height: 44px;
+      height: 44px;
+    }
+
+    &.logo {
+      text-align: center;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #ddd;
+      height: 70px;
+      background: none;
+      a {
+        font-size: 1.2rem;
+        width: 100%;
+        letter-spacing: 1px;
+        &:hover {
+
+        }
+      }
+    }
+  }
 
   /*
    * Create Game menu
    */
   #createGame {
-    > .navbar-btn {
-      margin-right: 15px; margin-left: 15px;
-      position: relative;
-      top: 2px;
-    }
-
-    #create-game-menu { @extend .btn, .btn-primary; }
 
     #create-game-form {
       @extend .form;

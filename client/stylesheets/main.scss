@@ -3,7 +3,11 @@
 // Existing content in the file will not be touched
 // When deleting a .scss or .sass file you must manually delete it from here
 
-@import "client/stylesheets/lib/bootstrap.scss";
+// materialize import
+// @import "client/stylesheets/lib/bootstrap.scss";
+
+@import ".meteor/local/build/programs/server/assets/packages/poetic_materialize-scss/bower_components/materialize/sass/materialize.scss";
+
 @import "client/stylesheets/lib/typeahead.scss";
 @import "client/stylesheets/lib/utility.scss";
 
