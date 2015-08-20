@@ -2,6 +2,7 @@
  * Top-level navmenu
  */
 header #navMenu {
+  z-index: 1;
 
   li {
     a {
@@ -32,6 +33,11 @@ header #navMenu {
     &.no-padding { &:hover, &.active {background: none; } }
 
     &.bold > a { font-weight: bold; }
+
+    // last item in the thing - for 70-px floating user thing
+    &.no-padding {
+      margin-bottom: 90px;
+    }
 
   }
 
@@ -88,6 +94,48 @@ header #navMenu {
 
     }
   }
+}
+
+
+#navUser {
+  height: 70px;
+  width: 240px;
+  position: fixed;
+  bottom: 0; left: 0;
+  border: 1px solid #ddd;
+  z-index: 2;
+  background: #fff;
+}
+
+
+
+
+
+
+/* Unchanged */
+
+
+
+  // stone for Your Games and Notifications menu
+  i.stone {
+    &::after {
+      content: ' ';
+      float: left;
+      margin-right: 8px;
+      margin-left: -2px;
+      width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      box-shadow: 1px 1px 1px 1px rgba(127, 127, 127, 0.3);
+    }
+    &.white::after {
+      background: linear-gradient(-45deg, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+    }
+    &.black::after {
+      background: linear-gradient(135deg, rgba(35,36,39,1) 0%,rgba(0,0,0,1) 100%);
+    }
+  }
+
 
   /* Notifications menu */
   #notificationsMenu {
@@ -198,25 +246,3 @@ header #navMenu {
       } // end table
     } // end .dropdown-menu
   } // end #notifications-menu
-
-  // stone for Your Games and Notifications menu
-  i.stone {
-    &::after {
-      content: ' ';
-      float: left;
-      margin-right: 8px;
-      margin-left: -2px;
-      width: 20px;
-      height: 20px;
-      border-radius: 10px;
-      box-shadow: 1px 1px 1px 1px rgba(127, 127, 127, 0.3);
-    }
-    &.white::after {
-      background: linear-gradient(-45deg, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
-    }
-    &.black::after {
-      background: linear-gradient(135deg, rgba(35,36,39,1) 0%,rgba(0,0,0,1) 100%);
-    }
-  }
-
-}

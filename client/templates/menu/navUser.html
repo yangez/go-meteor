@@ -1,0 +1,9 @@
+<template name="navUser">
+  <div id="navUser">
+    {{#if currentUser}}
+      {{user.username}}<br/>
+      {{user.fullRank}}, ELO {{user.rating}}
+    {{else}}
+    {{/if}}
+  </div>
+</template>
