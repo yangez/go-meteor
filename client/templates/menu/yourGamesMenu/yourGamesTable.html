@@ -5,17 +5,25 @@
       Your Games
 
 
-      <label class="filter pull-right">
-        <input type="checkbox" checked="{{yourMoveOnly}}" class="your-move-filter"/>
-        Your move
-      </label>
-      <label class="filter pull-right">
-        <input type="checkbox" checked="{{isTimed}}" class="is-timed-filter"/>
-        Timed
-      </label>
 
     </div>
   -->
+    <table>
+      <tbody>
+        <tr class="filters">
+          <td>
+            <input type="checkbox" checked="{{yourMoveOnly}}" id="your-move-filter"/>
+            <label for="your-move-filter">Your move</label>
+          </td>
+          <td>
+            <input type="checkbox" checked="{{isTimed}}" id="is-timed-filter"/>
+            <label for="is-timed-filter">Timed</label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
     <table>
       <tbody>
       {{#if games.count}}

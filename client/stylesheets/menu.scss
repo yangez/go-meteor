@@ -35,6 +35,21 @@ header #navMenu {
 
   }
 
+
+  /*
+   * Your Games menu
+   */
+  #yourGamesMenu {
+    .filters {
+      td { width: 50%; }
+      [type="checkbox"] + label {
+        font-size: 0.8rem;
+        padding-left: 28px;
+      }
+    }
+
+  }
+
   /*
    * Create Game menu
    */
@@ -70,50 +85,6 @@ header #navMenu {
       }
 
       input[type=submit] { width: 100%; }
-
-    }
-  }
-
-
-  /*
-   * Your Games menu
-   */
-  #yourGamesMenu {
-
-    #your-games-menu {
-      .your-turn-count {
-        @extend .label, .label-success;
-        padding-right: 4px; padding-left: 4px;
-        margin-right: 1px;
-      }
-
-    }
-
-    #your-games-dropdown {
-      width: 400px;
-      padding: 0;
-
-      .games-panel {
-        @extend .panel, .panel-success;
-        border-radius: 0; margin-bottom: 0;
-
-        .panel-heading {
-          border-radius: 0;
-
-          label.filter {
-            font-size: 12px;
-            font-weight: 400;
-            margin-left: 10px;
-            input { margin-left: 2px;}
-          }
-        }
-
-        .games-table {
-          @extend .table, .table-hover;
-
-        }
-
-      }
 
     }
   }
