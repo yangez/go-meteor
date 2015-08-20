@@ -1,34 +1,50 @@
 <template name="timerSettings">
+
   <div class="timer-settings">
-    <label for="enable-main-time">
-      <input type="checkbox" name="enable-main-time" id="enable-main-time" checked="{{mainTimeEnabled}}"/> Main timer
-    </label>
-    {{#if mainTimeEnabled}}
-    <div class="input-group" id="timer-group">
-      <input type="text" name="time-control" id="time-control" placeholder="#" value="20"/>
-      <input type="hidden" name="time-type" id="time-type" value="minutes"/>
-      <a href="#" class="input-group-addon" id="time-type-display">minutes</a>
+    <div class="row">
+      <p class="col s12">
+        <input type="checkbox" name="enable-main-time" id="enable-main-time" checked="{{mainTimeEnabled}}" />
+        <label for="enable-main-time">Main timer</label>
+      </p>
     </div>
-    {{/if}}
-  </div>
-  <div class="timer-settings">
-    <label for="enable-byoyomi">
-      <input type="checkbox" name="enable-byoyomi" id="enable-byoyomi" checked="{{byoyomiEnabled}}"/> Byo-yomi timer
-    </label>
-    {{#if byoyomiEnabled}}
-    <table id="by-group"><tr>
-      <td>
-        <input type="text" name="by-periods" id="by-periods" placeholder="#" value="5"/>
-      </td>
-      <td></td> <td>x</td> <td></td> <!-- empty td for spacing -->
-      <td>
-        <div class="input-group" id="by-group">
-          <input type="text" name="by-time" id="by-time" placeholder="#" value="1"/>
-          <input type="hidden" name="by-time-type" id="by-time-type" value="minutes"/>
-          <a href="#" class="input-group-addon" id="by-time-type-display">mins</a>
+
+    {{#if mainTimeEnabled}}
+      <div class="row">
+        <div class="input-field col s6">
+          <input type="text" name="time-control" id="time-control" placeholder="#" value="20"/>
         </div>
-      </td>
-    </tr></table>
+        <a href="#" class="col s6 btn btn-flat white" id="time-type-display">minutes</a>
+
+        <input type="hidden" name="time-type" id="time-type" value="minutes"/>
+      </div>
     {{/if}}
+
   </div>
+
+  <div class="timer-settings">
+    <div class="row">
+      <p class="col s12">
+        <input type="checkbox" name="enable-byoyomi" id="enable-byoyomi" checked="{{byoyomiEnabled}}" />
+        <label for="enable-byoyomi">Byo-yomi timer</label>
+      </p>
+    </div>
+
+      {{#if byoyomiEnabled}}
+      <div class="row">
+        <div class="input-field col s4">
+          <input type="text" name="by-periods" id="by-periods" placeholder="#" value="5"/>
+          <div class="floater">x</div>
+        </div>
+
+        <div class="input-field col s4">
+          <input type="text" name="by-time" id="by-time" placeholder="#" value="1"/>
+        </div>
+
+        <a href="#" class="col s4 btn btn-flat white" id="by-time-type-display">mins</a>
+
+        <input type="hidden" name="by-time-type" id="by-time-type" value="minutes"/>
+      </div>
+      {{/if}}
+  </div>
+
 </template>

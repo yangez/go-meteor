@@ -55,7 +55,21 @@ header #navMenu {
         }
       }
 
+      .timer-settings {
+        input { text-align: center;}
+        .row:first-child { margin-bottom: 6px; }
+        .input-field { margin-top: 0;}
+
+        .floater {
+          position: absolute;
+          top: 11px;
+          left: 72px;
+          color: rgba(0, 0, 0, 0.5);
+        }
+      }
+
       input[type=submit] { width: 100%; }
+
     }
   }
 
