@@ -1,11 +1,22 @@
 #layout {
   header, main, footer {
     margin-left: 240px;
+
+    .container {
+      width: 90%;
+    }
+
   }
 
-  main {
-    .container {
-      width: 85%;
+  header {
+    .top-nav {
+      height: 70px; line-height: 70px;
+
+      .page-title {
+        font-size: 1.25rem;
+      }
+
     }
   }
+
 }
