@@ -1,7 +1,9 @@
 <template name="yourGamesTable">
+    <!--
   <div class="games-panel">
     <div class="panel-heading">
       Your Games
+
 
       <label class="filter pull-right">
         <input type="checkbox" checked="{{yourMoveOnly}}" class="your-move-filter"/>
@@ -13,16 +15,17 @@
       </label>
 
     </div>
-    {{#if games.count}}
-    <table class="games-table">
+  -->
+    <table>
       <tbody>
-        {{#each games}}
-        {{> yourGameRow }}
-        {{/each}}
+      {{#if games.count}}
+          {{#each games}}
+          {{> yourGameRow }}
+          {{/each}}
+      {{else}}
+        <tr><td>No games yet. Join or create one.</td></tr>
+      {{/if}}
       </tbody>
     </table>
-    {{else}}
-      <div class="panel-body">No games here. Join or create one.</div>
-    {{/if}}
-  </div>
+  <!-- </div> -->
 </template>

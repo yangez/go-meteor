@@ -25,7 +25,11 @@
         width: 100%;
         letter-spacing: 1px;
       }
+
     }
+
+    &.bold > a { font-weight: bold; }
+
   }
 
   /*
