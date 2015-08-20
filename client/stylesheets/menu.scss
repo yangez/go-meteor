@@ -21,7 +21,7 @@ header #navMenu {
       &:hover { background: none; }
 
       a {
-        color: rgba(0, 0, 0, 0.5);
+        color: $primary-color-dark;
         font-size: 1.2rem;
         width: 100%;
         letter-spacing: 1px;
@@ -43,6 +43,7 @@ header #navMenu {
     .container { width: 85%; }
 
     #create-game-form {
+      margin-bottom: 30px;
       padding-top:18px;
 
       .input-field:first-child { margin-top: 0; }
