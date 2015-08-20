@@ -29,24 +29,18 @@
             </p>
           </div>
 
-          <!--
-
-          {{> timerSettings }}
-        -->
+          <!-- {{> timerSettings }} -->
 
           <hr />
 
           {{> challengeSettings}}
 
-<!--
           {{#if loading}}
-          <input type="submit" value="Creating game..." disabled class="{{button.class}}"/> {{> spinner}}
-          <div class="overlay"></div>
+            <input type="submit" value="Creating game..." disabled class="{{button.class}} btn"/> {{> spinner}}
+            <div class="overlay"></div>
           {{else}}
-          <input type="submit" value="{{button.text}} &rarr;" class="{{button.class}}"/>
+            <input type="submit" value="{{button.text}} &rarr;" class="{{button.class}} btn"/>
           {{/if}}
-
-          -->
 
 
         </form>

@@ -1,8 +1,8 @@
 Template.createGame.helpers({
   button: function() {
     return Session.get("challengeEnabled") ?
-    { text: "Challenge", class: "btn-danger"} :
-    { text: "Create Game", class: "btn-primary"} ;
+    { text: "Challenge", class: "red"} :
+    { text: "Create Game", class: ""} ;
   },
   loading: function() {
     return Session.get("createGameLoading") ? "loading" : false;

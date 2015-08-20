@@ -43,18 +43,19 @@ header #navMenu {
     .container { width: 85%; }
 
     #create-game-form {
-
       padding-top:18px;
 
       .input-field:first-child { margin-top: 0; }
 
-      .twitter-typeahead { width: 100%; }
-
       #challenge-settings {
         .input-field { margin-top: 4px; }
+        .twitter-typeahead {
+          width: 100%;
+          input { margin-bottom: 0; }
+        }
       }
 
-
+      input[type=submit] { width: 100%; }
     }
   }
 
