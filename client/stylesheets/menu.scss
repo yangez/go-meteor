@@ -102,13 +102,28 @@ header #navMenu {
   width: 240px;
   position: fixed;
   bottom: 0; left: 0;
-  border: 1px solid #ddd;
+  border-top: 1px solid #ddd;
   z-index: 2;
   background: #fff;
+
+  @extend .valign-wrapper;
+
+  .content {
+    @extend .valign;
+    padding: 0 24px;
+
+    font-size: 1rem;
+    line-height: 1.3rem;
+
+    .username {
+      font-weight: bold;
+    }
+
+    .ratings {
+      font-size: 0.9rem;
+    }
+  }
 }
-
-
-
 
 
 

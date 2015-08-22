@@ -1,9 +1,14 @@
 <template name="navUser">
   <div id="navUser">
-    {{#if currentUser}}
-      {{user.username}}<br/>
-      {{user.fullRank}}, ELO {{user.rating}}
-    {{else}}
-    {{/if}}
+    <div class="content">
+      {{#if currentUser}}
+        <div class="username">{{user.username}}</div>
+        <div class="ratings">
+          {{user.fullRank}}, ELO {{user.rating}}
+        </div>
+      {{else}}
+      {{/if}}
+
+    </div>
   </div>
 </template>
