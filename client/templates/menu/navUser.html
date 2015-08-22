@@ -1,13 +1,19 @@
 <template name="navUser">
   <div id="navUser">
     <div class="content">
-      {{#if currentUser}}
-        <div class="username">{{user.username}}</div>
+
+      <div class="profile" >
+        {{> loginButtons}}
+
+        {{#if currentUser}}
         <div class="ratings">
-          {{user.fullRank}}, ELO {{user.rating}}
+          <a href="{{pathFor 'userProfile' username=user.username}}">
+            {{user.fullRank}}, ELO {{user.rating}}
+          </a>
         </div>
-      {{else}}
-      {{/if}}
+        {{/if}}
+
+      </div>
 
     </div>
   </div>

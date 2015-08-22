@@ -103,8 +103,9 @@ header #navMenu {
   position: fixed;
   bottom: 0; left: 0;
   border-top: 1px solid #ddd;
-  z-index: 2;
+  z-index: 10;
   background: #fff;
+
 
   @extend .valign-wrapper;
 
@@ -112,15 +113,29 @@ header #navMenu {
     @extend .valign;
     padding: 0 24px;
 
+    width: 100%;
     font-size: 1rem;
     line-height: 1.3rem;
 
-    .username {
-      font-weight: bold;
+    a { color: $off-black; }
+
+    .profile {
+      @extend .left;
+      .ratings {
+        font-size: 0.9rem;
+      }
     }
 
-    .ratings {
-      font-size: 0.9rem;
+    #login-buttons {
+      .login-link-text {
+        text-decoration: none;
+        font-weight: bold;
+      }
+      #login-dropdown-list {
+        top: auto;
+        bottom: 0;
+      }
+
     }
   }
 }
