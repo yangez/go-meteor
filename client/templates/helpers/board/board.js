@@ -12,6 +12,7 @@ Template.board.onRendered(function(e){
   this.autorun(function(a) {
     var gameData = Template.currentData();
     if (gameData) var game = Games.findOne(gameData._id);
+
     updateBoard(game);
   });
 
@@ -36,6 +37,9 @@ var updateBoard = function(game) {
   // if there's currently no board, or it's equal to another game, create it
   if (gameBoard === undefined || gameBoard.gameId != game._id) {
     var width = parseInt( $("#board").css("width"));
+
+    if (!width) throw new Meteor.Error("Board width can't be 0.");
+
     Board.clearBoards();
     gameBoard = new Board(game, width);
   }

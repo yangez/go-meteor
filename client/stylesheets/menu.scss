@@ -3,6 +3,7 @@
  */
 header #navMenu {
   z-index: 1;
+  width: 200px;
 
   li {
     a {
@@ -50,7 +51,7 @@ header #navMenu {
       td { width: 50%; }
       [type="checkbox"] + label {
         font-size: 0.8rem;
-        padding-left: 28px;
+        padding-left: 24px;
       }
     }
 
@@ -60,12 +61,19 @@ header #navMenu {
    * Create Game menu
    */
   #createGame {
+    // font-size: 0.9rem;
 
     .container { width: 85%; }
 
     #create-game-form {
       margin-bottom: 30px;
       padding-top:18px;
+
+
+      [type="checkbox"] + label, [type="radio"] + label {
+        font-size: 0.9rem;
+        padding-left: 30px;
+      }
 
       .input-field:first-child { margin-top: 0; }
 
@@ -85,7 +93,7 @@ header #navMenu {
         .floater {
           position: absolute;
           top: 11px;
-          left: 72px;
+          left: 61px;
           color: rgba(0, 0, 0, 0.5);
         }
       }
@@ -99,7 +107,7 @@ header #navMenu {
 
 #navUser {
   height: 70px;
-  width: 240px;
+  width: 200px;
   position: fixed;
   bottom: 0; left: 0;
   border-top: 1px solid #ddd;
