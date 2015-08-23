@@ -6,18 +6,11 @@
     <header>
       {{> navMenu}}
       {{> navUser }}
-
-      <nav class="top-nav">
-        <div class="container">
-          <div class="nav-wrapper"><a class="page-title">Lobby</a></div>
-        </div>
-      </nav>
+      {{> topNav}}
     </header>
 
     <main>
-      <div class="container">
-        {{> yield}}
-      </div>
+      {{> yield}}
     </main>
 
   </div>

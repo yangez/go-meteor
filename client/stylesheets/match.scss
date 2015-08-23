@@ -2,6 +2,7 @@
  * Match page
  */
 #match {
+  margin-top: 10px;
 
   /*
    * Permissions notification
@@ -12,18 +13,18 @@
     padding: 12px;
   }
 
+  .row { margin-bottom: 0; }
   /*
    * Left side (board)
    */
-  .left { @extend .col-md-8;
+  .left-board { @extend .col, .s9;
     // board stuff is in helpers/board.scss
   }
 
   /*
    * Right side (boxes)
    */
-  .right { @extend .col-md-4;
-    margin-top: 26px;
+  .right-details { @extend .col, .s3;
 
     /*
     * playerbox

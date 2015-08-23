@@ -23,22 +23,29 @@ Template.board.onRendered(function(e){
       viewport.changed(function(){
         var game = Games.findOne(gameBoard.gameId);
         gameBoard = undefined;
-        if (game) updateBoard(game);
+        if (game) {
+          updateBoard(game);
+        }
       }, 10)
     );
   })(jQuery, ResponsiveBootstrapToolkit);
 
 });
 
+// update board to be equal to #board's width
 var updateBoard = function(game) {
 
   if (!game) return;
 
   // if there's currently no board, or it's equal to another game, create it
   if (gameBoard === undefined || gameBoard.gameId != game._id) {
+    var maxHeight = $(window).height()-20;
     var width = parseInt( $("#board").css("width"));
 
+    // width can't be 0
     if (!width) throw new Meteor.Error("Board width can't be 0.");
+
+    else if (width > maxHeight) width = maxHeight;
 
     Board.clearBoards();
     gameBoard = new Board(game, width);
