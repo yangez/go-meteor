@@ -3,17 +3,18 @@
 // Existing content in the file will not be touched
 // When deleting a .scss or .sass file you must manually delete it from here
 
-@import "client/stylesheets/lib/bootstrap.scss";
-@import "client/stylesheets/lib/typeahead.scss";
-@import "client/stylesheets/lib/utility.scss";
 
-@import "client/stylesheets/helpers/board.scss";
-@import "client/stylesheets/helpers/errors.scss";
-@import "client/stylesheets/helpers/gameRow.scss";
-@import "client/stylesheets/helpers/userItem.scss";
+@import '{reywood:bootstrap3-sass}/bootstrap';
+@import "{}/client/stylesheets/lib/typeahead.scss";
+@import "{}/client/stylesheets/lib/utility.scss";
 
-@import "client/stylesheets/layout.scss";
-@import "client/stylesheets/lobby.scss";
-@import "client/stylesheets/match.scss";
-@import "client/stylesheets/menu.scss";
-@import "client/stylesheets/userProfile.scss";
+@import "{}/client/stylesheets/helpers/board.scss";
+@import "{}/client/stylesheets/helpers/errors.scss";
+@import "{}/client/stylesheets/helpers/gameRow.scss";
+@import "{}/client/stylesheets/helpers/userItem.scss";
+
+@import "{}/client/stylesheets/layout.scss";
+@import "{}/client/stylesheets/lobby.scss";
+@import "{}/client/stylesheets/match.scss";
+@import "{}/client/stylesheets/menu.scss";
+@import "{}/client/stylesheets/userProfile.scss";
