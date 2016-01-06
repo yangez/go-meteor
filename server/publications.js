@@ -1,3 +1,12 @@
+Meteor.publish('yourActiveGames', function() {
+  return Games.find({
+    $and: [
+      { archived: {$exists: false }},
+      { $or: [ {whitePlayerId: this.userId}, {blackPlayerId: this.userId} ] }
+    ]
+  });
+});
+
 Meteor.publish('latestGames', function() {
   // return Games.find({limit: 10});
   return Games.find({
