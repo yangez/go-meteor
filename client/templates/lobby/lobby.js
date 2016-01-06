@@ -42,3 +42,17 @@ Template.lobby.helpers({
     ]}, {sort: { endedAt : -1 } } );
   }
 });
+
+Template.lobby.events({
+  'click #register-link': function(e) {
+    e.preventDefault(); e.stopPropagation();
+    $("#login-dropdown-list .dropdown-toggle").dropdown('toggle');
+    $("#signup-link").trigger('click');
+  },
+  'click #login-link': function(e) {
+    e.preventDefault(); e.stopPropagation();
+    $("#login-dropdown-list .dropdown-toggle").dropdown('toggle');
+    $("#back-to-login-link").trigger('click');
+  }
+
+});
