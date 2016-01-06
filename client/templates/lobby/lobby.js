@@ -44,6 +44,16 @@ Template.lobby.helpers({
 });
 
 Template.lobby.events({
+  'click #view-create-game-link': function(e) {
+    e.preventDefault(); e.stopPropagation();
+    $("#createGame .dropdown-toggle").dropdown('toggle');
+    $("#signup-link").trigger('click');
+  },
+  'click #view-current-games-link': function(e) {
+    e.preventDefault(); e.stopPropagation();
+    $("#yourGamesMenu .dropdown-toggle").dropdown('toggle');
+    $("#signup-link").trigger('click');
+  },
   'click #register-link': function(e) {
     e.preventDefault(); e.stopPropagation();
     $("#login-dropdown-list .dropdown-toggle").dropdown('toggle');

@@ -1,16 +1,19 @@
 <template name="lobby">
   <div id="lobby">
 
-    {{#if currentUser}}
-    {{else}}
     <div class="alert alert-info" id="welcome-note">
       <div class="row">
+
+        {{#if currentUser}}
+          <p style="text-align: center;">Hi {{currentUser.username}}! <a class="alert-link" href="#" id="view-create-game-link">Create a new game</a> or <a class="alert-link" href="#" id="view-current-games-link">view your current games.</a></p>
+        {{else}}
+
         <div class="col-sm-offset-3 col-sm-6 col-xs-offset-1 col-xs-10">
           <p>Welcome! <a class="alert-link" href="#" id="register-link">Register for an account</a> to start playing - it only takes 10 seconds! (If you already have an account, <a href="#" class="alert-link" id="login-link">log in</a>.)</p>
         </div>
+        {{/if}}
       </div>
     </div>
-    {{/if}}
 
     <div class="row">
       {{#if latestGame}}
