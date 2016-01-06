@@ -6,6 +6,7 @@
   /*
    * Chat section
    */
+   /*
   .chat-row { @extend .row;
 
     .global-chat { @extend .col-md-9;
@@ -35,6 +36,19 @@
       .list-group { margin : 0px; }
     }
   }
+  */
+
+  /*
+   * Welcome thing
+   */
+   #welcome-note {
+     p {
+       font-size: 16px;
+       line-height: 22px;
+       margin: 20px 0;
+     }
+   }
+
 
   /*
    * Games tables
