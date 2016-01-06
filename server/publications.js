@@ -1,6 +1,33 @@
-Meteor.publish('games', function() {
-  return Games.find();
+Meteor.publish('yourActiveGames', function() {
+  return Games.find({
+    $and: [
+      { archived: {$exists: false }},
+      { $or: [ {whitePlayerId: this.userId}, {blackPlayerId: this.userId} ] }
+    ]
+  });
 });
+
+Meteor.publish('latestGame', function() {
+  return Games.find({}, {limit: 1});
+})
+Meteor.publish('latestFinishedGames', function() {
+  // return Games.find({limit: 10});
+  return Games.find({
+    $or: [{archived: "resigned"}, {archived: "finished"}]
+  },{limit: 10});
+});
+
+Meteor.publish('specificGame', function(id) {
+  return Games.find({_id: id});
+});
+
+Meteor.publish('gamesOfUser', function(username) {
+  check(username, String)
+  var user = Meteor.users.findOne({username: username});
+  if (user) {
+    return Games.find({ $or: [ {whitePlayerId: user._id}, {blackPlayerId: user._id} ] });
+  }
+})
 
 Meteor.publish("allUsers", function () {
   return Meteor.users.find({}, {
