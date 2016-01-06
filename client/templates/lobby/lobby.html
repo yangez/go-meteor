@@ -1,22 +1,7 @@
 <template name="lobby">
   <div id="lobby">
-    <div class="chat-row">
-      <div class="global-chat">
-        {{!-- {{> globalChat }} --}}
-        {{> Template.dynamic template="globalChat" data=globalChatRoom}}
-      </div>
-      <div class="online-users">
-        {{> onlineUsers}}
-      </div>
-    </div>
-
-    <hr />
 
     <div class="row">
-      <div class="open-games">
-        {{> gameTable games=openGames heading="Open games" style="panel-info" }}
-      </div>
-
       {{#if latestGame}}
         <div class="latest-game">
           {{#with latestGame}}
@@ -24,17 +9,18 @@
           {{/with}}
         </div>
       {{/if}}
-    </div>
 
-    <hr />
-
-    <div class="row">
       <div class="games-in-progress">
         {{> gameTable games=gamesInProgress heading="In progress"}}
       </div>
       <div class="completed-games">
         {{> gameTable games=completedGames heading="Completed"}}
       </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
     </div>
 
   </div>

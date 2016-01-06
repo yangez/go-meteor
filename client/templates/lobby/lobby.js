@@ -36,7 +36,7 @@ Template.lobby.helpers({
     return Games.find({ $and: [
       { archived: {$exists: true }},
       {archived: {$ne: "canceled"} },
-      
+
       {blackPlayerId: {$exists: true}},
       {whitePlayerId: {$exists: true}},
     ]}, {sort: { endedAt : -1 } } );
