@@ -36,9 +36,33 @@ Template.lobby.helpers({
     return Games.find({ $and: [
       { archived: {$exists: true }},
       {archived: {$ne: "canceled"} },
-      
+
       {blackPlayerId: {$exists: true}},
       {whitePlayerId: {$exists: true}},
     ]}, {sort: { endedAt : -1 } } );
   }
+});
+
+Template.lobby.events({
+  'click #view-create-game-link': function(e) {
+    e.preventDefault(); e.stopPropagation();
+    $("#createGame .dropdown-toggle").dropdown('toggle');
+    $("#signup-link").trigger('click');
+  },
+  'click #view-current-games-link': function(e) {
+    e.preventDefault(); e.stopPropagation();
+    $("#yourGamesMenu .dropdown-toggle").dropdown('toggle');
+    $("#signup-link").trigger('click');
+  },
+  'click #register-link': function(e) {
+    e.preventDefault(); e.stopPropagation();
+    $("#login-dropdown-list .dropdown-toggle").dropdown('toggle');
+    $("#signup-link").trigger('click');
+  },
+  'click #login-link': function(e) {
+    e.preventDefault(); e.stopPropagation();
+    $("#login-dropdown-list .dropdown-toggle").dropdown('toggle');
+    $("#back-to-login-link").trigger('click');
+  }
+
 });

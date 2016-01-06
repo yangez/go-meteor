@@ -1,22 +1,21 @@
 <template name="lobby">
   <div id="lobby">
-    <div class="chat-row">
-      <div class="global-chat">
-        {{!-- {{> globalChat }} --}}
-        {{> Template.dynamic template="globalChat" data=globalChatRoom}}
-      </div>
-      <div class="online-users">
-        {{> onlineUsers}}
+
+    <div class="alert alert-info" id="welcome-note">
+      <div class="row">
+
+        {{#if currentUser}}
+          <p style="text-align: center;">Hi {{currentUser.username}}! <a class="alert-link" href="#" id="view-create-game-link">Create a new game</a> or <a class="alert-link" href="#" id="view-current-games-link">view your current games.</a></p>
+        {{else}}
+
+        <div class="col-sm-offset-3 col-sm-6 col-xs-offset-1 col-xs-10">
+          <p>Welcome! <a class="alert-link" href="#" id="register-link">Register for an account</a> to start playing - it only takes 10 seconds! (If you already have an account, <a href="#" class="alert-link" id="login-link">log in</a>.)</p>
+        </div>
+        {{/if}}
       </div>
     </div>
 
-    <hr />
-
     <div class="row">
-      <div class="open-games">
-        {{> gameTable games=openGames heading="Open games" style="panel-info" }}
-      </div>
-
       {{#if latestGame}}
         <div class="latest-game">
           {{#with latestGame}}
@@ -24,17 +23,18 @@
           {{/with}}
         </div>
       {{/if}}
-    </div>
 
-    <hr />
-
-    <div class="row">
       <div class="games-in-progress">
         {{> gameTable games=gamesInProgress heading="In progress"}}
       </div>
       <div class="completed-games">
         {{> gameTable games=completedGames heading="Completed"}}
       </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
     </div>
 
   </div>
