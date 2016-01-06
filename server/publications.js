@@ -1,5 +1,8 @@
-Meteor.publish('games', function() {
-  return Games.find();
+Meteor.publish('latestGames', function() {
+  // return Games.find({limit: 10});
+  return Games.find({
+    $or: [{archived: "resigned"}, {archived: "finished"}]
+  },{limit: 10});
 });
 
 Meteor.publish("allUsers", function () {
