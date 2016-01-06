@@ -7,7 +7,10 @@ Meteor.publish('yourActiveGames', function() {
   });
 });
 
-Meteor.publish('latestGames', function() {
+Meteor.publish('latestGame', function() {
+  return Games.find({}, {limit: 1});
+})
+Meteor.publish('latestFinishedGames', function() {
   // return Games.find({limit: 10});
   return Games.find({
     $or: [{archived: "resigned"}, {archived: "finished"}]
