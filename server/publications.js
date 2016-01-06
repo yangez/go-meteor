@@ -5,6 +5,18 @@ Meteor.publish('latestGames', function() {
   },{limit: 10});
 });
 
+Meteor.publish('specificGame', function(id) {
+  return Games.find({_id: id});
+});
+
+Meteor.publish('gamesOfUser', function(username) {
+  check(username, String)
+  var user = Meteor.users.findOne({username: username});
+  if (user) {
+    return Games.find({ $or: [ {whitePlayerId: user._id}, {blackPlayerId: user._id} ] });
+  }
+})
+
 Meteor.publish("allUsers", function () {
   return Meteor.users.find({}, {
     fields: { meta: 1, profile: 1, username: 1, _id: 1, ratings: 1}
